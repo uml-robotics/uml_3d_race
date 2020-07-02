@@ -1,7 +1,7 @@
 <launch>
   <!-- World file to launch (excluding the .world extension) -->
   <arg name="load_world" default="true" />
-  <arg name="world" default="baby_steps" />
+  <arg name="world" default="level1" />
 
 
   <!-- Launch empty Gazebo world -->

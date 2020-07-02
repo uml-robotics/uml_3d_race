@@ -7,14 +7,14 @@
 	<arg name="pi" value="3.14159265359" />
 	<arg name="init_x" default="0.0" />
 	<arg name="init_y" default="0.0" />
-	<arg name="init_yaw" default="0.0" /> <!-- Degrees -->
+	<arg name="init_yaw" default="0.0" /> <!-- Radians -->
 
 	<!-- AMCL Node -->
 	<node pkg="amcl" type="amcl" name="$(arg namespace)_amcl">
 		<!-- Set initial pose -->
 		<param name="initial_pose_x" value="$(arg init_x)" />
 		<param name="initial_pose_y" value="$(arg init_y)" />
-		<param name="initial_pose_a" value="$(eval arg('init_yaw') * (arg('pi') / 180))" /> <!-- Convert to radians -->
+		<param name="initial_pose_a" value="$(arg init_yaw)" />
 		<!-- Remap scan topic -->
 		<remap from="scan" to="$(arg namespace)/frontscan_filtered"/>
 		<!-- Odom frame -->

@@ -5,6 +5,8 @@
   <arg name="y" default="0.0" />
   <arg name="z" default="0.0" />
   <arg name="yaw" default="0.0" /> <!-- Rotation in radians. -->
+  <arg name="level" default="level1" />
+  <arg name="staticmap" default="false" />
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="pioneer" />
@@ -56,5 +58,24 @@
     <remap from="/scan" to="/$(arg model_name)/frontscan" />
     <remap from="/scan_filtered" to="/$(arg model_name)/frontscan_filtered" />
   </node>
+
+  <group if="$(arg staticmap)">
+    <include file="$(find uml_3d_race)/launch/navigation/navigation_with_map.launch">
+    <arg name="namespace" value="$(arg model_name)" />
+    <arg name="map" value="$(arg level)" />
+    <arg name="init_x" value="$(arg x)" />
+    <arg name="init_y" value="$(arg y)" />
+    <arg name="init_yaw" value="$(arg yaw)" />
+    <arg name="move_base_config" value="default" />
+  </include>
+  </group>
+
+  <group unless="$(arg staticmap)">
+    <include file="$(find uml_3d_race)/launch/navigation/navigation_without_map.launch">
+    <arg name="namespace" value="$(arg model_name)" />
+    <arg name="move_base_config" value="ontheflymapping" />
+  </include>
+  </group>
+  
 
 </launch>

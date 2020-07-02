@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   tf2
   message_generation
+  move_base_msgs
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions

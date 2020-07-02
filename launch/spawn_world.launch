@@ -1,16 +1,16 @@
 <launch>
   <!-- SETTINGS -->
   <!-- World file to launch (excluding the .world extension) -->
-  <arg name="world" default="baby_steps" />
+  <arg name="world" default="level1" />
   <!-- Robot Spawn Position -->
   <arg name="spawn_robot" default="true" />
   <arg name="spawn_x" default="0.0" />
   <arg name="spawn_y" default="0.0" />
   <arg name="spawn_yaw" default="0.0" /> <!-- Rotation in radians. -->
+  <arg name="noslam" default="false" />
   <!-- Goal Position -->
   <arg name="goal_x" default="5.0"/>
   <arg name="goal_y" default="0.0"/>
-
 
   <!-- Launch Gazebo World -->
   <include file="$(find uml_3d_race)/launch/gazebo.launch">
@@ -22,5 +22,8 @@
     <arg name="x" value="$(arg spawn_x)" />
     <arg name="y" value="$(arg spawn_y)" />
     <arg name="yaw" value="$(arg spawn_yaw)" />
+    <arg name="level" value="$(arg world)" />
+    <arg name="staticmap" value="$(arg noslam)" />
   </include>
+
 </launch>
