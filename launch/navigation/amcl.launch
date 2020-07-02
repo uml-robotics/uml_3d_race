@@ -14,7 +14,7 @@
 		<!-- Set initial pose -->
 		<param name="initial_pose_x" value="$(arg init_x)" />
 		<param name="initial_pose_y" value="$(arg init_y)" />
-		<param name="initial_pose_a" value="$(eval arg('init_yaw') * (arg('pi') / 180))" /> <!-- Convert to radians -->
+		<param name="initial_pose_a" value="$(arg init_yaw)" /> <!-- Convert to radians -->
 		<!-- Remap scan topic -->
 		<remap from="scan" to="$(arg namespace)/frontscan_filtered"/>
 		<!-- Odom frame -->

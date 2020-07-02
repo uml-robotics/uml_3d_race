@@ -8,13 +8,14 @@ project(uml_3d_race)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gazebo_ros
-  roscpp
-  rospy
-  std_msgs
-  geometry_msgs
-  tf2
-  message_generation
+        gazebo_ros
+        roscpp
+        rospy
+        geometry_msgs
+        tf2
+        message_generation
+        move_base_msgs
+        actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,7 +108,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES uml_3Drace
-#  CATKIN_DEPENDS gazebo_ros roscpp rospy std_msgs message_runtime
+#  CATKIN_DEPENDS gazebo_ros roscpp rospy std_msgs message_runtime move_base_msgs actionlib
 #  DEPENDS system_lib
 )
 
@@ -135,12 +136,12 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
- add_executable(referee src/referee.cpp)
- add_executable(mover_node src/mover.cpp)
- add_executable(goal_publisher src/goal_pub.cpp)
- add_executable(spawn_publisher src/spawn_pub.cpp)
- add_executable(reset_robot src/reset_robot.cpp)
- add_executable(obstacle_bot_node src/obstacle_bot.cpp)
+ add_executable(referee ../uml_3d_race/src/referee.cpp)
+ add_executable(mover_node ../uml_3d_race/src/mover.cpp)
+ add_executable(goal_publisher ../uml_3d_race/src/goal_pub.cpp)
+ add_executable(spawn_publisher ../uml_3d_race/src/spawn_pub.cpp)
+ add_executable(reset_robot ../uml_3d_race/src/reset_robot.cpp)
+ add_executable(obstacle_bot_node ../uml_3d_race/src/obstacle_bot.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
