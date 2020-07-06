@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     }
 
     //Subscribe to the goal topic
-    ros::Subscriber sub = n.subscribe("goal/", 1000, goalCallback);
+    ros::Subscriber sub = n.subscribe("goal/", 1, goalCallback);
 
     ros::spin();
 

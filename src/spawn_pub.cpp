@@ -25,7 +25,7 @@ int main(int argc, char **argv){
   ROS_INFO("SPAWN_PUB | Point: (%.2f,%.2f)\tRotation: %.2f\tTopic: %s",x_position,y_position,z_rotation,topic.c_str());
 
   //Create the publisher object
-  ros::Publisher spawn_pub = n.advertise<geometry_msgs::PoseWithCovarianceStamped>(topic, 1000);
+  ros::Publisher spawn_pub = n.advertise<geometry_msgs::PoseWithCovarianceStamped>(topic, 1);
 
   //Construct Spawn message
   geometry_msgs::PoseWithCovarianceStamped spawn;
