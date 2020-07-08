@@ -42,6 +42,9 @@
     -z $(arg z)
     -Y $(arg yaw)"/>
 
+  <!-- Add Camera Nodelet Manager-->
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" output="screen" ns="camera"/>
+
   <!-- Publish robot spawn for resetting to -->
   <node name="$(arg model_name)_spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen">
     <param name="topic"  value="$(arg model_name)/spawn" />

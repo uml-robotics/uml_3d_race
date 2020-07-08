@@ -1,6 +1,6 @@
 # Descriptor modifies the names of the published topics
 descriptor: "kinect"
-enabled: false   # Try setting true
+enabled: true   # Try setting true
 
 #Sensor Positioning:
 x: 0.06       # Meters
