@@ -1,0 +1,9 @@
+<launch>
+
+  <arg name="map_name" default="level1" />
+
+	<include file="$(find octomap_server)/launch/octomap_tracking_server.launch">
+        <arg name="path" value="$(find uml_3d_race)/resources/maps/3d/$(arg map_name)/$(arg map_name).bt"/>
+    </include>
+
+</launch>
