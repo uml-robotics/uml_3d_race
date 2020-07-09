@@ -42,9 +42,6 @@
     -z $(arg z)
     -Y $(arg yaw)"/>
 
-  <!-- Add Camera Nodelet Manager-->
-  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" output="screen" ns="camera"/>
-
   <!-- Publish robot spawn for resetting to -->
   <node name="$(arg model_name)_spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen">
     <param name="topic"  value="$(arg model_name)/spawn" />
@@ -61,7 +58,7 @@
     <remap from="/scan_filtered" to="/$(arg model_name)/frontscan_filtered" />
   </node>
 
-  
+  <!-- Start Nav Stack -->
   <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
     <arg name="namespace" value="$(arg model_name)" />
     <arg name="map" value="$(arg level)" />
@@ -70,5 +67,8 @@
     <arg name="init_yaw" value="$(arg yaw)" />
     <arg name="move_base_config" value="default" />
   </include>
+
+  <!-- Start Kinect to Laser Converter -->
+  <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch" />
 
 </launch>
