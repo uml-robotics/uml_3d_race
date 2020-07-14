@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
         gazebo_ros
         roscpp
         rospy
+        std_msgs
         geometry_msgs
         tf2
         message_generation
@@ -151,7 +152,12 @@ include_directories(
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(referee ${referee_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(mover_node ${mover_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(goal_publisher ${goal_publisher_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(spawn_publisher ${spawn_publisher_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(reset_robot ${reset_robot_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(obstacle_bot_node ${obstacle_bot_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(referee
