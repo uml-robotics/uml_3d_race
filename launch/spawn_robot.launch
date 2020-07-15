@@ -60,6 +60,7 @@
 
   <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
       <arg name="namespace" value="$(arg model_name)" />
+      <arg name="move_base_config" value="default" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
