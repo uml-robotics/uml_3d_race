@@ -1,11 +1,11 @@
 <launch>
   <!-- Doc: http://wiki.ros.org/pointcloud_to_laserscan?distro=kinetic -->
 
-  <node name = "laserscan_kinect" pkg = "laserscan_kinect" type = "laserscan_kinect">
-    <remap from="image" to="/kinect/depth/image_raw"/>
-    <remap from="camera_info" to="/kinect/depth/camera_info"/>
-    <remap from="scan" to ="pioneer/kinect_scan" />
-    <rosparam command="load" file="$(find uml_3d_race)/resources/models/pioneer3dx/config/kinect_nav_tools_config.yaml"/>
-  </node>
+  <arg name="robot" default="pioneer"/>
 
+  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+    <remap from="cloud_in" to="/kinect/depth/points"/>
+    <remap from="scan" to="$(arg robot)/kinect_scan"/>
+    <param name="target_frame" value="$(arg robot)/kinect_stand_link"/>
+  </node>
 </launch>

@@ -58,6 +58,9 @@
     <remap from="/scan_filtered" to="/$(arg model_name)/frontscan_filtered" />
   </node>
 
+  <!-- Start Kinect to Laser Converter -->
+  <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch" />
+  
   <!-- Start Nav Stack -->
   <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
     <arg name="namespace" value="$(arg model_name)" />
@@ -68,7 +71,6 @@
     <arg name="move_base_config" value="default" />
   </include>
 
-  <!-- Start Kinect to Laser Converter -->
-  <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch" />
+  
 
 </launch>
