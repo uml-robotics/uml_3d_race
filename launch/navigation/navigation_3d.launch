@@ -8,13 +8,16 @@
 	<arg name="init_y" default="0.0" />
 	<arg name="init_yaw" default="0.0" /> <!-- Radians -->
   <!-- Move_base configuration folder. -->
-  <arg name="move_base_config" default="default" />
+  <arg name="move_base_config" default="3d" />
   <!-- NOTE: move_base_config specifies the folder to find the .yaml config files for
        move_base. If you would like to safely play around with navigation settings,
        you can copy the default folder, rename it, then change move_base_config. -->
 
-  <!-- Launch Map Server -->
-  <include file="$(find uml_3d_race)/launch/navigation/map_server.launch">
+  <!-- Laser scan sensor is present-->
+  <arg name="has_laser" default="false" />
+
+  <!-- Launch Octomap Server -->
+  <include file="$(find uml_3d_race)/launch/navigation/octomap_server.launch">
     <arg name="map_name" value="$(arg map)" />
   </include> 
 

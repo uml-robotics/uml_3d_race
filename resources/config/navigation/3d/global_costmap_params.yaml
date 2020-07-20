@@ -1,4 +1,7 @@
 global_costmap:
+  plugins:
+  - {name: static_map, type: "costmap_2d::StaticLayer"}
+  - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
   global_frame: map
   robot_base_frame: pioneer/base_link
   update_frequency: 2.0
