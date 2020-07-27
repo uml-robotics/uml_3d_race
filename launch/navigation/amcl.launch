@@ -4,7 +4,6 @@
 	<arg name="namespace" default="pioneer" />
 
 	<!-- Args to set the initial orientation of AMCL node. -->
-	<arg name="pi" value="3.14159265359" />
 	<arg name="init_x" default="0.0" />
 	<arg name="init_y" default="0.0" />
 	<arg name="init_yaw" default="0.0" /> <!-- Radians -->

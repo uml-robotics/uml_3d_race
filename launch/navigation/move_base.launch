@@ -7,6 +7,7 @@
   <node pkg="move_base" type="move_base" respawn="false" name="$(arg namespace)_move_base" output="screen">
     <!-- Remap topic to recieve movement commands -->
     <remap from="cmd_vel" to="$(arg namespace)/cmd_vel"/>
+    <remap from="odom" to="$(arg namespace)/odom" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/local_costmap_params.yaml" command="load" />
