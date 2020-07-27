@@ -1,0 +1,14 @@
+<launch>
+    <arg name="map_name" default="level1"/>
+    <arg name="2d" default="false" />
+    <arg name="3d" default="true" />
+
+    <group if="$(arg 2d)">
+        <node name="map_saver" pkg="map_server" type="map_saver" output="screen" args="$(arg map_name)" />
+    </group>
+
+    <group if="$(arg 3d)">
+        <node name="octomap_saver" pkg="octomap_server" type="octomap_saver" output="screen" args="$(arg map_name).bt" />
+    </group>
+
+</launch>

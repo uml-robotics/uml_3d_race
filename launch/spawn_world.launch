@@ -10,6 +10,8 @@
   <!-- Goal Position -->
   <arg name="goal_x" default="5.0"/>
   <arg name="goal_y" default="0.0"/>
+  
+  <arg name="navigate" default="true" />
 
   <!-- Launch Gazebo World -->
   <include file="$(find uml_3d_race)/launch/gazebo.launch">
@@ -22,6 +24,7 @@
     <arg name="y" value="$(arg spawn_y)" />
     <arg name="yaw" value="$(arg spawn_yaw)" />
     <arg name="level" value="$(arg world)" />
+    <arg name="navigate" value="$(arg navigate)" />
   </include>
 
 </launch>

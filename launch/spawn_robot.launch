@@ -4,8 +4,10 @@
   <arg name="x" default="0.0" />
   <arg name="y" default="0.0" />
   <arg name="z" default="0.0" />
-  <arg name="yaw" default="0.0" /> <!-- Rotation in radians. -->
+  <arg name="yaw" default="0.0" />
+  <!-- Rotation in radians. -->
   <arg name="level" default="level1" />
+  <arg name="navigate" default="true" />
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="pioneer" />
@@ -44,7 +46,7 @@
 
   <!-- Publish robot spawn for resetting to -->
   <node name="$(arg model_name)_spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen">
-    <param name="topic"  value="$(arg model_name)/spawn" />
+    <param name="topic" value="$(arg model_name)/spawn" />
     <param name="x_position" value="$(arg x)" />
     <param name="y_position" value="$(arg y)" />
     <param name="z_rotation" value="$(arg yaw)" />
@@ -60,16 +62,31 @@
 
   <!-- Start Kinect to Laser Converter -->
   <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch" />
-  
-  <!-- Start Nav Stack -->
-  <!-- <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
-    <arg name="namespace" value="$(arg model_name)" />
-    <arg name="map" value="$(arg level)" />
-    <arg name="init_x" value="$(arg x)" />
-    <arg name="init_y" value="$(arg y)" />
-    <arg name="init_yaw" value="$(arg yaw)" />
-    <arg name="move_base_config" value="default" />
-  </include> -->
+
+  <!-- Start nav stack or mapping mode-->
+  <group if="$(arg navigate)">
+    <!-- Start Nav Stack -->
+    <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
+      <arg name="namespace" value="$(arg model_name)" />
+      <arg name="map" value="$(arg level)" />
+      <arg name="init_x" value="$(arg x)" />
+      <arg name="init_y" value="$(arg y)" />
+      <arg name="init_yaw" value="$(arg yaw)" />
+      <arg name="move_base_config" value="default" />
+    </include>
+  </group>
+
+  <group unless="$(arg navigate)">
+    <!-- Start Mapping -->
+    <include file="$(find uml_3d_race)/launch/navigation/map_teleop.launch">
+      <arg name="robot" value="$(arg model_name)" />
+      <arg name="map" value="$(arg level)" />
+      <arg name="static_2d_map" value="true" />
+      <arg name="init_x" value="$(arg x)" />
+      <arg name="init_y" value="$(arg y)" />
+      <arg name="init_yaw" value="$(arg yaw)" />
+    </include>
+  </group>
 
   
 

@@ -1,0 +1,58 @@
+<launch>
+    <!-- Settings -->
+    <arg name="robot" default="pioneer" />
+    <!-- Map Name-->
+    <arg name="map" default="level1" />
+    <!-- Boolean for whether a 2d map is already present-->
+    <arg name="static_2d_map" default="false" />
+    <!-- Boolean for whether 3d mapping is necessary-->
+    <arg name="3d" default="true" />
+
+    <!-- Initial orientation for AMCL node. (Should be set to match robot spawn position).  Used only when static 2d maps are used -->
+    <arg name="init_x" default="0.0" />
+    <arg name="init_y" default="0.0" />
+    <arg name="init_yaw" default="0.0" />
+    <!-- Radians -->
+
+    <group if="$(arg static_2d_map)">
+        <!-- Launch Map Server -->
+        <include file="$(find uml_3d_race)/launch/navigation/map_server.launch">
+            <arg name="map_name" value="$(arg map)" />
+        </include>
+
+        <!--- Launch AMCL (Laser Localization) -->
+        <include file="$(find uml_3d_race)/launch/navigation/amcl.launch">
+            <arg name="namespace" value="$(arg robot)" />
+            <arg name="init_x" default="$(arg init_x)" />
+            <arg name="init_y" default="$(arg init_y)" />
+            <arg name="init_yaw" default="$(arg init_yaw)" />
+        </include>
+
+        <!-- Start octomap_server -->
+        <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
+            <arg name="robot" value="$(arg robot)" />
+            <arg name="map" value="$(arg map)" />
+        </include>
+    </group>
+
+    <group unless="$(arg static_2d_map)">
+        <!-- Start gmapping-->
+        <include file="$(find uml_3d_race)/launch/navigation/gmapper.launch">
+            <arg name="namespace" value="$(arg robot)" />
+        </include>
+
+        <!-- Start octomap_server if 3d mapping also needs to be done-->
+        <group if="$(arg 3d)">
+            <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
+                <arg name="robot" value="$(arg robot)" />
+                <arg name="map" value="$(arg map)" />
+            </include>
+        </group>
+    </group>
+
+    <!-- Start keyboard teleop node -->
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen">
+        <remap from="cmd_vel" to="$(arg robot)/cmd_vel"/>
+    </node>
+
+</launch>

@@ -1,4 +1,7 @@
 <launch>
+  <!-- Launch in either navigate mode or mapping mode -->
+  <arg name="navigate" default="true" />
+
   <!-- Include spawn_world.launch and set it's arguments -->
   <include file="$(find uml_3d_race)/launch/spawn_world.launch">
     <!-- World file -->
@@ -7,6 +10,8 @@
     <arg name="spawn_x" value="0.0" />
     <arg name="spawn_y" value="8.0" />
     <arg name="spawn_yaw" value="0.0" />
+
+    <arg name="navigate" value="$(arg navigate)" />
   </include>
 
   <!-- Publish the goal for the given .world -->

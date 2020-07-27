@@ -1,0 +1,17 @@
+<launch>
+  <!-- Doc: http://wiki.ros.org/octomap_server?distro=kinetic -->
+    <arg name="robot" default="pioneer" />
+    <arg name="robot_file" default="pioneer3dx" />
+    <arg name="map" default="level1" />
+
+    <!-- you can load an exisiting tree with <node ... args="tree.bt"> !-->
+    <node pkg="octomap_server" type="octomap_server_node" name="octomap_mapper" output="screen">
+      <remap from="cloud_in" to="kinect/depth/points" />
+
+      <param name="base_frame_id" value="$(arg robot)/base_link" />
+      <param name="resolution" value="0.05" />
+      <param name="frame_id" type="string" value="/map" />
+      <param name="sensor_model/max_range" value="4.0" />
+      <rosparam file="$(find uml_3d_race)/resources/models/$(arg robot_file)/config/robot_dimensions.yaml" command="load" />
+    </node>
+</launch>
