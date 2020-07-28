@@ -25,6 +25,7 @@ int main(int argc, char **argv){
   //Set defaults
   std::string model_name = "pioneer";
   std::string topic = "pioneer/spawn";
+  
   n.getParam(ros::this_node::getName()+"/topic",topic);
   n.getParam(ros::this_node::getName()+"/model_name",model_name);
 

@@ -16,6 +16,11 @@
   <!-- Laser scan sensor is present-->
   <arg name="has_laser" default="false" />
 
+  <!-- Launch Map Server -->
+  <!-- <include file="$(find uml_3d_race)/launch/navigation/map_server.launch">
+    <arg name="map_name" value="$(arg map)" />
+  </include> -->
+
   <!-- Launch Octomap Server -->
   <include file="$(find uml_3d_race)/launch/navigation/octomap_server.launch">
     <arg name="robot" value="$(arg namespace)" />
@@ -23,7 +28,7 @@
   </include>
 
   <!--- Launch AMCL (Laser Localization) -->
-  <group if="has_laser">
+  <group if="$(arg has_laser)">
     <include file="$(find uml_3d_race)/launch/navigation/amcl.launch">
       <arg name="namespace" value="$(arg namespace)" />
       <arg name="init_x" default="$(arg init_x)" />
@@ -32,7 +37,7 @@
     </include>
   </group>
 
-  <group unless="has_laser">
+  <group unless="$(arg has_laser)">
     <include file="$(find uml_3d_race)/launch/navigation/amcl_fake_laser.launch">
       <arg name="namespace" value="$(arg namespace)" />
       <arg name="init_x" default="$(arg init_x)" />

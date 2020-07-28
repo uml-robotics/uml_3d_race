@@ -16,6 +16,8 @@
 		<param name="initial_pose_a" value="$(arg init_yaw)" />
 		<!-- Remap scan topic -->
 		<remap from="scan" to="$(arg namespace)/frontscan_filtered"/>
+		<!-- Remap map topic -->
+		<remap from="map" to="/projected_map"/>
 		<!-- Odom frame -->
 		<param name="odom_frame_id" value="$(arg namespace)/odom"/>
 		<!-- Base frame -->

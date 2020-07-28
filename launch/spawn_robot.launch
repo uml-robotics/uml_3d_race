@@ -66,13 +66,13 @@
   <!-- Start nav stack or mapping mode-->
   <group if="$(arg navigate)">
     <!-- Start Nav Stack -->
-    <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
+    <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
       <arg name="namespace" value="$(arg model_name)" />
       <arg name="map" value="$(arg level)" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
-      <arg name="move_base_config" value="default" />
+      <arg name="has_laser" value="true" />
     </include>
   </group>
 

@@ -13,8 +13,9 @@ footprint_padding: 0.0
 transform_tolerance: 0.2
 map_type: costmap
 
-observation_sources: point_cloud_sensor
-
-#laser_scan_sensor: {sensor_frame: pioneer/hokuyo_front_link, data_type: LaserScan, topic: /pioneer/frontscan, marking: true, clearing: true, expected_update_rate: 0.2}
-
-point_cloud_sensor: {sensor_frame: pioneer/kinect_camera_link, data_type: PointCloud, topic: /pioneer/kinect/depth/points, marking: true, clearing: true}
+3d_obstacles:
+  observation_sources: pointcloud
+  pointcloud: {data_type: PointCloud2, sensor_frame: pioneer/kinect_camera_link, clearing: true, marking: true, topic: /kinect/depth/points, min_obstacle_height: 0.05}
+2d_obstacles:
+  observation_sources: laser
+  laser: {data_type: LaserScan, sensor_frame: pioneer/hokuyo_front_link, topic: /pioneer/frontscan, marking: true, clearing: true, expected_update_rate: 0.2}

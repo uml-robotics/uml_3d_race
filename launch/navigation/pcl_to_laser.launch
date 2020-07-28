@@ -7,5 +7,6 @@
     <remap from="cloud_in" to="/kinect/depth/points"/>
     <remap from="scan" to="$(arg robot)/kinect_scan"/>
     <param name="target_frame" value="$(arg robot)/kinect_stand_link"/>
+    <rosparam file="$(find uml_3d_race)/resources/config/kinect_config.yaml" command="load"/>
   </node>
 </launch>
