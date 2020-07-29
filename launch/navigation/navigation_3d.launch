@@ -17,9 +17,9 @@
   <arg name="has_laser" default="false" />
 
   <!-- Launch Map Server -->
-  <!-- <include file="$(find uml_3d_race)/launch/navigation/map_server.launch">
+  <include file="$(find uml_3d_race)/launch/navigation/map_server.launch">
     <arg name="map_name" value="$(arg map)" />
-  </include> -->
+  </include>
 
   <!-- Launch Octomap Server -->
   <include file="$(find uml_3d_race)/launch/navigation/octomap_server.launch">

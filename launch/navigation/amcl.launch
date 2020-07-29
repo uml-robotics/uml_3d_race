@@ -17,7 +17,8 @@
 		<!-- Remap scan topic -->
 		<remap from="scan" to="$(arg namespace)/frontscan_filtered"/>
 		<!-- Remap map topic -->
-		<remap from="map" to="/projected_map"/>
+		<!-- <remap from="map" to="/projected_map"/>
+		<param name="use_map_topic" value="true" /> -->
 		<!-- Odom frame -->
 		<param name="odom_frame_id" value="$(arg namespace)/odom"/>
 		<!-- Base frame -->
