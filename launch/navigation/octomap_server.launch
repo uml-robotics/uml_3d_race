@@ -6,7 +6,7 @@
 
     <!-- you can load an exisiting tree with <node ... args="tree.bt"> !-->
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" output="screen" 
-        args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map)/$(arg map).bt">
+        args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map).bt">
       <param name="frame_id" type="string" value="/map" />
       <param name="occupancy_min_z" value="0" />
       <rosparam file="$(find uml_3d_race)/resources/models/$(arg robot_file)/config/robot_dimensions.yaml" command="load" />

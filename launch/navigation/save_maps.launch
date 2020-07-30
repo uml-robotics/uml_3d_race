@@ -4,11 +4,13 @@
     <arg name="3d" default="true" />
 
     <group if="$(arg 2d)">
-        <node name="map_saver" pkg="map_server" type="map_saver" output="screen" args="$(arg map_name)" />
+        <node name="map_saver" pkg="map_server" type="map_saver" output="screen" 
+        args="-f $(find uml_3d_race)/resources/static_maps/2d/$(arg map_name)" />
     </group>
 
     <group if="$(arg 3d)">
-        <node name="octomap_saver" pkg="octomap_server" type="octomap_saver" output="screen" args="$(arg map_name).bt" />
+        <node name="octomap_saver" pkg="octomap_server" type="octomap_saver" output="screen" 
+        args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map_name).bt" />
     </group>
 
 </launch>
