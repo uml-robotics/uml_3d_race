@@ -338,9 +338,9 @@ Visualization Manager:
       Value: false
     - Class: octomap_rviz_plugin/OccupancyGrid
       Enabled: false
-      Max. Height Display: inf
+      Max. Height Display: 3.40282347e+38
       Max. Octree Depth: 16
-      Min. Height Display: -inf
+      Min. Height Display: -3.40282347e+38
       Name: OccupancyGrid
       Octomap Topic: /octomap_binary
       Queue Size: 5
@@ -373,9 +373,9 @@ Visualization Manager:
     - Class: rviz/FocusCamera
     - Class: rviz/Measure
     - Class: rviz/SetInitialPose
-      Topic: /initialpose
+      Topic: pioneer/amcl/initialpose
     - Class: rviz/SetGoal
-      Topic: /move_base_simple/goal
+      Topic: pioneer/move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
@@ -398,10 +398,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.2197988
+      Pitch: 1.19479883
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.13032079
+      Yaw: 3.16532063
     Saved: ~
 Window Geometry:
   Displays:

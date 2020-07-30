@@ -1,6 +1,8 @@
 <launch>
+  <arg name="namespace" default="pioneer" />
+
   <!-- Change required to false if you want the mover_node to continue after the referee ends the race. -->
   <node name="referee_node" pkg="uml_3d_race" type="referee" output="screen" required="true"/>
 
-  <node name="mover_node" pkg="uml_3d_race" type="mover_node" output="screen"/>
+  <node name="mover_node" pkg="uml_3d_race" type="mover_node" output="screen" ns="$(arg namespace)"/>
 </launch>

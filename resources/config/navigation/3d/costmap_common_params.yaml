@@ -18,4 +18,4 @@ map_type: costmap
   pointcloud: {data_type: PointCloud2, sensor_frame: pioneer/kinect_camera_link, clearing: true, marking: true, topic: /kinect/depth/points, min_obstacle_height: 0.05}
 2d_obstacles:
   observation_sources: laser
-  laser: {data_type: LaserScan, sensor_frame: pioneer/hokuyo_front_link, topic: /pioneer/frontscan, marking: true, clearing: true, expected_update_rate: 0.2}
+  laser: {data_type: LaserScan, sensor_frame: pioneer/hokuyo_front_link, topic: /pioneer/frontscan_filtered, marking: true, clearing: true, expected_update_rate: 0.2}

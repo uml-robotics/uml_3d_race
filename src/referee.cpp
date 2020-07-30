@@ -86,7 +86,7 @@ int main(int argc, char **argv){
   // Setup subscribers to track the robots movement
   ros::Subscriber odom_sub = n.subscribe("/pioneer/odom",1,odom_callback);
   ros::Subscriber vel_sub = n.subscribe("/pioneer/cmd_vel",1,vel_callback);
-  ros::Subscriber goal_sub = n.subscribe("goal",1,goal_callback);
+  ros::Subscriber goal_sub = n.subscribe("/goal",1,goal_callback);
 
   // Set loop rate
   ros::Rate loop_rate(10);

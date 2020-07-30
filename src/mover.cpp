@@ -14,7 +14,7 @@ void goalCallback(uml_3d_race::Goal goalMsg) {
     move_base_msgs::MoveBaseGoal goal;
 
     //translate Goal Message to a MoveBaseGoal
-    goal.target_pose.header.frame_id = "map";
+    goal.target_pose.header.frame_id = "/map";
     goal.target_pose.header.stamp = ros::Time::now();
     goal.target_pose.pose.position.x = goalMsg.x;
     goal.target_pose.pose.position.y = goalMsg.y;
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     }
 
     //Subscribe to the goal topic
-    ros::Subscriber sub = n.subscribe("goal/", 1, goalCallback);
+    ros::Subscriber sub = n.subscribe("/goal", 1, goalCallback);
 
     ros::spin();
 
