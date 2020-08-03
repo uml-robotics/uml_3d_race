@@ -12,9 +12,9 @@
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="pioneer" />
   <!-- The location of the mesh files for our robot -->
-  <arg name="model_dir" default="$(find uml_3d_race)/resources/models/pioneer3dx/meshes" />
+  <arg name="model_dir" default="$(find uml_3d_race)/resources/models/pioneer/meshes" />
   <!-- The location of the top-level xacro file that defines the robot  -->
-  <arg name="model_file" default="$(find uml_3d_race)/resources/models/pioneer3dx/defs/pioneer3dx.xacro" />
+  <arg name="model_file" default="$(find uml_3d_race)/resources/models/pioneer/defs/pioneer.xacro" />
 
 
   <!-- Load robot_description parameter from top-level pioneer3dx.xacro file -->

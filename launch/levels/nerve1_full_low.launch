@@ -1,0 +1,23 @@
+<launch>
+  <!-- Launch in either navigate mode or mapping mode -->
+  <arg name="navigate" default="true" />
+
+  <!-- Include spawn_world.launch and set it's arguments -->
+  <include file="$(find uml_3d_race)/launch/spawn_world.launch">
+    <!-- World file -->
+    <arg name="world" value="nerve1_full_low" />
+    <!-- Robot spawn position -->
+    <arg name="spawn_x" value="0.0" />
+    <arg name="spawn_y" value="8.0" />
+    <arg name="spawn_yaw" value="0.0" />
+
+    <arg name="navigate" value="$(arg navigate)" />
+  </include>
+
+  <!-- Publish the goal for the given .world -->
+  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
+    <!-- Goal Position -->
+    <param name="goal_x" value="0.0" />
+    <param name="goal_y" value="12.0" />
+  </node>
+</launch>

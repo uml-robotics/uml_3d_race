@@ -20,7 +20,7 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry name="pioneer_geom">
           <mesh filename="file://$(arg model_dir)/${suffix}_wheel.stl"/>
-          <!-- <mesh filename="package://resources/models/pioneer3dx/meshes/${suffix}_wheel.stl"/> -->
+          <!-- <mesh filename="package://resources/models/pioneer/meshes/${suffix}_wheel.stl"/> -->
         </geometry>
         <material name="WheelBlack">
           <color rgba="0.117 0.117 0.117 1"/>

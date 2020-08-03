@@ -2,9 +2,10 @@
   <!-- Doc: http://wiki.ros.org/gmapping -->
 
   <arg name="namespace" default="pioneer"/>
+  <arg name="scan_topic" default="$(arg namespace)/frontscan_filtered"
 
-  <node name="slam_mapping" pkg="gmapping" type="slam_gmapping" output="screen" >
-      <remap from="scan" to="$(arg namespace)/frontscan_filtered"/>
+  <node name="slam_mapping" pkg="gmapping" type="slam_gmapping" >
+      <remap from="scan" to="$(arg scan_topic)"/>
       <param name="xmin" value="-20.0"/>
       <param name="ymin" value="-20.0"/>
       <param name="xmax" value="20.0"/>

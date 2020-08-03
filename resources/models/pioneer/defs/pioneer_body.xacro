@@ -4,21 +4,21 @@
 
   <!-- CONFIGURATION SETUP - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <!-- Load configuration settings for a frontal laser -->
-  <xacro:property name="front_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer3dx/config/frontlaser_config.yaml" />
+  <xacro:property name="front_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer/config/frontlaser_config.yaml" />
   <!-- Read all the yaml properties into a list named front_config -->
   <xacro:property name="front_config" value="${load_yaml(front_yaml_file)}"/>
   <!-- An example of how to access properties within the list -->
   <xacro:property name="front_laser" value="${front_config['enabled']}" />
 
   <!-- Load configuration settings for a rear laser -->
-  <xacro:property name="rear_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer3dx/config/rearlaser_config.yaml" />
+  <xacro:property name="rear_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer/config/rearlaser_config.yaml" />
   <!-- Read all the yaml properties into a list named rear_config -->
   <xacro:property name="rear_config" value="${load_yaml(rear_yaml_file)}"/>
   <!-- An example of how to access properties within the list -->
   <xacro:property name="rear_laser" value="${rear_config['enabled']}" />
 
   <!-- Load configuration settings for a kinect -->
-  <xacro:property name="kinect_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer3dx/config/kinect_config.yaml" />
+  <xacro:property name="kinect_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer/config/kinect_config.yaml" />
   <!-- Read all the yaml properties into a list named rear_config -->
   <xacro:property name="kinect_config" value="${load_yaml(kinect_yaml_file)}"/>
   <!-- An example of how to access properties within the list -->
@@ -27,11 +27,11 @@
 
   <!-- LOAD MACROS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <!-- Creates a macro for creating the wheel links (called towards the end of the file) -->
-  <xacro:include filename="$(find uml_3d_race)/resources/models/pioneer3dx/defs/pioneer3dx_wheel.xacro"/>
+  <xacro:include filename="$(find uml_3d_race)/resources/models/pioneer/defs/pioneer_wheel.xacro"/>
   <!-- Creates a macro for adding laser sensors (called towards the end of the file) -->
-  <xacro:include filename="$(find uml_3d_race)/resources/models/pioneer3dx/defs/pioneer3dx_lasers.xacro"/>
+  <xacro:include filename="$(find uml_3d_race)/resources/models/pioneer/defs/pioneer_lasers.xacro"/>
   <!-- Creates a macro for adding a kinect sensor (called towards the end of the file) -->
-  <xacro:include filename="$(find uml_3d_race)/resources/models/pioneer3dx/defs/pioneer3dx_kinect.xacro"/>
+  <xacro:include filename="$(find uml_3d_race)/resources/models/pioneer/defs/pioneer_kinect.xacro"/>
 
 
   <!-- ROBOT DESCRIPTION - - - - - - - - - - - - - - - - - - - - - - - - - - -->
