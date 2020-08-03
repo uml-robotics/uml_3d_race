@@ -27,6 +27,13 @@
     <arg name="map" value="$(arg map)" />
   </include>
 
+  <!-- Launch Negative Octomap Server -->
+  <include file="$(find uml_3d_race)/launch/navigation/octomap_server.launch">
+    <arg name="robot" value="$(arg namespace)" />
+    <arg name="map" value="$(arg map)" />
+    <arg name="negative" value="true" />
+  </include>
+
   <!--- Launch AMCL (Laser Localization) -->
   <group if="$(arg has_laser)">
     <include file="$(find uml_3d_race)/launch/navigation/amcl.launch">
