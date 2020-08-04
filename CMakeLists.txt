@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   move_base_msgs
   actionlib
+  gazebo_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -143,6 +144,7 @@ include_directories(
  add_executable(spawn_publisher src/spawn_pub.cpp)
  add_executable(reset_robot src/reset_robot.cpp)
  add_executable(obstacle_bot_node src/obstacle_bot.cpp)
+ add_executable(collision_subscriber src/collision_sub.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -159,6 +161,7 @@ add_dependencies(goal_publisher ${goal_publisher_EXPORTED_TARGETS} ${catkin_EXPO
 add_dependencies(spawn_publisher ${spawn_publisher_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(reset_robot ${reset_robot_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(obstacle_bot_node ${obstacle_bot_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(collision_subscriber ${collision_subscriber_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(referee
@@ -179,7 +182,9 @@ add_dependencies(obstacle_bot_node ${obstacle_bot_node_EXPORTED_TARGETS} ${catki
  target_link_libraries(obstacle_bot_node
    ${catkin_LIBRARIES}
  )
-
+ target_link_libraries(collision_subscriber
+ ${catkin_LIBRARIES}
+ )
 #############
 ## Install ##
 #############

@@ -82,13 +82,15 @@
     <include file="$(find uml_3d_race)/launch/navigation/map_teleop.launch">
       <arg name="robot" value="$(arg model_name)" />
       <arg name="map" value="$(arg level)" />
-      <arg name="static_2d_map" value="false" />
+      <arg name="static_2d_map" value="true" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
     </include>
   </group>
 
-  
+  <node name="collision_sub" pkg="uml_3d_race" type="collision_subscriber" output="screen">
+    <param name="topic" value="$(arg model_name)/bumper_contact" />
+  </node>
 
 </launch>
