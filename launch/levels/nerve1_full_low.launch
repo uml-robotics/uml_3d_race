@@ -8,7 +8,7 @@
     <arg name="world" value="nerve1_full_low" />
     <!-- Robot spawn position -->
     <arg name="spawn_x" value="0.0" />
-    <arg name="spawn_y" value="8.0" />
+    <arg name="spawn_y" value="4.0" />
     <arg name="spawn_yaw" value="0.0" />
 
     <arg name="navigate" value="$(arg navigate)" />
@@ -18,6 +18,6 @@
   <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
     <!-- Goal Position -->
     <param name="goal_x" value="0.0" />
-    <param name="goal_y" value="12.0" />
+    <param name="goal_y" value="8.0" />
   </node>
 </launch>
