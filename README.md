@@ -27,28 +27,18 @@ At this point, if all goes well, the package should be ready to run.
 When things inevitably go wrong, shutdown the terminal running race.launch with 'Ctrl+c', and reset the robots position via:  
   > roslaunch uml_3d_race reset_robot.launch  
 
-#### Making Changes  
-You may notice that the robot is able to make it to the end of the first level with the code provided, but it will struggle with anything more difficult.  
-Open up src/mover.cpp and examine the code provided. This is where you will start making changes in an attempt to make the robots navigation more capable.  
-When you make changes to source code within a ROS package **remember to rebuild the workspace (*catkin build*) or the changes will not be applied when you run your node again**.  
-After making changes and rebuilding, see if things work as you intended by launching race.launch again.  
-
-#### Making Progress  
-When you feel like you have beaten the current level, shutdown the terminal running gazebo with 'Ctrl+c', and try the loading the next world via:  
-  >roslaunch uml_3d_race levelX.launch  
-
-## Challenge:  
-Your goal is to use the sensor data being received by the robot to navigate through increasingly complex stages in the fastest time possible.
-Start with level1.launch and work your way up. Write an algorithm that can find its way through any course!  
-
 ## File Structure:  
 * **launch/** - Contains all necessary ROS .launch files.  
+  * **levels/** - Contains all of the .launch files for setting up the various worlds.
+  * **navigation** - Contains all of the .launch files used for navigation.
 * **msg/** - Custom ROS message definition.  
 * **resources/** - Package resources.  
   * **config/** - Contains a configuration for a range laser filter.  
-  * **maps/** - Contains maps to be used by map_server for navigation.   
+  * **static_maps/** - Contains maps to be used for navigation
+    * **2d/** - Contains 2d maps used by map_server
+    * **3d/** - Contains octomaps used by octomap_server
   * **models/** - Contains package models.  
-    * **pioneer3dx/** - URDF/xacro definition of our pioneer robot.  
+    * **pioneer/** - URDF/xacro definition of our pioneer robot.  
       * **config/** - Contains robot sensor configuration settings.  
     * **obstacles/** - Contains obstacle models for making new worlds.   
     * **track_models/** - Contains track models for making new worlds.  
@@ -60,6 +50,8 @@ Start with level1.launch and work your way up. Write an algorithm that can find 
   * **reset_robot.cpp** - Subscribes to the /spawn topic and sets the robot models position.  
   * **spawn_pub.cpp** - Publishes the robots spawn location on the /spawn topic.   
   * **goal_pub.cpp** - Publishes a goal on the /goal topic.  
+  * **collision_sub** - Subscribes to /bumper_contact from Gazebo and logs the collision data.
+  * **referee_v2** - Logs various robot data used to evaluate navigation tests.
 * **worlds/** - Contains all .world files for Gazebo to load.  
 * **setup.sh** - A setup script that makes the models and textures provided in this package available for Gazebo to use.  
 
