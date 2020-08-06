@@ -8,7 +8,7 @@
   <arg name="spawn_y" default="0.0" />
   <arg name="spawn_yaw" default="0.0" /> <!-- Rotation in radians. -->
   <!-- Goal Position -->
-  <arg name="goal_x" default="5.0"/>
+  <arg name="goal_x" default="0.0"/>
   <arg name="goal_y" default="0.0"/>
   
   <arg name="navigate" default="true" />
@@ -26,5 +26,12 @@
     <arg name="level" value="$(arg world)" />
     <arg name="navigate" value="$(arg navigate)" />
   </include>
+
+  <!-- Publish the goal for the given .world -->
+  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
+    <!-- Goal Position -->
+    <param name="goal_x" value="$(arg goal_x)" />
+    <param name="goal_y" value="$(arg goal_y)" />
+  </node>
 
 </launch>

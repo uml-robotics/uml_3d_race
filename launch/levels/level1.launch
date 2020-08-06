@@ -11,13 +11,9 @@
     <arg name="spawn_y" value="0.0" />
     <arg name="spawn_yaw" value="0.0" />
 
+    <arg name="goal_x" value="7.33" />
+    <arg name="goal_y" value="1.75" />
+
     <arg name="navigate" value="$(arg navigate)" />
   </include>
-
-  <!-- Publish the goal for the given .world -->
-  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
-    <!-- Goal Position -->
-    <param name="goal_x" value="7.33" />
-    <param name="goal_y" value="1.75" />
-  </node>
 </launch>

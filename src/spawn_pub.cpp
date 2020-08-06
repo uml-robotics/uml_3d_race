@@ -13,7 +13,6 @@ int main(int argc, char **argv){
   float y_position = 0.0;
   float z_rotation = 0.0;
   std::string topic = "spawn";
-  int counter = 0;
 
   //Retrieve node parameters
   n.getParam(ros::this_node::getName()+"/x_position",x_position);
@@ -25,7 +24,7 @@ int main(int argc, char **argv){
   ROS_INFO("SPAWN_PUB | Point: (%.2f,%.2f)\tRotation: %.2f\tTopic: %s",x_position,y_position,z_rotation,topic.c_str());
 
   //Create the publisher object
-  ros::Publisher spawn_pub = n.advertise<geometry_msgs::PoseWithCovarianceStamped>(topic, 1);
+  ros::Publisher spawn_pub = n.advertise<geometry_msgs::PoseWithCovarianceStamped>(topic, 1, true);
 
   //Construct Spawn message
   geometry_msgs::PoseWithCovarianceStamped spawn;
@@ -38,16 +37,11 @@ int main(int argc, char **argv){
   spawn.pose.pose.orientation.z = quaternion[2];
   spawn.pose.pose.orientation.w = quaternion[3];
 
-  //Publish Goal message once per second
-  ros::Rate loop_rate(1);
-  while (ros::ok()){
-    spawn.header.seq = counter;
-    spawn.header.stamp = ros::Time::now();
-    spawn_pub.publish(spawn);
-    counter++;
-    ros::spinOnce();
-    loop_rate.sleep();
-  }
+  //Publish Goal message
+  spawn.header.stamp = ros::Time::now();
+  spawn_pub.publish(spawn);
+
+  ros::spin();
 
   return 0;
 }

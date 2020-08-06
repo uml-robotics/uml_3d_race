@@ -89,8 +89,4 @@
     </include>
   </group>
 
-  <node name="collision_sub" pkg="uml_3d_race" type="collision_subscriber" output="screen">
-    <param name="topic" value="$(arg model_name)/bumper_contact" />
-  </node>
-
 </launch>

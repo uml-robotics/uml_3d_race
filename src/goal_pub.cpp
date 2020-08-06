@@ -25,7 +25,7 @@ int main(int argc, char **argv){
   ROS_INFO("GOAL_PUB | Point: (%.2f,%.2f)\tTolerance: %.2f\tTopic: %s",goal_x,goal_y,goal_tolerance,topic.c_str());
 
   //Create the publisher object
-  ros::Publisher goal_pub = n.advertise<uml_3d_race::Goal>(topic, 1);
+  ros::Publisher goal_pub = n.advertise<uml_3d_race::Goal>(topic, 1, true);
 
   //Construct Goal message
   uml_3d_race::Goal goal;
@@ -33,13 +33,10 @@ int main(int argc, char **argv){
   goal.y = goal_y;
   goal.tolerance = goal_tolerance;
 
-  //Publish Goal message once per second
-  ros::Rate loop_rate(1);
-  while (ros::ok()){
-    goal_pub.publish(goal);
-    ros::spinOnce();
-    loop_rate.sleep();
-  }
+  //Publish the goal
+  goal_pub.publish(goal);
+
+  ros::spin();
 
   return 0;
 }

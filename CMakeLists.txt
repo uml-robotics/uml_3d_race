@@ -145,6 +145,7 @@ include_directories(
  add_executable(reset_robot src/reset_robot.cpp)
  add_executable(obstacle_bot_node src/obstacle_bot.cpp)
  add_executable(collision_subscriber src/collision_sub.cpp)
+ add_executable(logger src/referee_v2.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -162,6 +163,7 @@ add_dependencies(spawn_publisher ${spawn_publisher_EXPORTED_TARGETS} ${catkin_EX
 add_dependencies(reset_robot ${reset_robot_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(obstacle_bot_node ${obstacle_bot_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(collision_subscriber ${collision_subscriber_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(logger ${logger_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(referee
@@ -183,6 +185,9 @@ add_dependencies(collision_subscriber ${collision_subscriber_EXPORTED_TARGETS} $
    ${catkin_LIBRARIES}
  )
  target_link_libraries(collision_subscriber
+ ${catkin_LIBRARIES}
+ )
+ target_link_libraries(logger
  ${catkin_LIBRARIES}
  )
 #############
