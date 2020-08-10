@@ -83,7 +83,7 @@
       <arg name="robot" value="$(arg model_name)" />
       <arg name="map" value="$(arg level)" />
       <arg name="static_2d_map" value="false" />
-      <arg name="3d" value="false" />
+      <arg name="3d" value="true" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />

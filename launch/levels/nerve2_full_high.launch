@@ -5,8 +5,8 @@
   <!-- Include spawn_world.launch and set it's arguments -->
   <include file="$(find uml_3d_race)/launch/spawn_world.launch">
     <!-- World file -->
-    <arg name="world_name" value="level4" />
-    <arg name="world_path" value="level4.world" />
+    <arg name="world_name" value="nerve2_full_high" />
+    <arg name="world_path" value="nerve2/nerve2_full_high.world" />
     <!-- Robot spawn position -->
     <arg name="spawn_x" value="0.0" />
     <arg name="spawn_y" value="8.0" />
