@@ -16,16 +16,6 @@
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-const float OFFICIAL_GOAL_TOL = 0.9;
-
-float goal_x;
-float goal_y;
-float goal_tolerance;
-int state = -1;
-ros::Time start, finish;
-float vel;
-geometry_msgs::Point last_pos;
-
 // Simple distance function
 float distance(float x1, float y1, float x2, float y2)
 {
@@ -39,11 +29,15 @@ class Referee
 private:
     double goal_x;
     double goal_y;
-    double collision_num;
+    int collision_num;
+    int iteration_collision;
     double collision_x;
     double collision_y;
     double collision_thres;
-    bool reached_goal;
+    int goals_reached;
+    int goals_aborted;
+    int current_iteration;
+    bool navigating;
 
 public:
     Referee()
@@ -51,56 +45,97 @@ public:
         goal_x = 0;
         goal_y = 0;
         collision_num = 0;
+        iteration_collision = 0;
         collision_x = 0;
         collision_y = 0;
-        collision_thres = 0.2;
-        reached_goal = false;
+        collision_thres = 0.3;
+        goals_reached = 0;
+        goals_aborted = 0;
+        current_iteration = 0;
+        navigating = false;
     };
 
     void add_position(nav_msgs::Odometry odom)
     {
-        //Log the position
-        ROS_INFO("Robot's position is x:%.2f y:%.2f and the distance to the goal is %.2f", odom.pose.pose.position.x, odom.pose.pose.position.y,
-                 distance(goal_x, goal_y, odom.pose.pose.position.x, odom.pose.pose.position.y));
+        if (navigating)
+        {
+            //Log the position
+            ROS_INFO("Robot's position is x:%.3f y:%.3f and the distance to the goal is %.3f", odom.pose.pose.position.x, odom.pose.pose.position.y,
+                     distance(goal_x, goal_y, odom.pose.pose.position.x, odom.pose.pose.position.y));
+        }
     }
 
     void add_collision(gazebo_msgs::ContactsState collision)
     {
-        if (!collision.states.empty())
+        if (navigating && !collision.states.empty())
         {
-            //Filter out collisions that are right next to each other
-            if (collision_num != 0 && std::abs(collision.states[0].contact_positions[0].x - collision_x < collision_thres) && std::abs(collision.states[0].contact_positions[0].y - collision_y < collision_thres))
+            //Filters out collisions that are right next to each other
+            if (iteration_collision != 0 && std::abs(collision.states[0].contact_positions[0].x - collision_x < collision_thres) && std::abs(collision.states[0].contact_positions[0].y - collision_y < collision_thres))
             {
                 return;
             }
 
-            //Increment collision_num and save coords
-            collision_num++;
+            //Intrement runs with collision counter if this is the first collision reported in the current iteration
+            if (iteration_collision == 0)
+            {
+                collision_num++;
+            }
+
+            //Increment the num of collisions in the current iteration and save coords
+            iteration_collision++;
             collision_x = collision.states[0].contact_positions[0].x;
             collision_y = collision.states[0].contact_positions[0].y;
 
             //Log the collision
-            ROS_INFO("Collision detected at x:%.2f y:%.2f", collision.states[0].contact_positions[0].x, collision.states[0].contact_positions[0].y);
+            ROS_INFO_STREAM(
+                "******************************************************************************" << std::endl
+                << std::endl
+                << "Collision number " << iteration_collision << " detected at x:" << collision.states[0].contact_positions[0].x << " y:" << collision.states[0].contact_positions[0].y << std::endl
+                << std::endl
+                << "******************************************************************************"
+            );
         }
     }
 
     void add_nav_result(bool goal_reached)
     {
-        //Save result
-        reached_goal = goal_reached;
-
-        //Log the result
-        if (reached_goal)
+        if (navigating)
         {
-            ROS_INFO("Robot has reached the goal");
-        }
-        else
-        {
-            ROS_INFO("Robot failed to reach the goal");
-        }
+            //Determine if the robot reached the goal
+            if (goal_reached)
+            {
+                //Increment goals reached counter
+                goals_reached++;
 
-        //Stop the logger
-        ros::shutdown();
+                //Log
+                ROS_INFO_STREAM(
+                    "*****************************************************************************" << std::endl
+                    << std::endl
+                    << "Ending iteration " << current_iteration << ": The robot has reached the goal" << std::endl
+                    << std::endl
+                    << "*****************************************************************************"
+                );
+            }
+            else
+            {
+                //Increment fail counter
+                goals_aborted++;
+
+                //Log
+                ROS_INFO_STREAM(
+                    "*****************************************************************************" << std::endl
+                    << std::endl
+                    << "Ending iteration " << current_iteration << ": The robot has failed to reach the goal" << std::endl
+                    << std::endl
+                    << "*****************************************************************************"
+                );
+            }
+
+            //Change navigation state
+            navigating = false;
+
+            print_summary();
+        }
     }
 
     void add_goal(uml_3d_race::Goal goal)
@@ -109,29 +144,60 @@ public:
         goal_x = goal.x;
         goal_y = goal.y;
 
+        navigating = true;
+
+        current_iteration++;
+
+        //Reset iteration collision counter
+        iteration_collision = 0;
+
         //Log goal
-        ROS_INFO("Goal location is x:%.2f y:%.2f", goal.x, goal.y);
+        ROS_INFO_STREAM(
+            "*****************************************************************************" << std::endl
+            << std::endl
+            << "Starting iteration " << current_iteration << ": Goal location is x:" << goal.x << " y:" << goal.y << std::endl
+            << std::endl
+            << "*****************************************************************************";
+        );
+    }
+
+    void print_summary()
+    {
+        //Subtract the number of iterations that had collisions from the number of times the goal was reached
+        goals_reached -= collision_num;
+
+        ROS_WARN_STREAM(
+            "*******************************************************************************" << std::endl
+            << std::endl
+            << "                         Simulation Summary" << std::endl
+            << std::endl
+            << "Number of times the goal was reached: " << goals_reached << std::endl
+            << "Number of times the goal was reached, but the robot collided with an object: " << collision_num << std::endl
+            << "Number of times the goal was not reached: " << goals_aborted << std::endl
+            << std::endl
+            << "*******************************************************************************"
+        );
     }
 };
 
 Referee *logger;
 
-void odom_callback(const nav_msgs::Odometry::ConstPtr& odom)
+void odom_callback(const nav_msgs::Odometry::ConstPtr &odom)
 {
     logger->add_position(*odom);
 }
 
-void collision_callback(const gazebo_msgs::ContactsState::ConstPtr& collision)
+void collision_callback(const gazebo_msgs::ContactsState::ConstPtr &collision)
 {
     logger->add_collision(*collision);
 }
 
-void goal_callback(const uml_3d_race::Goal::ConstPtr& goal)
+void goal_callback(const uml_3d_race::Goal::ConstPtr &goal)
 {
     logger->add_goal(*goal);
 }
 
-void state_callback(const actionlib_msgs::GoalStatusArray::ConstPtr& state)
+void state_callback(const actionlib_msgs::GoalStatusArray::ConstPtr &state)
 {
     if (!state->status_list.empty())
     {
@@ -161,7 +227,8 @@ int main(int argc, char **argv)
 
     logger = new Referee();
 
+    //Loop and service the node
     ros::spin();
-
+    
     return 0;
 }
