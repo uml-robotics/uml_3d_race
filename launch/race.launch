@@ -6,6 +6,6 @@
 
   <node name="mover_node" pkg="uml_3d_race" type="mover_node" output="screen" ns="$(arg namespace)"/>
 
-  <node name="logger" type="logger" pkg="uml_3d_race" ns="$(arg namespace)" output="log"/>
+  <node name="logger" type="logger" pkg="uml_3d_race" ns="$(arg namespace)"/>
 
 </launch>

@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   geometry_msgs
-  tf2
+  #tf2
   message_generation
   move_base_msgs
   actionlib
@@ -56,6 +56,7 @@ find_package(catkin REQUIRED COMPONENTS
  add_message_files(
    FILES
    Goal.msg
+   SimLog.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -76,6 +77,7 @@ find_package(catkin REQUIRED COMPONENTS
  generate_messages(
    DEPENDENCIES
    std_msgs
+   geometry_msgs
  )
 
 ################################################
@@ -110,7 +112,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES uml_3Drace
-#  CATKIN_DEPENDS gazebo_ros roscpp rospy std_msgs message_runtime move_base_msgs actionlib
+   CATKIN_DEPENDS gazebo_ros roscpp rospy std_msgs geometry_msgs message_runtime move_base_msgs actionlib gazebo_msgs
 #  DEPENDS system_lib
 )
 

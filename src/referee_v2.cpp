@@ -14,6 +14,9 @@
 //Goal is a custom message type defined in uml_3d_race/msg/Goal.msg
 #include <uml_3d_race/Goal.h>
 
+//SimLog is a custom message type defined in uml_3d_race/msg/Goal.msg
+#include <uml_3d_race/SimLog.h>
+
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 // Simple distance function
@@ -27,23 +30,28 @@ float distance(float x1, float y1, float x2, float y2)
 class Referee
 {
 private:
-    double goal_x;
-    double goal_y;
-    int collision_num;
-    int iteration_collision;
+    //Publisher
+    ros::Publisher pub;
+
+    //Msg
+    uml_3d_race::SimLog log;
+
+    //Other variables
+    uint collision_num;
+    uint iteration_collision;
     double collision_x;
     double collision_y;
     double collision_thres;
     int goals_reached;
     int goals_aborted;
-    int current_iteration;
     bool navigating;
 
 public:
-    Referee()
+    Referee(ros::NodeHandle n)
     {
-        goal_x = 0;
-        goal_y = 0;
+        // Setup publisher
+        pub = n.advertise<uml_3d_race::SimLog>("sim_log", 1000, false);
+
         collision_num = 0;
         iteration_collision = 0;
         collision_x = 0;
@@ -51,17 +59,20 @@ public:
         collision_thres = 0.3;
         goals_reached = 0;
         goals_aborted = 0;
-        current_iteration = 0;
         navigating = false;
+
+        log.collision.x = -100000;
+        log.collision.y = -100000;
     };
 
     void add_position(nav_msgs::Odometry odom)
     {
         if (navigating)
         {
-            //Log the position
-            ROS_INFO("Robot's position is x:%.3f y:%.3f and the distance to the goal is %.3f", odom.pose.pose.position.x, odom.pose.pose.position.y,
-                     distance(goal_x, goal_y, odom.pose.pose.position.x, odom.pose.pose.position.y));
+            //save the position and distance
+            log.robot_pos.x = odom.pose.pose.position.x;
+            log.robot_pos.y = odom.pose.pose.position.y;
+            log.dist_from_goal = distance(log.goal.x, log.goal.y, odom.pose.pose.position.x, odom.pose.pose.position.y);
         }
     }
 
@@ -86,14 +97,9 @@ public:
             collision_x = collision.states[0].contact_positions[0].x;
             collision_y = collision.states[0].contact_positions[0].y;
 
-            //Log the collision
-            ROS_INFO_STREAM(
-                "******************************************************************************" << std::endl
-                << std::endl
-                << "Collision number " << iteration_collision << " detected at x:" << collision.states[0].contact_positions[0].x << " y:" << collision.states[0].contact_positions[0].y << std::endl
-                << std::endl
-                << "******************************************************************************"
-            );
+            //Add collision to msg
+            log.collision.x = collision.states[0].contact_positions[0].x;
+            log.collision.y = collision.states[0].contact_positions[0].y;
         }
     }
 
@@ -101,82 +107,42 @@ public:
     {
         if (navigating)
         {
-            //Determine if the robot reached the goal
-            if (goal_reached)
-            {
-                //Increment goals reached counter
-                goals_reached++;
-
-                //Log
-                ROS_INFO_STREAM(
-                    "*****************************************************************************" << std::endl
-                    << std::endl
-                    << "Ending iteration " << current_iteration << ": The robot has reached the goal" << std::endl
-                    << std::endl
-                    << "*****************************************************************************"
-                );
-            }
-            else
-            {
-                //Increment fail counter
-                goals_aborted++;
-
-                //Log
-                ROS_INFO_STREAM(
-                    "*****************************************************************************" << std::endl
-                    << std::endl
-                    << "Ending iteration " << current_iteration << ": The robot has failed to reach the goal" << std::endl
-                    << std::endl
-                    << "*****************************************************************************"
-                );
-            }
-
             //Change navigation state
             navigating = false;
-
-            print_summary();
         }
     }
 
     void add_goal(uml_3d_race::Goal goal)
     {
-        //Save goal coord for distance calculation
-        goal_x = goal.x;
-        goal_y = goal.y;
+        if (!navigating)
+        {
+            //Save goal pos
+            log.goal.x = goal.x;
+            log.goal.y = goal.y;
 
-        navigating = true;
+            navigating = true;
 
-        current_iteration++;
+            log.iteration++;
 
-        //Reset iteration collision counter
-        iteration_collision = 0;
-
-        //Log goal
-        ROS_INFO_STREAM(
-            "*****************************************************************************" << std::endl
-            << std::endl
-            << "Starting iteration " << current_iteration << ": Goal location is x:" << goal.x << " y:" << goal.y << std::endl
-            << std::endl
-            << "*****************************************************************************";
-        );
+            //Reset iteration collision counter
+            iteration_collision = 0;
+        }
     }
 
-    void print_summary()
+    void publish_log()
     {
-        //Subtract the number of iterations that had collisions from the number of times the goal was reached
-        goals_reached -= collision_num;
+        if(navigating)
+        {
+            log.header.stamp = ros::Time().now();
+            pub.publish(log);
 
-        ROS_WARN_STREAM(
-            "*******************************************************************************" << std::endl
-            << std::endl
-            << "                         Simulation Summary" << std::endl
-            << std::endl
-            << "Number of times the goal was reached: " << goals_reached << std::endl
-            << "Number of times the goal was reached, but the robot collided with an object: " << collision_num << std::endl
-            << "Number of times the goal was not reached: " << goals_aborted << std::endl
-            << std::endl
-            << "*******************************************************************************"
-        );
+            //Reset collision coords if a collision was published
+            if(log.collision.x != -100000 || log.collision.y != -100000)
+            {
+                log.collision.x = -100000;
+                log.collision.y = -100000;
+            }
+        }
     }
 };
 
@@ -219,16 +185,27 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "referee");
     ros::NodeHandle n;
 
-    // Setup subscribers and action clients
+    ros::Rate rate(10);
+    ros::AsyncSpinner spinner(4);
+
+    // Setup subscribers
     ros::Subscriber odom_sub = n.subscribe("odom", 1, odom_callback);
     ros::Subscriber collision_sub = n.subscribe("bumper_contact", 1, collision_callback);
     ros::Subscriber goal_sub = n.subscribe("/goal", 1, goal_callback);
     ros::Subscriber result = n.subscribe("move_base/status", 1, state_callback);
 
-    logger = new Referee();
+    logger = new Referee(n);
 
-    //Loop and service the node
-    ros::spin();
-    
+    spinner.start();
+
+    while (ros::ok())
+    {
+        logger->publish_log();
+        ros::spinOnce();
+        rate.sleep();
+    }
+
+    ros::waitForShutdown();
+
     return 0;
 }
