@@ -140,14 +140,13 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
- add_executable(referee src/referee.cpp)
  add_executable(mover_node src/mover.cpp)
  add_executable(goal_publisher src/goal_pub.cpp)
  add_executable(spawn_publisher src/spawn_pub.cpp)
  add_executable(reset_robot src/reset_robot.cpp)
  add_executable(obstacle_bot_node src/obstacle_bot.cpp)
  add_executable(collision_subscriber src/collision_sub.cpp)
- add_executable(logger src/referee_v2.cpp)
+ add_executable(logger src/referee.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -158,7 +157,6 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(referee ${referee_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(mover_node ${mover_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(goal_publisher ${goal_publisher_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(spawn_publisher ${spawn_publisher_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -168,9 +166,6 @@ add_dependencies(collision_subscriber ${collision_subscriber_EXPORTED_TARGETS} $
 add_dependencies(logger ${logger_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(referee
-   ${catkin_LIBRARIES}
- )
  target_link_libraries(mover_node
    ${catkin_LIBRARIES}
  )
