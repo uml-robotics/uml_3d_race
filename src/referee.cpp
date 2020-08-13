@@ -38,12 +38,13 @@ private:
 
     //Other variables
     uint collision_num;
-    uint iteration_collision;
+    uint trip_collision;
+    uint trips;
     double collision_x;
     double collision_y;
     double collision_thres;
-    int goals_reached;
-    int goals_aborted;
+    uint goals_reached;
+    uint goals_aborted;
     bool navigating;
     bool publishing;
 
@@ -53,8 +54,9 @@ public:
         // Setup publisher
         pub = n.advertise<uml_3d_race::SimLog>("sim_log", 1000, false);
 
+        trips = 0;
         collision_num = 0;
-        iteration_collision = 0;
+        trip_collision = 0;
         collision_x = 0;
         collision_y = 0;
         collision_thres = 0.3;
@@ -65,6 +67,8 @@ public:
 
         log.collision.x = -100000;
         log.collision.y = -100000;
+
+        log.iteration = 0;
     };
 
     void add_position(nav_msgs::Odometry odom)
@@ -83,19 +87,19 @@ public:
         if (navigating && !collision.states.empty())
         {
             //Filters out collisions that are right next to each other
-            if (iteration_collision != 0 && std::abs(collision.states[0].contact_positions[0].x - collision_x < collision_thres) && std::abs(collision.states[0].contact_positions[0].y - collision_y < collision_thres))
+            if (trip_collision != 0 && std::abs(collision.states[0].contact_positions[0].x - collision_x < collision_thres) && std::abs(collision.states[0].contact_positions[0].y - collision_y < collision_thres))
             {
                 return;
             }
 
             //Intrement runs with collision counter if this is the first collision reported in the current iteration
-            if (iteration_collision == 0)
+            if (trip_collision == 0)
             {
                 collision_num++;
             }
 
             //Increment the num of collisions in the current iteration and save coords
-            iteration_collision++;
+            trip_collision++;
             collision_x = collision.states[0].contact_positions[0].x;
             collision_y = collision.states[0].contact_positions[0].y;
 
@@ -120,14 +124,20 @@ public:
             if (goal_reached)
             {
                 //Add msg log
-                ROS_INFO("Ending iteration %d: The goal was reached", log.iteration);
+                ROS_INFO("The goal was reached");
                 log.event = "Goal was reached";
             }
             else
             {
                 //Add msg log
-                ROS_WARN("Ending iteration %d: The goal was not reached ", log.iteration);
+                ROS_WARN("The goal was not reached");
                 log.event = "Goal was not reached";
+            }
+
+            //Output an iteration is ending if trips is even
+            if(trips % 2 == 0)
+            {
+                ROS_INFO("Ending iteration %d", log.iteration);
             }
         }
     }
@@ -144,16 +154,32 @@ public:
             navigating = true;
             publishing = true;
 
-            log.iteration++;
+            //Increment trips and iterations
+            trips++;
+            if(trips % 2 == 1)
+            {
+                log.iteration++;
+            }
 
             //Reset iteration collision counter
-            iteration_collision = 0;
+            trip_collision = 0;
 
             //Add msg log
-            ROS_INFO("Starting iteration %d: Goal is at x:%.3f y:%.3f", log.iteration, goal.x, goal.y);
-            std::stringstream str;
-            str << "Goal registered at x:" << goal.x << " y:" << goal.y;
-            log.event = str.str();
+            if(trips % 2 == 1)
+            {
+                std::stringstream str;
+                str << "Goal A registered at x:" << goal.x << " y:" << goal.y;
+                log.event = str.str();
+                ROS_INFO("Starting iteration %d", log.iteration);
+                ROS_INFO("Goal A registered at x:%.3f y:%.3f", goal.x, goal.y);
+            }
+            else
+            {
+                std::stringstream str;
+                str << "Goal B registered at x:" << goal.x << " y:" << goal.y;
+                log.event = str.str();
+                ROS_INFO("Goal B registered at x:%.3f y:%.3f", goal.x, goal.y);
+            }
         }
     }
 
@@ -176,11 +202,10 @@ public:
             {
                 log.event.clear();
             }
-
-            if(!navigating)
-            {
-                publishing = false;
-            }
+        }
+        if(!navigating)
+        {
+            publishing = false;
         }
     }
 };
@@ -206,12 +231,12 @@ void state_callback(const actionlib_msgs::GoalStatusArray::ConstPtr &state)
 {
     if (!state->status_list.empty())
     {
-        if (state->status_list.front().status == state->status_list.front().ABORTED || state->status_list.front().status == state->status_list.front().REJECTED)
+        if (state->status_list.back().status == state->status_list.back().ABORTED || state->status_list.back().status == state->status_list.back().REJECTED)
         {
             logger->add_nav_result(false);
         }
 
-        if (state->status_list.front().status == state->status_list.front().SUCCEEDED)
+        if (state->status_list.back().status == state->status_list.back().SUCCEEDED)
         {
             logger->add_nav_result(true);
         }

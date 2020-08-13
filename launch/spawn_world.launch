@@ -28,11 +28,13 @@
     <arg name="navigate" value="$(arg navigate)" />
   </include>
 
-  <!-- Publish the goal for the given .world -->
+  <!-- Publish the two different goals needed for the given .world -->
   <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
-    <!-- Goal Position -->
+    <!-- Goal Positions -->
     <param name="goal_x" value="$(arg goal_x)" />
     <param name="goal_y" value="$(arg goal_y)" />
+    <param name="spawn_x" value="$(arg spawn_x)" />
+    <param name="spawn_y" value="$(arg spawn_y)" />
   </node>
 
 </launch>

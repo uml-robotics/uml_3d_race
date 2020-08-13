@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  std_srvs
   geometry_msgs
   #tf2
   message_generation
@@ -112,7 +113,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES uml_3Drace
-   CATKIN_DEPENDS gazebo_ros roscpp rospy std_msgs geometry_msgs message_runtime move_base_msgs actionlib gazebo_msgs
+   CATKIN_DEPENDS gazebo_ros roscpp rospy std_msgs std_srvs geometry_msgs message_runtime move_base_msgs actionlib gazebo_msgs
 #  DEPENDS system_lib
 )
 

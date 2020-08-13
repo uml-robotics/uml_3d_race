@@ -1,10 +1,13 @@
 <launch>
   <arg name="namespace" default="pioneer" />
+  <arg name="iterations" default="1" />
 
-  <!-- Change required to false if you want the mover_node to continue after the referee ends the race. -->
+  <!-- Start moving-->
+  <node name="mover_node" pkg="uml_3d_race" type="mover_node" output="screen" ns="$(arg namespace)" required="true">
+    <param name="iterations" value="$(arg iterations)" />
+  </node>
 
-  <node name="mover_node" pkg="uml_3d_race" type="mover_node" output="screen" ns="$(arg namespace)"/>
-
+  <!-- Start logging the movement-->
   <node name="logger" type="logger" pkg="uml_3d_race" ns="$(arg namespace)" output="screen"/>
 
 </launch>
