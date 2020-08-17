@@ -19,5 +19,6 @@
     <param name="conservative_reset_dist" type="double" value="3.0" />
     <param name="controller_frequency" type="double" value="10.0" />
     <param name="planner_patience" value="10.0" />
+    <param name="max_planning_retries" value="20" />
   </node>
 </launch>
