@@ -6,3 +6,4 @@ GlobalPlanner:
   orientation_mode: 0
   orientation_window_size: 1
   publish_potential: true
+  default_tolerance: 0.2

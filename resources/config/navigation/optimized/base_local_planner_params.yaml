@@ -17,13 +17,23 @@ DWAPlannerROS:
 
   #forward sim params
   sim_time: 2.0
-  vx_samples: 3
+  vx_samples: 20
   vy_samples: 0 #diff drive
-  vth_samples: 20
+  vth_samples: 40
 
   #scoring params
   path_distance_bias: 32
-  goal_distance_bias: 24
-  occdist_scale: 0.01
+  goal_distance_bias: 20
+  occdist_scale: 0.02
+
+  #higher goal tolerance
+  yaw_goal_tolerance: 0.1
+  xy_goal_tolerance: 0.2
+  latch_xy_goal_tolerance: true
+
+  #lower goal tolerance
+  #yaw_goal_tolerance: 0.05
+  #xy_goal_tolerance: 0.1
+  #latch_xy_goal_tolerance: false
   
   holonomic_robot: false
