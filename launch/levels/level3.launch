@@ -17,11 +17,4 @@
 
     <arg name="navigate" value="$(arg navigate)" />
   </include>
-
-  <!-- Publish the goal for the given .world -->
-  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
-    <!-- Goal Position -->
-    <param name="goal_x" value="0.0" />
-    <param name="goal_y" value="4.0" />
-  </node>
 </launch>

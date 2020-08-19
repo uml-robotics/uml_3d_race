@@ -4,7 +4,7 @@
   <arg name="map" default="level1" />
 
   <!-- launch server for positive map-->
-  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" output="screen" 
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server"
     args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map)/$(arg map).bt">
     <param name="frame_id" type="string" value="/map" />
     <param name="occupancy_min_z" value="0.05" />
@@ -12,7 +12,7 @@
   </node>
 
   <!-- launch server for negative map-->
-  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server_negative" output="screen" 
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server_negative"
     args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map)/$(arg map).bt">
     <param name="frame_id" type="string" value="/map" />
     <param name="occupancy_max_z" value="-0.1" />
