@@ -65,14 +65,14 @@
 
 		<!-- Adds collision detection-->
 		<sensor type="contact" name="robot_contact_sensor">
-			<update_rate>100.0</update_rate>
+			<update_rate>20.0</update_rate>
 			<always_on>1</always_on>
 			<contact>
 				<collision>base_link_fixed_joint_lump__robot_collision_collision</collision>
 			</contact>
 			<plugin name="robot_bumper_controller" filename="libgazebo_ros_bumper.so">
 				<alwaysOn>true</alwaysOn>
-				<updateRate>100.0</updateRate>
+				<updateRate>20.0</updateRate>
 				<bumperTopicName>/pioneer/bumper_contact</bumperTopicName>
 				<frameName>base_link</frameName>
 			</plugin>
@@ -277,7 +277,7 @@
 		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
 			<legacyMode>false</legacyMode>
 			<alwaysOn>true</alwaysOn>
-			<updateRate>100.0</updateRate>
+			<updateRate>50.0</updateRate> <!-- 100 -->
 			<leftJoint>base_left_wheel_joint</leftJoint>
 			<rightJoint>base_right_wheel_joint</rightJoint>
 			<wheelSeparation>0.32</wheelSeparation>
@@ -299,7 +299,7 @@
 		<!-- Fake localization plugin -->
 		<plugin name="ground_truth_odometry" filename="libgazebo_ros_p3d.so">
 			<alwaysOn>true</alwaysOn>
-			<updateRate>100.0</updateRate>
+			<updateRate>50.0</updateRate> <!-- 100 -->
 			<bodyName>base_link</bodyName>
 			<topicName>base_pose_ground_truth</topicName>
 			<gaussianNoise>0.01</gaussianNoise>

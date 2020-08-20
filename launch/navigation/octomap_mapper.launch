@@ -13,5 +13,6 @@
       <param name="frame_id" type="string" value="/map" />
       <param name="sensor_model/max_range" value="4.0" />
       <param name="filter_ground" value="false" />
+      
     </node>
 </launch>

@@ -20,7 +20,8 @@ map_type: costmap
                clearing: true, 
                marking: true, 
                topic: /kinect/depth/points, 
-               min_obstacle_height: 0.05
+               min_obstacle_height: 0.05,
+               expected_update_rate: 0.12
                }
 2d_obstacles:
   observation_sources: laser
@@ -29,7 +30,7 @@ map_type: costmap
           topic: /pioneer/frontscan_filtered, 
           marking: true, 
           clearing: true, 
-          expected_update_rate: 0.2,
+          expected_update_rate: 0.1,
           track_unknown_space: true
           }
 negative_obstacles:
@@ -40,7 +41,9 @@ negative_obstacles:
                marking: true, 
                topic: /kinect/depth/points, 
                min_obstacle_height: -10, 
-               max_obstacle_height: -0.1}
+               max_obstacle_height: -0.1,
+               expected_update_rate: 0.12
+               }
 inflation_layer:
   inflation_radius: 0.7
   cost_scaling_factor: 2

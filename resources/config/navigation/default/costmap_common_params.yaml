@@ -19,7 +19,7 @@ map_type: costmap
           topic: /pioneer/frontscan_filtered, 
           marking: true, 
           clearing: true, 
-          expected_update_rate: 0.2,
+          expected_update_rate: 0.1,
           track_unknown_space: true
           }
 inflation_layer:

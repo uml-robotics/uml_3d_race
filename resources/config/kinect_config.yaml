@@ -6,4 +6,4 @@ range_min: 0.6
 range_max: 4
 min_height: 0
 max_height: 1
-scan_time: 0.033333333
+scan_time: 0.066666667

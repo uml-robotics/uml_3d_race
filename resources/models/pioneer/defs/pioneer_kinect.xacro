@@ -51,7 +51,7 @@
         <plugin name='${descriptor}_camera_plugin' filename='libgazebo_ros_openni_kinect.so'>
           <baseline>0.2</baseline>
           <alwaysOn>true</alwaysOn>
-          <updateRate>20.0</updateRate>
+          <updateRate>15.0</updateRate> <!-- 20 -->
           <cameraName>${descriptor}</cameraName>
           <imageTopicName>/${descriptor}/rgb/image_raw</imageTopicName>
           <cameraInfoTopicName>/${descriptor}/depth/camera_info</cameraInfoTopicName>
