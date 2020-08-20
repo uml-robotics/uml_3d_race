@@ -17,11 +17,32 @@ At this point, if all goes well, the package should be ready to run.
 
 **NOTE BEFORE STARTING:** Sometimes Gazebo can be a bit finicky, and may fail to launch properly for an array of reasons. If something goes wrong, Ctrl+c and try again a few times. If the problem persists there may be an actual issue that needs to be resolved first, but unless you've already started making changes within this package, that shouldn't be the case.  
 
-## Getting Started:   
-1. In a terminal, launch Gazebo (This launch file includes gazebo, gazebo world to load, robot model, and more):  
-  > roslaunch uml_3d_race level1.launch  
-2. In a second terminal, launch the referee which records your time and the mover_node which controls the robots movement:  
-  > roslaunch uml_3d_race race.launch  
+## Launching a Simulation:   
+1. In a terminal, run a level launch file (This will launch gazebo, load the desired world, and spawn the robot). After running this launch file, the robot will be ready to start navigating. These are the available levels to navigate in:
+    * level1
+    * level4
+    * nerve1_base_world
+    * nerve1_full_regular
+    * nerve1_full_low
+    * nerve1_full_high
+    * nerve1_full_high_clip
+    * nerve1_half_regular
+    * nerve1_half_low
+    * nerve1_half_high
+    * nerve2_base_world
+    * nerve2_full_regular
+    * nerve2_full_low
+    * nerve2_full_high
+    * nerve2_half_regular
+    * nerve2_half_low
+    * nerve2_half_high
+    * nerve2_base_world
+
+    Use the following command to run a level launch file (Replace {level} with the desired level)
+      > roslaunch uml_3d_race {level}.launch
+
+2. In a second terminal, run the race launch file to start providing navigation goals and start the logger. By default, the robot will run one iteration, but an iterations parameter can be passed to increase that number.
+    > roslaunch uml_3d_race race.launch ( iterations:={number} )
 
 #### Resetting the robot   
 When things inevitably go wrong, shutdown the terminal running race.launch with 'Ctrl+c', and reset the robots position via:  
@@ -30,7 +51,7 @@ When things inevitably go wrong, shutdown the terminal running race.launch with 
 ## File Structure:  
 * **launch/** - Contains all necessary ROS .launch files.  
   * **levels/** - Contains all of the .launch files for setting up the various worlds.
-  * **navigation** - Contains all of the .launch files used for navigation.
+  * **navigation/** - Contains all of the .launch files used for navigation.
 * **msg/** - Custom ROS message definition.  
 * **resources/** - Package resources.  
   * **config/** - Contains a configuration for a range laser filter.  
