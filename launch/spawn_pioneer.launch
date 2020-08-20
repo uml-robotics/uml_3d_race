@@ -8,7 +8,7 @@
   <!-- Rotation in radians. -->
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" />
-  <arg name="3d" default="false" />
+  <arg name="3d" default="true" />
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="pioneer" />
@@ -88,7 +88,7 @@
         <arg name="init_x" value="$(arg x)" />
         <arg name="init_y" value="$(arg y)" />
         <arg name="init_yaw" value="$(arg yaw)" />
-        <arg name="move_base_config" value="optimized" />
+        <arg name="move_base_config" value="default" />
       </include>
     </group>
   </group>
