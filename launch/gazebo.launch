@@ -3,7 +3,6 @@
   <arg name="load_world" default="true" />
   <arg name="world_path" default="level1.world" />
 
-
   <!-- Launch empty Gazebo world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <!-- Set .world file -->
@@ -12,7 +11,7 @@
     <arg name="verbose" value="false" />
     <arg name="paused" value="false" />
     <arg name="use_sim_time" value="true" />
-    <arg name="gui" value="true" />
+    <arg name="gui" value="false" />
     <arg name="recording" value="true" />
     <arg name="debug" value="false" />
   </include>
