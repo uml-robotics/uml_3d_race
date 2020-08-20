@@ -4,7 +4,7 @@
 ## Setup:
 1. Clone this repository into your catkin workspace.
   > cd ~/<your_ws>/src   
-  > git clone https://github.com/pgavriel/uml_3d_race.git    
+  > git clone https://github.com/uml-robotics/uml_3d_race.git  
 2. Build your catkin workspace.   
   > cd ..  
   > catkin build   
