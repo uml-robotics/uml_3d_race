@@ -5,8 +5,8 @@
   <xacro:property name="robot_radius" value="0.25" />
   <xacro:property name="antenna_len" value="0.2" />
 
-  <xacro:property name="robot_height" value="$(arg height)" />
-  <xacro:property name="robot_radius" value="$(arg radius)" />
+  <!-- <xacro:property name="robot_height" value="$(arg height)" />
+  <xacro:property name="robot_radius" value="$(arg radius)" /> -->
 
   <!-- root link, on the ground just below the model origin -->
   <link name="base_footprint">
@@ -173,7 +173,6 @@
     <parent link="directional_link"/>
     <child link="scan_link" />
   </joint>
-
 
   <gazebo>
     <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">

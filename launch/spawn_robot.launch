@@ -12,7 +12,7 @@
   <arg name="model_name" default="pioneer" />
 
   <!-- Launch respective robot -->
-  <include file="$(find uml_3d_race)/launch/spawn_$(arg model_name).launch">
+  <include file="$(find uml_3d_race)/launch/robots/spawn_$(arg model_name).launch">
     <arg name="x" value="$(arg x)" />
     <arg name="y" value="$(arg y)" />
     <arg name="z" value="$(arg z)" />

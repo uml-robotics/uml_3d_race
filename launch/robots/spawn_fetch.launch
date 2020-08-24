@@ -11,11 +11,9 @@
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="fetch" />
-  <!-- The location of the top-level xacro file that defines the robot  -->
-  <arg name="model_file" default="$(find uml_3d_race)/resources/models/fetch/defs/fetch.urdf" />
 
-  <!-- Spawn Fetch  -->
-  <include file="$(find fetch_gazebo)/launch/include/fetch.launch.xml">
+   <!-- Spawn Fetch  -->
+  <include file="$(find uml_3d_race)/resources/models/fetch/defs/fetch.launch.xml">
     <arg name="x" default="$(arg x)" />
     <arg name="y" default="$(arg y)" />
     <arg name="z" default="$(arg z)" />
@@ -48,7 +46,6 @@
     <!-- Start Nav Stack -->
     <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
       <arg name="namespace" value="$(arg model_name)" />
-      <arg name="map" value="$(arg level)" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />

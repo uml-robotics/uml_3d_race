@@ -19,11 +19,8 @@ int main (int argc, char **argv){
 ros::init(argc,argv,"mover_node");
 ros::NodeHandle n;
 
-// Set up topic variables
-std::string model_name = "obs_bot";
-n.getParam(ros::this_node::getName()+"/model_name",model_name);
-std::string scantopic = model_name+"/scan";
-std::string cmdtopic = model_name+"/cmd_vel";
+std::string scantopic = "scan";
+std::string cmdtopic = "cmd_vel";
 
 // Set up movement variables
 float max_speed = 1.0;
@@ -32,7 +29,7 @@ float max_angle = 1.0;
 n.getParam(ros::this_node::getName()+"/max_angle",max_angle);
 max_angle = abs(max_angle);
 
-ROS_INFO("Bot Name: %s\t MaxSpeed: %.2f\t MaxAngle: %.2f",model_name.c_str(),max_speed,max_angle);
+ROS_INFO("Obstacle Bot:\t MaxSpeed: %.2f\t MaxAngle: %.2f",max_speed,max_angle);
 
 // Setup subscriber to poll the laser scan topic being published by our robot
 ros::Subscriber sub = n.subscribe(scantopic,1000,scanCallback);

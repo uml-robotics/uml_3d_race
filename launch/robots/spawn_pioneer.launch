@@ -20,11 +20,10 @@
 
   <!-- Load robot_description parameter from top-level pioneer3dx.xacro file -->
   <!-- Also send the model_dir and model_name as arguments to help us generate the model -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model_file) model_dir:=$(arg model_dir) model_name:=$(arg model_name)" />
+  <param name="$(arg model_name)/robot_description" command="$(find xacro)/xacro --inorder $(arg model_file) model_dir:=$(arg model_dir) model_name:=$(arg model_name)" />
 
   <!-- publish TFs for static/fixed links (based on the robot_description parameter) -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="state_publisher" output="screen" ns="$(arg model_name)">
-    <remap from="joint_states" to="joint_states" />
     <param name="publish_frequency" type="double" value="30.0"/>
     <param name="tf_prefix" type="string" value="$(arg model_name)"/>
   </node>
@@ -32,15 +31,13 @@
        (i.e. - the swivel_link joint) will not have it's transform published.
        joint_state_publisher also uses the robot_description parameter. -->
   <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_publisher" output="screen" ns="$(arg model_name)">
-    <remap from="joint_states" to="joint_states" />
-    <remap from="robot_description" to="/robot_description" />
   </node>
 
   <!-- Spawn robot into Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="
     -urdf
     -model $(arg model_name)
-    -param /robot_description
+    -param $(arg model_name)/robot_description
     -x $(arg x)
     -y $(arg y)
     -z $(arg z)
