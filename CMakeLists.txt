@@ -146,7 +146,6 @@ include_directories(
  add_executable(spawn_publisher src/spawn_pub.cpp)
  add_executable(reset_robot src/reset_robot.cpp)
  add_executable(obstacle_bot_node src/obstacle_bot.cpp)
- add_executable(collision_subscriber src/collision_sub.cpp)
  add_executable(logger src/referee.cpp)
 
 ## Rename C++ executable without prefix
@@ -163,7 +162,6 @@ add_dependencies(goal_publisher ${goal_publisher_EXPORTED_TARGETS} ${catkin_EXPO
 add_dependencies(spawn_publisher ${spawn_publisher_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(reset_robot ${reset_robot_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(obstacle_bot_node ${obstacle_bot_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(collision_subscriber ${collision_subscriber_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(logger ${logger_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
@@ -181,9 +179,6 @@ add_dependencies(logger ${logger_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
  )
  target_link_libraries(obstacle_bot_node
    ${catkin_LIBRARIES}
- )
- target_link_libraries(collision_subscriber
- ${catkin_LIBRARIES}
  )
  target_link_libraries(logger
  ${catkin_LIBRARIES}

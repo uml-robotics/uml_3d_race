@@ -250,13 +250,13 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
 
     ros::Rate rate(10);
-    ros::AsyncSpinner spinner(4);
+    ros::AsyncSpinner spinner(5);
 
     // Setup subscribers
     ros::Subscriber odom_sub = n.subscribe("odom", 1, odom_callback);
-    ros::Subscriber collision_sub = n.subscribe("bumper_contact", 1, collision_callback);
-    ros::Subscriber goal_sub = n.subscribe("/goal", 1, goal_callback);
-    ros::Subscriber result = n.subscribe("move_base/status", 1, state_callback);
+    ros::Subscriber collision_sub = n.subscribe("bumper_contact", 10, collision_callback);
+    ros::Subscriber goal_sub = n.subscribe("goal", 10, goal_callback);
+    ros::Subscriber result = n.subscribe("move_base/status", 10, state_callback);
 
     logger = new Referee(n);
 

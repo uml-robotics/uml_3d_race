@@ -21,4 +21,14 @@
     <arg name="level" value="$(arg level)" />
     <arg name="navigate" value="$(arg navigate)" />
   </include>
+
+  <!-- Publish the two different goals needed for the given .world -->
+  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen" ns="$(arg model_name)">
+    <!-- Goal Positions -->
+    <remap from="~goal_x" to="/goal_x" />
+    <remap from="~goal_y" to="/goal_y" />
+    <remap from="~spawn_x" to="/spawn_x" />
+    <remap from="~spawn_y" to="/spawn_y" />
+  </node>
+  
 </launch>

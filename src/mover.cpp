@@ -53,7 +53,7 @@ void goalCallback(uml_3d_race::Goal goal_msg)
         std_srvs::Empty service_msg;
         if (!goal_service.call(service_msg))
         {
-            ROS_WARN("Failed to get next goal");
+            ROS_ERROR("Failed to request for a goal");
         }
     }
     else
@@ -70,9 +70,12 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "mover_node");
     ros::NodeHandle n;
 
+    //Subscribe to the goal topic
+    ros::Subscriber sub = n.subscribe("goal", 10, goalCallback);
+    
     ac = new MoveBaseClient("move_base", true);
     costmap_service = n.serviceClient<std_srvs::Empty>("move_base/clear_costmaps");
-    goal_service = n.serviceClient<std_srvs::Empty>("/get_new_goal");
+    goal_service = n.serviceClient<std_srvs::Empty>("get_new_goal");
 
     //Set defaults
     goals_reached = 0;
@@ -91,9 +94,14 @@ int main(int argc, char **argv)
     costmap_service.waitForExistence();
     goal_service.waitForExistence();
 
-    //Subscribe to the goal topic
-    ros::Subscriber sub = n.subscribe("/goal", 1, goalCallback);
+    //Call the goal service to recieve the first goal
+    std_srvs::Empty service_msg;
+    if (!goal_service.call(service_msg))
+    {
+        ROS_ERROR("Failed to request for a goal");
+    }
 
+    //Keeps the node running and performs necessary updates
     ros::spin();
 
     return 0;

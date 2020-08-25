@@ -24,8 +24,6 @@ bool callback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
     goal.x = goal_x;                  
     goal.y = goal_y;
     goal.tolerance = goal_tolerance;
-    //Publish
-    goal_pub.publish(goal);
   }
   else
   {
@@ -33,9 +31,11 @@ bool callback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
     goal.x = spawn_x;                  
     goal.y = spawn_y;
     goal.tolerance = goal_tolerance;
-    //Publish
-    goal_pub.publish(goal);
   }
+
+  //Publish the goal
+  goal_pub.publish(goal);
+
   //Increase count to alternate goals
   counter++;
   
@@ -54,7 +54,7 @@ int main(int argc, char **argv){
   spawn_x = 0.0;
   spawn_y = 0.0;
   goal_tolerance = 0.9;
-  std::string topic = "/goal";
+  std::string topic = "goal";
 
   //Retrieve node parameters
   n.getParam(ros::this_node::getName()+"/goal_x",goal_x);
@@ -68,20 +68,12 @@ int main(int argc, char **argv){
   ROS_INFO("GOAL_A | Point: (%.2f,%.2f)\tGOAL_B | Point: (%.2f,%.2f)\tTolerance: %.2f\tTopic: %s",goal_x,goal_y,spawn_x,spawn_y,goal_tolerance,topic.c_str());
 
   //Create the publisher object
-  goal_pub = n.advertise<uml_3d_race::Goal>(topic, 1, true);
+  goal_pub = n.advertise<uml_3d_race::Goal>(topic, 10, false);
   
+  //Create the service callback
   ros::ServiceServer goal_server = n.advertiseService("get_new_goal", callback);
 
-  //Construct initial Goal message
-  uml_3d_race::Goal goal;
-  goal.x = goal_x;                  
-  goal.y = goal_y;
-  goal.tolerance = goal_tolerance;
-
-  //Publish the initial goal
-  goal_pub.publish(goal);
-  counter++;
-
+  //Keeps the node running and perform necessary updates
   ros::spin();
 
   return 0;

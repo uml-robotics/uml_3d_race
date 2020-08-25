@@ -1,6 +1,6 @@
 <launch>
-  <!-- SETTINGS -->
-  <!-- World file to launch (excluding the .world extension) -->
+  <!-- SETTINGS -->  <!-- World file to launch (excluding the .world extension) -->
+
   <arg name="world_name" default="level1" />
   <arg name="world_path" default="level1.world" />
   <!-- Robot Spawn Position -->
@@ -13,6 +13,13 @@
   <arg name="goal_y" default="0.0"/>
   
   <arg name="navigate" default="true" />
+
+  <!-- Set parameters -->
+  <param name="spawn_x" value="$(arg spawn_x)" />
+  <param name="spawn_y" value="$(arg spawn_y)" />
+  <param name="spawn_yaw" value="$(arg spawn_yaw)" />
+  <param name="goal_x" value="$(arg goal_x)" />
+  <param name="goal_y" value="$(arg goal_y)" />
 
   <!-- Launch Gazebo World -->
   <include file="$(find uml_3d_race)/launch/gazebo.launch">
@@ -27,14 +34,5 @@
     <arg name="level" value="$(arg world_name)" />
     <arg name="navigate" value="$(arg navigate)" />
   </include>
-
-  <!-- Publish the two different goals needed for the given .world -->
-  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
-    <!-- Goal Positions -->
-    <param name="goal_x" value="$(arg goal_x)" />
-    <param name="goal_y" value="$(arg goal_y)" />
-    <param name="spawn_x" value="$(arg spawn_x)" />
-    <param name="spawn_y" value="$(arg spawn_y)" />
-  </node>
-
+  
 </launch>
