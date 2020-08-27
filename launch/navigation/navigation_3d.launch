@@ -17,7 +17,7 @@
   <!-- Laser scan sensor is present-->
   <arg name="has_laser" default="false" />
 
-  <arg name="use_static_map" default="true" />
+  <arg name="use_static_map" default="false" />
 
   <!-- use static map -->
   <group if="$(arg use_static_map)">

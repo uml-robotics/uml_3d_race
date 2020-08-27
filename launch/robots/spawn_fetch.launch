@@ -13,7 +13,7 @@
   <arg name="model_name" default="fetch" />
 
    <!-- Spawn Fetch  -->
-  <include file="$(find uml_3d_race)/resources/models/fetch/defs/fetch.launch.xml">
+  <include file="$(find fetch_gazebo)/launch/include/fetch.launch.xml">
     <arg name="x" default="$(arg x)" />
     <arg name="y" default="$(arg y)" />
     <arg name="z" default="$(arg z)" />

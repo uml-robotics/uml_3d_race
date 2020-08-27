@@ -78,6 +78,7 @@ public:
             //save the position and distance
             log.robot_pos.x = odom.pose.pose.position.x;
             log.robot_pos.y = odom.pose.pose.position.y;
+            log.robot_pos.theta = odom.pose.pose.orientation.z;
             log.dist_from_goal = distance(log.goal.x, log.goal.y, odom.pose.pose.position.x, odom.pose.pose.position.y);
         }
     }

@@ -18,6 +18,7 @@
   <!-- Put a robot in gazebo, make it look pretty -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -model fetch -param robot_description"/>
+        
   <node name="prepare_robot" pkg="fetch_gazebo" type="prepare_simulated_robot.py" ns="$(arg namespace)"/>
 
   <!-- Give this robot a serial number and version -->
