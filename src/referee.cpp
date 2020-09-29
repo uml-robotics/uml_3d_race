@@ -14,7 +14,7 @@
 //Goal is a custom message type defined in uml_3d_race/msg/Goal.msg
 #include <uml_3d_race/Goal.h>
 
-//SimLog is a custom message type defined in uml_3d_race/msg/Goal.msg
+//SimLog is a custom message type defined in uml_3d_race/msg/SimLog.msg
 #include <uml_3d_race/SimLog.h>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -38,8 +38,7 @@ private:
 
     //Other variables
     uint collision_num;
-    uint trip_collision;
-    uint trips;
+    uint iteration_collision;
     double collision_x;
     double collision_y;
     double collision_thres;
@@ -54,9 +53,8 @@ public:
         // Setup publisher
         pub = n.advertise<uml_3d_race::SimLog>("sim_log", 1000, false);
 
-        trips = 0;
         collision_num = 0;
-        trip_collision = 0;
+        iteration_collision = 0;
         collision_x = 0;
         collision_y = 0;
         collision_thres = 0.3;
@@ -88,25 +86,27 @@ public:
         if (navigating && !collision.states.empty())
         {
             //Filters out collisions that are right next to each other
-            if (trip_collision != 0 && std::abs(collision.states[0].contact_positions[0].x - collision_x < collision_thres) && std::abs(collision.states[0].contact_positions[0].y - collision_y < collision_thres))
+            if (iteration_collision != 0 && std::abs(collision.states[0].contact_positions[0].x - collision_x < collision_thres) && std::abs(collision.states[0].contact_positions[0].y - collision_y < collision_thres))
             {
                 return;
             }
 
+            //At this point the collision registered is valid and needs to be logged
+
             //Intrement runs with collision counter if this is the first collision reported in the current iteration
-            if (trip_collision == 0)
+            if (iteration_collision == 0)
             {
                 collision_num++;
             }
 
             //Increment the num of collisions in the current iteration and save coords
-            trip_collision++;
+            iteration_collision++;
             collision_x = collision.states[0].contact_positions[0].x;
             collision_y = collision.states[0].contact_positions[0].y;
 
             //Add collision to msg
-            log.collision.x = collision.states[0].contact_positions[0].x;
-            log.collision.y = collision.states[0].contact_positions[0].y;
+            log.collision.x = collision_x;
+            log.collision.y = collision_y;
 
             //Add msg log
             ROS_WARN("Collision detected at x:%.3f y:%.3f", log.collision.x, log.collision.y);
@@ -136,10 +136,7 @@ public:
             }
 
             //Output an iteration is ending if trips is even
-            if(trips % 2 == 0)
-            {
-                ROS_INFO("Ending iteration %d", log.iteration);
-            }
+            ROS_INFO("Ending iteration %d", log.iteration);
         }
     }
 
@@ -155,38 +152,24 @@ public:
             navigating = true;
             publishing = true;
 
-            //Increment trips and iterations
-            trips++;
-            if(trips % 2 == 1)
-            {
-                log.iteration++;
-            }
+            //Increment iterations
+            log.iteration++;
 
             //Reset iteration collision counter
-            trip_collision = 0;
+            iteration_collision = 0;
 
             //Add msg log
-            if(trips % 2 == 1)
-            {
-                std::stringstream str;
-                str << "Goal A registered at x:" << goal.x << " y:" << goal.y;
-                log.event = str.str();
-                ROS_INFO("Starting iteration %d", log.iteration);
-                ROS_INFO("Goal A registered at x:%.3f y:%.3f", goal.x, goal.y);
-            }
-            else
-            {
-                std::stringstream str;
-                str << "Goal B registered at x:" << goal.x << " y:" << goal.y;
-                log.event = str.str();
-                ROS_INFO("Goal B registered at x:%.3f y:%.3f", goal.x, goal.y);
-            }
+            std::stringstream str;
+            str << "Goal registered at x:" << goal.x << " y:" << goal.y;
+            log.event = str.str();
+            ROS_INFO("Starting iteration %d", log.iteration);
+            ROS_INFO("Goal registered at x:%.3f y:%.3f", goal.x, goal.y);
         }
     }
 
     void publish_log()
     {
-        if(publishing)
+        if (publishing)
         {
             log.header.stamp = ros::Time::now();
             pub.publish(log);
@@ -204,7 +187,7 @@ public:
                 log.event.clear();
             }
         }
-        if(!navigating)
+        if (!navigating)
         {
             publishing = false;
         }

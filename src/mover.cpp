@@ -50,7 +50,6 @@ void goalCallback(uml_3d_race::Goal goal_msg)
         ros::Duration(2).sleep();
 
         //Get the next goal
-        std_srvs::Empty service_msg;
         if (!goal_service.call(service_msg))
         {
             ROS_ERROR("Failed to request for a goal");

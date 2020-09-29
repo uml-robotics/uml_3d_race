@@ -1,104 +1,87 @@
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "sensor_msgs/LaserScan.h"
-#include "geometry_msgs/Twist.h"
+//Same thing as mover, but it never stops requesting for goals
 
-sensor_msgs::LaserScan scan;
+#include <ros/ros.h>
+#include <std_msgs/String.h>
+#include <std_srvs/Empty.h>
+#include <move_base_msgs/MoveBaseAction.h>
+#include <actionlib/client/simple_action_client.h>
 
-void scanCallback(const sensor_msgs::LaserScan info){
-  // Save scan information
-  scan = info;
-  for(int i = 0; i < scan.ranges.size() ; i++){
-    if(info.ranges[i]>10.0)
-      scan.ranges[i] = 10;
+//Goal is a custom message type defined in uml_3d_race/msg/Goal.msg
+#include <uml_3d_race/Goal.h>
+
+typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+
+MoveBaseClient *ac;
+ros::ServiceClient costmap_service;
+ros::ServiceClient goal_service;
+
+void goalCallback(uml_3d_race::Goal goal_msg)
+{
+  move_base_msgs::MoveBaseGoal goal;
+
+  //translate Goal Message to a MoveBaseGoal
+  goal.target_pose.header.frame_id = "/map";
+  goal.target_pose.header.stamp = ros::Time::now();
+  goal.target_pose.pose.position.x = goal_msg.x;
+  goal.target_pose.pose.position.y = goal_msg.y;
+  goal.target_pose.pose.orientation.w = 1.0;
+
+  //Send the goal to the navigation action client
+  ac->sendGoal(goal);
+
+  //Wait for the robot to finish moving
+  ac->waitForResult();
+
+  //Clear costmaps once finished navigating
+  std_srvs::Empty service_msg;
+  if (!costmap_service.call(service_msg))
+  {
+    ROS_WARN("Failed to clear costmaps");
   }
+
+  //Wait a little bit before requesting the next goal
+  ros::Duration(2).sleep();
+
+
+  if (!goal_service.call(service_msg))
+  {
+    ROS_ERROR("Failed to request for a goal");
+  }
+  return;
 }
 
-int main (int argc, char **argv){
-// Setup ros node and NodeHandle
-ros::init(argc,argv,"mover_node");
-ros::NodeHandle n;
+int main(int argc, char **argv)
+{
+  // Setup ros node and NodeHandle
+  ros::init(argc, argv, "mover_node");
+  ros::NodeHandle n;
 
-std::string scantopic = "scan";
-std::string cmdtopic = "cmd_vel";
+  //Subscribe to the goal topic
+  ros::Subscriber sub = n.subscribe("goal", 10, goalCallback);
 
-// Set up movement variables
-float max_speed = 1.0;
-n.getParam(ros::this_node::getName()+"/max_speed",max_speed);
-float max_angle = 1.0;
-n.getParam(ros::this_node::getName()+"/max_angle",max_angle);
-max_angle = abs(max_angle);
+  ac = new MoveBaseClient("move_base", true);
+  costmap_service = n.serviceClient<std_srvs::Empty>("move_base/clear_costmaps");
+  goal_service = n.serviceClient<std_srvs::Empty>("get_new_goal");
 
-ROS_INFO("Obstacle Bot:\t MaxSpeed: %.2f\t MaxAngle: %.2f",max_speed,max_angle);
-
-// Setup subscriber to poll the laser scan topic being published by our robot
-ros::Subscriber sub = n.subscribe(scantopic,1000,scanCallback);
-// Setup publisher object to publish movement commands to our robot
-ros::Publisher twist_pub = n.advertise<geometry_msgs::Twist>(cmdtopic,100);
-
-// Declare working variables
-geometry_msgs::Twist command;
-float speed, angle, left, right, diff, threshold;
-int cointoss;
-bool choosing = false;
-
-// Set loop rate
-ros::Rate loop_rate(20);
-// Main control loop
-while (ros::ok()){
-  // Poll subscribed laser topic
-  ros::spinOnce();
-
-  if (!scan.ranges.empty()){
-
-    // Set Variables
-    speed = 0.35f; // Speed to be published
-    angle = 0.40f; // Angle to be published
-
-    //ROS_INFO("DISTANCE AHEAD: %.2f",scan.ranges[119]);
-
-    left = (scan.ranges[99]+scan.ranges[79]+scan.ranges[59]+scan.ranges[29]+scan.ranges[0])/5;
-    right = (scan.ranges[119]+scan.ranges[139]+scan.ranges[159]+scan.ranges[189]+scan.ranges[219])/5;
-    diff = right-left;
-    ROS_INFO("LEFT: %.2f | RIGHT: %.2f | DIFF: %.2f",left, right, diff);
-
-    //Speed control
-    speed = (left+right)/2;
-    speed *= 0.25;
-    if (speed > max_speed) speed = max_speed;
-
-    // Turning control
-    threshold = 0.1;
-    if( abs(diff) < threshold){
-      if(speed < (max_speed*0.1)){
-        if(!choosing){
-          cointoss = std::rand() % 3 - 1;
-          if (cointoss != 0) choosing = true;
-        }
-        ROS_INFO("COIN: %d",cointoss);
-        angle = cointoss;
-      }
-      else
-        angle = 0.0;
-    }
-    else{
-      choosing = false;
-      angle = diff;
-    }
-
-    if(angle < -max_angle) angle = -max_angle;
-    if(angle > max_angle)  angle = max_angle;
-
-    // Publish Commands
-    // linear.x is forward/backward movement. Positive values for forward.
-    command.linear.x  = speed;
-    // angular.z is turning movement. Positive values turn left, negative turns right.
-    command.angular.z = angle;
-    ROS_INFO(" PUBLISHING Speed:%.2f | Angle:%.2f\n",speed,angle);
-    twist_pub.publish(command);
+  //wait for the action server to come up
+  while (!ac->waitForServer(ros::Duration(5.0)))
+  {
+    ROS_INFO("Waiting for the move_base action server to come up");
   }
-  loop_rate.sleep();
-}
 
-return 0;
+  //wait for services
+  costmap_service.waitForExistence();
+  goal_service.waitForExistence();
+
+  //Call the goal service to recieve the first goal
+  std_srvs::Empty service_msg;
+  if (!goal_service.call(service_msg))
+  {
+    ROS_ERROR("Failed to request for a goal");
+  }
+
+  //Keeps the node running and performs necessary updates
+  ros::spin();
+
+  return 0;
 }
