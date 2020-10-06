@@ -1,8 +1,8 @@
 <launch>
   <!-- Doc: http://wiki.ros.org/gmapping -->
 
-  <arg name="namespace" default="pioneer"/>
-  <arg name="scan_topic" default="$(arg namespace)/frontscan_filtered" />
+  <arg name="namespace" default=""/>
+  <arg name="scan_topic" default="$(arg namespace)/base_scan" />
 
   <node name="slam_mapping" pkg="gmapping" type="slam_gmapping">
       <remap from="scan" to="$(arg scan_topic)"/>

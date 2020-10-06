@@ -1,6 +1,6 @@
 <launch>
     <!-- Settings -->
-    <arg name="robot" default="pioneer" />
+    <arg name="robot" default="" />
     <!-- Map Name-->
     <arg name="map" default="level1" />
     <!-- Boolean for whether a 2d map is already present-->
@@ -31,7 +31,6 @@
         <!-- Start octomap_server -->
         <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
             <arg name="robot" value="$(arg robot)" />
-            <arg name="map" value="$(arg map)" />
         </include>
     </group>
 
@@ -45,7 +44,6 @@
         <group if="$(arg 3d)">
             <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
                 <arg name="robot" value="$(arg robot)" />
-                <arg name="map" value="$(arg map)" />
             </include>
         </group>
     </group>

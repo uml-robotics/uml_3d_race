@@ -1,6 +1,6 @@
 <launch>
   <!-- Doc: http://wiki.ros.org/octomap_server?distro=kinetic -->
-  <arg name="robot" default="pioneer" />
+  <arg name="robot" default="" />
   <arg name="map" default="level1" />
 
   <!-- launch server for positive map-->

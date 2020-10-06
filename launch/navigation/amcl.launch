@@ -1,7 +1,7 @@
 <launch>
 	<!-- Doc: http://wiki.ros.org/amcl?distro=kinetic -->
 
-	<arg name="namespace" default="pioneer" />
+	<arg name="namespace" default="" />
 
 	<!-- Args to set the initial orientation of AMCL node. -->
 	<arg name="init_x" default="0.0" />
@@ -9,7 +9,7 @@
 	<arg name="init_yaw" default="0.0" /> <!-- Radians -->
 
 	<!-- Topic remappings-->
-	<arg name="scan_topic" default="frontscan_filtered" />
+	<arg name="scan_topic" default="/base_scan" />
 
 	<!-- AMCL Node -->
 	<node pkg="amcl" type="amcl" name="amcl" ns="$(arg namespace)">
