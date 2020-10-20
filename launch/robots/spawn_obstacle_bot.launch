@@ -26,8 +26,7 @@
   <!-- Without the joint_state_publisher, non-fixed joints that are not published by a plugin
        (i.e. - the swivel_link joint) will not have it's transform published.
        joint_state_publisher also uses the robot_description parameter. -->
-  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_publisher" output="screen" ns="$(arg model_name)">
-  </node>
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_publisher" output="screen" ns="$(arg model_name)"/>
 
   <!-- Spawn robot into Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="

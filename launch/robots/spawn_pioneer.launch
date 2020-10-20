@@ -97,7 +97,7 @@
   <group unless="$(arg navigate)">
     <!-- Start Mapping -->
     <include file="$(find uml_3d_race)/launch/navigation/map_teleop.launch">
-      <arg name="robot" value="$(arg model_name)" />
+      <arg name="namespace" value="$(arg model_name)" />
       <arg name="map" value="$(arg level)" />
       <arg name="static_2d_map" value="false" />
       <arg name="3d" value="true" />
