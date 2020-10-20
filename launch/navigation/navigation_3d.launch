@@ -19,6 +19,10 @@
 
   <arg name="use_static_map" default="false" />
 
+  <!-- Robot sensor topic Mapping-->
+  <arg name="laser_topic" />
+  <arg name="pointcloud_topic" />
+
   <!-- use static map -->
   <group if="$(arg use_static_map)">
     <!-- Launch Map Server -->
@@ -36,9 +40,10 @@
     <group if="$(arg has_laser)">
       <include file="$(find uml_3d_race)/launch/navigation/amcl.launch">
         <arg name="namespace" value="$(arg namespace)" />
-        <arg name="init_x" default="$(arg init_x)" />
-        <arg name="init_y" default="$(arg init_y)" />
-        <arg name="init_yaw" default="$(arg init_yaw)" />
+        <arg name="init_x" value="$(arg init_x)" />
+        <arg name="init_y" value="$(arg init_y)" />
+        <arg name="init_yaw" value="$(arg init_yaw)" />
+        <arg name="scan_topic" value="$(arg laser_topic)" />
       </include>
     </group>
 
@@ -59,6 +64,7 @@
     <!-- Include gmapper -->
     <include file="$(find uml_3d_race)/launch/navigation/gmapper.launch">
       <arg name="namespace" value="$(arg namespace)" />
+      <arg name="scan_topic" value="$(arg laser_topic)" />
     </include>
 
   </group>

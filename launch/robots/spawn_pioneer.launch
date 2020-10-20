@@ -86,6 +86,8 @@
         <arg name="init_y" value="$(arg y)" />
         <arg name="init_yaw" value="$(arg yaw)" />
         <arg name="move_base_config" value="default" />
+        <arg name="laser_topic" value="/base_scan" />
+        <arg name="pointcloud_topic" value="/head_camera/depth/points" />
       </include>
     </group>
   </group>

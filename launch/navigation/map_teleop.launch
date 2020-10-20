@@ -14,6 +14,10 @@
     <arg name="init_yaw" default="0.0" />
     <!-- Radians -->
 
+    <!-- Robot sensor topic Mapping-->
+    <arg name="laser_topic" />
+    <arg name="pointcloud_topic" />
+
     <group if="$(arg static_2d_map)">
         <!-- Launch Map Server -->
         <include file="$(find uml_3d_race)/launch/navigation/map_server.launch">
@@ -38,12 +42,14 @@
         <!-- Start gmapping-->
         <include file="$(find uml_3d_race)/launch/navigation/gmapper.launch">
             <arg name="namespace" value="$(arg robot)" />
+            <arg name="scan_topic" value="$(arg laser_topic)" />
         </include>
 
         <!-- Start octomap_server if 3d mapping also needs to be done-->
         <group if="$(arg 3d)">
             <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
                 <arg name="robot" value="$(arg robot)" />
+                <arg name="cloud_topic" value="$(arg pointcloud_topic)" />
             </include>
         </group>
     </group>
