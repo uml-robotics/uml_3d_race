@@ -5,7 +5,7 @@
   <arg name="z" default="0.1" />
   <arg name="yaw" default="0.0" />
   <!-- Rotation in radians. -->
-  <arg name="level" default="level1" />
+  <arg name="level" default="nerve_physical" />
   <arg name="navigate" default="true" />
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->

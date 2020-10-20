@@ -27,14 +27,16 @@
         <!--- Launch AMCL (Laser Localization) -->
         <include file="$(find uml_3d_race)/launch/navigation/amcl.launch">
             <arg name="namespace" value="$(arg robot)" />
-            <arg name="init_x" default="$(arg init_x)" />
-            <arg name="init_y" default="$(arg init_y)" />
-            <arg name="init_yaw" default="$(arg init_yaw)" />
+            <arg name="init_x" value="$(arg init_x)" />
+            <arg name="init_y" value="$(arg init_y)" />
+            <arg name="init_yaw" value="$(arg init_yaw)" />
+            <arg name="laser_topic" value="$(arg laser_topic)"/>
         </include>
 
         <!-- Start octomap_server -->
         <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
             <arg name="robot" value="$(arg robot)" />
+            <arg name="cloud_topic" value="$(arg pointcloud_topic)" />
         </include>
     </group>
 
