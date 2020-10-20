@@ -17,9 +17,9 @@
   <!-- Laser scan sensor is present-->
   <arg name="has_laser" default="false" />
 
-  <arg name="use_static_map" default="false" />
+  <arg name="use_static_map" default="true" />
 
-  <!-- Robot sensor topic Mapping-->
+  <!-- Robot sensor topic mapping-->
   <arg name="laser_topic" />
   <arg name="pointcloud_topic" />
 

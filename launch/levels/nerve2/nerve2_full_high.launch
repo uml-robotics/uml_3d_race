@@ -41,7 +41,7 @@
   </include>
 
   <!-- Setup robot -->
-  <include if="$(arg setup_robot)" file="$(find uml_3d_race)/launch/spawn_robot.launch">
+  <include file="$(find uml_3d_race)/launch/spawn_robot.launch">
     <arg name="robot_type" value="$(arg model_type)" />
     <arg name="robot_name" value="$(arg model_name)" />
     <arg name="x" value="$(arg spawn_x)" />

@@ -70,11 +70,11 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
 
     //Subscribe to the goal topic
-    ros::Subscriber sub = n.subscribe("goal", 10, goalCallback);
+    ros::Subscriber sub = n.subscribe("/goal", 10, goalCallback);
     
     ac = new MoveBaseClient("move_base", true);
     costmap_service = n.serviceClient<std_srvs::Empty>("move_base/clear_costmaps");
-    goal_service = n.serviceClient<std_srvs::Empty>("get_new_goal");
+    goal_service = n.serviceClient<std_srvs::Empty>("/get_new_goal");
 
     //Set defaults
     goals_reached = 0;

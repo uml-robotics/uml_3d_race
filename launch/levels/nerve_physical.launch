@@ -1,16 +1,16 @@
 <launch>
   <!-- Determine whether the robot is physical or simulated-->
-  <arg name="sim" default="true" />
+  <arg name="sim" default="false" />
 
   <!-- If in sim, enable gazebo gui or not -->
-  <arg name="gui" default="true" />
+  <arg name="gui" default="false" />
 
   <!-- Launch in either navigate mode or mapping mode -->
   <arg name="navigate" default="true" />
 
   <!-- Name and type of robot being spawned in -->
-  <arg name="robot_type" default="pioneer" />
-  <arg name="robot_name" default="pioneer" />
+  <arg name="robot_type" default="fetch" />
+  <arg name="robot_name" default="" />
 
   <!-- Define the two goal points on the map--> <!-- TODO -->
   <arg name="spawn_x" value="0.0" />
@@ -41,9 +41,9 @@
   </include>
 
   <!-- Setup robot -->
-  <include if="$(arg setup_robot)" file="$(find uml_3d_race)/launch/spawn_robot.launch">
-    <arg name="robot_type" value="$(arg model_type)" />
-    <arg name="robot_name" value="$(arg model_name)" />
+  <include file="$(find uml_3d_race)/launch/setup_robot.launch">
+    <arg name="model_type" value="$(arg robot_type)" />
+    <arg name="model_name" value="$(arg robot_name)" />
     <arg name="x" value="$(arg spawn_x)" />
     <arg name="y" value="$(arg spawn_y)" />
     <arg name="z" value="$(arg spawn_z)" />

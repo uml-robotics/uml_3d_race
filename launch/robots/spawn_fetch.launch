@@ -12,6 +12,10 @@
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="fetch" />
 
+  <!-- Robot sensor topics -->
+  <arg name="laser_topic" value="/base_scan" />
+  <arg name="pointcloud_topic" value="/head_camera/depth/points" />
+
    <!-- Spawn Fetch  -->
   <include file="$(find fetch_gazebo)/launch/include/fetch.launch.xml">
     <arg name="x" default="$(arg x)" />
@@ -50,6 +54,8 @@
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
       <arg name="has_laser" value="true" />
+      <arg name="laser_topic" value="$(arg laser_topic)" />
+      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
     </include>
   </group>
 
@@ -63,6 +69,8 @@
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
+      <arg name="laser_topic" value="$(arg laser_topic)" />
+      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
     </include>
   </group>
 

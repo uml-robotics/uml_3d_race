@@ -9,10 +9,15 @@
   <arg name="navigate" default="true" />
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
-  <arg name="model_name" default="fetch" />
+  <arg name="model_name" default="" />
+  <arg name="model_type" default="fetch" />
+
+  <!-- Robot sensor topics -->
+  <arg name="laser_topic" value="/base_scan" />
+  <arg name="pointcloud_topic" value="/head_camera/depth/points" />
 
   <!-- Publish robot spawn for resetting to -->
-  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" ns="$(arg model_name)">
+  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" >
     <param name="topic" value="spawn" />
     <param name="x_position" value="$(arg x)" />
     <param name="y_position" value="$(arg y)" />
@@ -24,12 +29,13 @@
     <!-- Start Nav Stack -->
     <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
       <arg name="namespace" value="$(arg model_name)" />
+      <arg name="map" value="$(arg level)" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
       <arg name="has_laser" value="true" />
-      <arg name="laser_topic" value="/base_scan" />
-      <arg name="pointcloud_topic" value="/head_camera/depth/points" />
+      <arg name="laser_topic" value="$(arg laser_topic)" />
+      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
     </include>
   </group>
 
@@ -43,6 +49,8 @@
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
+      <arg name="laser_topic" value="$(arg laser_topic)" />
+      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
     </include>
   </group>
 

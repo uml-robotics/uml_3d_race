@@ -10,7 +10,7 @@
 
   <!-- Name and type of robot being spawned in -->
   <arg name="robot_type" default="pioneer" />
-  <arg name="robot_name" default="pioneer" />
+  <arg name="robot_name" default="" />
 
   <!-- Define the two goal points on the map-->
   <arg name="spawn_x" value="0.0" />
@@ -41,7 +41,7 @@
   </include>
 
   <!-- Setup robot -->
-  <include if="$(arg setup_robot)" file="$(find uml_3d_race)/launch/spawn_robot.launch">
+  <include file="$(find uml_3d_race)/launch/spawn_robot.launch">
     <arg name="robot_type" value="$(arg model_type)" />
     <arg name="robot_name" value="$(arg model_name)" />
     <arg name="x" value="$(arg spawn_x)" />

@@ -9,6 +9,10 @@
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" /> <!-- Not used, just here to prevent extra arg errors -->
 
+  <!-- Robot sensor topics -->
+  <arg name="laser_topic" value="/base_scan" />
+  <arg name="pointcloud_topic" value="/head_camera/depth/points" />
+
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="obstacle_bot"   />
   <!-- The location of the top-level xacro file that defines the robot  -->

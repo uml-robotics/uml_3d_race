@@ -15,6 +15,9 @@
        you can copy the default folder, rename it, then change move_base_config. -->
   <arg name="use_static_map" default="true" />
 
+  <!-- Robot sensor topic mapping-->
+  <arg name="laser_topic" />
+
   <!-- use static map -->
   <group if="$(arg use_static_map)">
 
@@ -26,9 +29,10 @@
     <!--- Launch AMCL (Laser Localization) -->
     <include file="$(find uml_3d_race)/launch/navigation/amcl.launch">
       <arg name="namespace" value="$(arg namespace)" />
-      <arg name="init_x" default="$(arg init_x)" />
-      <arg name="init_y" default="$(arg init_y)" />
-      <arg name="init_yaw" default="$(arg init_yaw)" />
+      <arg name="init_x" value="$(arg init_x)" />
+      <arg name="init_y" value="$(arg init_y)" />
+      <arg name="init_yaw" value="$(arg init_yaw)" />
+      <arg name="laser_topic" value="$(arg laser_topic)"/>
     </include>
 
   </group>
@@ -39,6 +43,7 @@
     <!-- Include gmapper -->
     <include file="$(find uml_3d_race)/launch/navigation/gmapper.launch">
       <arg name="namespace" value="$(arg namespace)" />
+      <arg name="laser_topic" value="$(arg laser_topic)"/>
     </include>
 
   </group>
@@ -50,11 +55,13 @@
   <include file="$(find uml_3d_race)/launch/navigation/move_base.launch" if="$(arg use_static_map)">
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)" />
+    <arg name="laser_topic" value="$(arg laser_topic)"/>
   </include>
 
   <include file="$(find uml_3d_race)/launch/navigation/move_base.launch" unless="$(arg use_static_map)">
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)_unknown" />
+    <arg name="laser_topic" value="$(arg laser_topic)"/>
   </include>
 
 </launch>

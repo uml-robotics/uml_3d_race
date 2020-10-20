@@ -9,7 +9,7 @@
     <remap from="cloud_in" to="octomap_input_cloud" />
     <param name="frame_id" type="string" value="/map" />
     <param name="occupancy_min_z" value="0.05" />
-    <rosparam file="$(find uml_3d_race)/resources/models/$(arg robot)/config/robot_dimensions.yaml" command="load" />
+    <rosparam file="$(find uml_3d_race)/resources/models/fetch/config/robot_dimensions.yaml" command="load" />
   </node>
 
   <!-- launch server for negative map-->

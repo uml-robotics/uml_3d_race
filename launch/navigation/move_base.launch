@@ -5,15 +5,15 @@
   <arg name="config" default="default" />
 
   <!-- Use global costmap-->
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" ns="$(arg namespace)">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base">
     <!-- Remap topic to recieve movement commands -->
     <remap from="cmd_vel" to="cmd_vel"/>
     <remap from="odom" to="odom" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find uml_3d_race)/resources/models/$(arg namespace)/config/costmap_height.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find uml_3d_race)/resources/models/fetch/config/costmap_height.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find uml_3d_race)/resources/models/$(arg namespace)/config/costmap_height.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find uml_3d_race)/resources/models/fetch/config/costmap_height.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/base_local_planner_params.yaml" command="load" />
     <rosparam file="$(find uml_3d_race)/resources/config/navigation/$(arg config)/global_planner_params.yaml" command="load" />

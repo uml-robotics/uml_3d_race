@@ -9,7 +9,7 @@
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" />
 
-  <arg name="model_name" default="pioneer" />
+  <arg name="model_name" default="" />
   <arg name="model_type" default="pioneer" />
 
   <arg name="sim" default="true" />
