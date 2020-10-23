@@ -1,13 +1,13 @@
 <launch>
   <!-- Doc: http://wiki.ros.org/octomap_server?distro=kinetic -->
     <arg name="robot" default="" />
-    <arg name="cloud_topic" default="/head_camera/depth/points" />
+    <arg name="cloud_topic" default="head_camera/depth/points" />
 
     <!-- you can load an exisiting tree with <node ... args="tree.bt"> !-->
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_mapper" >
       <remap from="cloud_in" to="$(arg cloud_topic)" />
 
-      <param name="base_frame_id" value="$(arg robot)/base_link" />
+      <param name="base_frame_id" value="base_link" />
       <param name="resolution" value="0.05" />
       <param name="frame_id" type="string" value="/map" />
       <param name="sensor_model/max_range" value="3.0" />

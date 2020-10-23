@@ -12,6 +12,7 @@
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_name" default="pioneer" />
+  <arg name="model_type" default="pioneer" />
   <!-- The location of the mesh files for our robot -->
   <arg name="model_dir" default="$(find uml_3d_race)/resources/models/pioneer/meshes" />
   <!-- The location of the top-level xacro file that defines the robot  -->
@@ -52,7 +53,7 @@
   <!-- Laser filter to remove infinite values from the front facing laser -->
   <!-- http://wiki.ros.org/laser_filters -->
   <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain" ns="$(arg model_name)">
-    <rosparam command="load" file="$(find uml_3d_race)/resources/config/laserfilter_config.yaml" />
+    <rosparam command="load" file="$(find uml_3d_race)/resources/robot_configs/pioneer/laserfilter_config.yaml" />
     <remap from="scan" to="frontscan" />
     <remap from="scan_filtered" to="frontscan_filtered" />
   </node>
@@ -68,6 +69,7 @@
     <group if="$(arg 3d)">
       <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
         <arg name="namespace" value="$(arg model_name)" />
+        <arg name="robot_type" value="$(arg model_type)" />
         <arg name="map" value="$(arg level)" />
         <arg name="init_x" value="$(arg x)" />
         <arg name="init_y" value="$(arg y)" />
@@ -81,6 +83,7 @@
     <group unless="$(arg 3d)">
       <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
         <arg name="namespace" value="$(arg model_name)" />
+        <arg name="robot_type" value="$(arg model_type)" />
         <arg name="map" value="$(arg level)" />
         <arg name="init_x" value="$(arg x)" />
         <arg name="init_y" value="$(arg y)" />

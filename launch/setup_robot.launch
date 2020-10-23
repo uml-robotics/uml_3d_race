@@ -9,13 +9,13 @@
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" />
 
-  <arg name="model_name" default="" />
-  <arg name="model_type" default="pioneer" />
+  <arg name="robot_name" default="" />
+  <arg name="robot_type" default="pioneer" />
 
   <arg name="sim" default="true" />
 
   <!-- Launch respective simulated robot -->
-  <include file="$(find uml_3d_race)/launch/robots/spawn_$(arg model_type).launch" if="$(arg sim)">
+  <include file="$(find uml_3d_race)/launch/robots/spawn_$(arg robot_type).launch" if="$(arg sim)">
     <arg name="x" value="$(arg x)" />
     <arg name="y" value="$(arg y)" />
     <arg name="z" value="$(arg z)" />
@@ -26,7 +26,7 @@
   </include>
 
   <!-- Launch respective physical robot -->
-  <include file="$(find uml_3d_race)/launch/robots/run_$(arg model_type).launch" unless="$(arg sim)">
+  <include file="$(find uml_3d_race)/launch/robots/run_$(arg robot_type).launch" unless="$(arg sim)">
     <arg name="x" value="$(arg x)" />
     <arg name="y" value="$(arg y)" />
     <arg name="z" value="$(arg z)" />

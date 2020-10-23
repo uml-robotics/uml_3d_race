@@ -1,6 +1,7 @@
 <launch>
   <!-- Settings -->
   <arg name="namespace" default="pioneer" />
+  <arg name="robot_type" default="pioneer" />
   <!-- Map name -->
   <arg name="map" default="level1" />
   <!-- Initial orientation for AMCL node. (Should be set to match robot spawn position) -->
@@ -55,13 +56,13 @@
   <include file="$(find uml_3d_race)/launch/navigation/move_base.launch" if="$(arg use_static_map)">
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)" />
-    <arg name="laser_topic" value="$(arg laser_topic)"/>
+    <arg name="robot_type" value="$(arg robot_type)" />
   </include>
 
   <include file="$(find uml_3d_race)/launch/navigation/move_base.launch" unless="$(arg use_static_map)">
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)_unknown" />
-    <arg name="laser_topic" value="$(arg laser_topic)"/>
+    <arg name="robot_type" value="$(arg robot_type)" />
   </include>
 
 </launch>

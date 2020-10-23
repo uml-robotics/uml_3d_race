@@ -1,6 +1,6 @@
 <launch>
   <!-- Doc: http://wiki.ros.org/octomap_server?distro=kinetic -->
-  <arg name="robot" default="" />
+  <arg name="robot_type" default="" />
   <arg name="map" default="level1" />
 
   <!-- launch server for positive map-->
@@ -9,7 +9,7 @@
     <remap from="cloud_in" to="octomap_input_cloud" />
     <param name="frame_id" type="string" value="/map" />
     <param name="occupancy_min_z" value="0.05" />
-    <rosparam file="$(find uml_3d_race)/resources/models/fetch/config/robot_dimensions.yaml" command="load" />
+    <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/robot_dimensions.yaml" command="load" />
   </node>
 
   <!-- launch server for negative map-->

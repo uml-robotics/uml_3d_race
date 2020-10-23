@@ -9,8 +9,9 @@
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" />
 
-  <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
-  <arg name="model_name" default="fetch" />
+<!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
+  <arg name="model_name" default="" />
+  <arg name="model_type" default="fetch" />
 
   <!-- Robot sensor topics -->
   <arg name="laser_topic" value="/base_scan" />
@@ -50,6 +51,7 @@
     <!-- Start Nav Stack -->
     <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
       <arg name="namespace" value="$(arg model_name)" />
+      <arg name="robot_type" value="$(arg model_type)" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
