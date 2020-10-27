@@ -16,7 +16,7 @@
        you can copy the default folder, rename it, then change move_base_config. -->
 
   <!-- Laser scan sensor is present-->
-  <arg name="has_laser" default="false" />
+  <arg name="has_laser" default="true" />
 
   <arg name="use_static_map" default="true" />
 

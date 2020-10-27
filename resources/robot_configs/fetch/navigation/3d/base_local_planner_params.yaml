@@ -1,20 +1,20 @@
 base_local_planner: dwa_local_planner/DWAPlannerROS
 DWAPlannerROS:
   #vel params
-  max_vel_x: 0.5 #safe speed for fetch to travel at
+  max_vel_x: 0.8 #safe speed for fetch to travel at
   min_vel_x: 0
-  max_trans_vel: 0.5
+  max_trans_vel: 0.8
   min_trans_vel: 0.15
   max_vel_y: 0  #diff drive
   min_vel_y: 0
-  max_rot_vel: 5.23599 #300 degrees
+  max_rot_vel: 2.5 #300 degrees
   min_rot_vel: 0.4
 
   #accel params
-  acc_lim_x: 2.5
+  acc_lim_x: 0.7
   acc_lim_y: 0  #diff drive
-  acc_limit_trans: 2.5
-  acc_lim_theta: 8
+  acc_limit_trans: 0.7
+  acc_lim_theta: 1.5
 
   #forward sim params
   sim_time: 1.0

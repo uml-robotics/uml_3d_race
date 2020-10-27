@@ -1,2 +1,2 @@
 #Define some dimensions of the robot for filtering octomaps
-occupancy_max_z: 1.09601 # meters
+occupancy_max_z: 1.15 # meters

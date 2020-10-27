@@ -13,13 +13,13 @@
   <arg name="robot_name" default="" />
 
   <!-- Define the two goal points on the map--> <!-- TODO -->
-  <arg name="spawn_x" value="0.0" />
-  <arg name="spawn_y" value="0.0" />
+  <arg name="spawn_x" value="1.82455225122" />
+  <arg name="spawn_y" value="-5.57469616653" />
   <arg name="spawn_z" value="0.0" />
-  <arg name="spawn_yaw" value="0.0" />
+  <arg name="spawn_yaw" value="-2.998345" />
 
-  <arg name="goal_x" value="0.0" />
-  <arg name="goal_y" value="0.0" />
+  <arg name="goal_x" value="1.408194157" />
+  <arg name="goal_y" value="-9.46500426657" />
 
   <!-- Define map settings-->
   <arg name="world_name" value="nerve_physical" />

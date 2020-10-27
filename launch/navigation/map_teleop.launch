@@ -36,7 +36,7 @@
         <!-- Start octomap_server -->
         <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
             <arg name="robot" value="$(arg namespace)" />
-            <arg name="cloud_topic" value="$(arg pointcloud_topic)" />
+            <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
         </include>
     </group>
 
@@ -51,12 +51,15 @@
         <group if="$(arg 3d)">
             <include file="$(find uml_3d_race)/launch/navigation/octomap_mapper.launch">
                 <arg name="robot" value="$(arg namespace)" />
-                <arg name="cloud_topic" value="$(arg pointcloud_topic)" />
+                <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
             </include>
         </group>
     </group>
 
     <!-- Start keyboard teleop node -->
-    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen" ns="$(arg namespace)" />
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen" if="$(eval not namespace)"/>
+
+    <!-- Start keyboard teleop node with namespace-->
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen" ns="$(arg namespace)" unless="$(eval not namespace)"/>
 
 </launch>

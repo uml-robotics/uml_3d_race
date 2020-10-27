@@ -6,18 +6,18 @@
   <!-- launch server for positive map-->
   <node pkg="octomap_server" type="octomap_server_node" name="octomap_server"
     args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map)/$(arg map).bt">
-    <remap from="cloud_in" to="octomap_input_cloud" />
+    <remap from="cloud_in" to="pointcloud_static_octomap_ignore" />
     <param name="frame_id" type="string" value="/map" />
-    <param name="occupancy_min_z" value="0.05" />
+    <param name="occupancy_min_z" value="0.23" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/robot_dimensions.yaml" command="load" />
   </node>
 
   <!-- launch server for negative map-->
   <node pkg="octomap_server" type="octomap_server_node" name="octomap_server_negative"
     args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map)/$(arg map).bt">
-    <remap from="cloud_in" to="octomap_input_cloud" />
+    <remap from="cloud_in" to="pointcloud_static_octomap_ignore" />
     <param name="frame_id" type="string" value="/map" />
-    <param name="occupancy_max_z" value="-0.1" />
+    <param name="occupancy_max_z" value="-0.23" />
     <param name="occupancy_min_z" value="-10" />
 
     <!-- rename all colliding topics and services-->

@@ -34,9 +34,9 @@
 		<remap from="initialpose" to="amcl/initialpose" />
 
 		<!-- Odom frame -->
-		<param name="odom_frame_id" value="$(arg namespace)/odom"/>
+		<param name="odom_frame_id" value="odom"/>
 		<!-- Base frame -->
-		<param name="base_frame_id" value="$(arg namespace)/base_link" />
+		<param name="base_frame_id" value="base_link" />
 
 		<!-- Publish scans from best pose at a max of 10 Hz -->
 		<param name="odom_model_type" value="diff"/>
@@ -94,9 +94,9 @@
 		<remap from="initialpose" to="amcl/initialpose" />
 
 		<!-- Odom frame -->
-		<param name="odom_frame_id" value="$(arg namespace)/odom"/>
+		<param name="odom_frame_id" value="odom"/>
 		<!-- Base frame -->
-		<param name="base_frame_id" value="$(arg namespace)/base_link" />
+		<param name="base_frame_id" value="base_link" />
 
 		<!-- Publish scans from best pose at a max of 10 Hz -->
 		<param name="odom_model_type" value="diff"/>
