@@ -26,25 +26,35 @@
   </include>
 
   <!-- Publish robot spawn for resetting to -->
-  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" ns="$(arg model_name)">
+  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" if="$(eval not model_name)">
     <param name="topic" value="spawn" />
     <param name="x_position" value="$(arg x)" />
     <param name="y_position" value="$(arg y)" />
     <param name="z_rotation" value="$(arg yaw)" />
   </node>
 
+  <!-- Publish robot spawn for resetting to with namespace-->
+  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" ns="$(arg model_name)" unless="$(eval not model_name)">
+    <param name="topic" value="spawn" />
+    <param name="x_position" value="$(arg x)" />
+    <param name="y_position" value="$(arg y)" />
+    <param name="z_rotation" value="$(arg yaw)" />
+  </node>
+
+  <node pkg="fetch_navigation" type="tilt_head.py" name="tilt_head_node" />
+
   <!-- Laser filter to remove infinite values from the front facing laser -->
   <!-- http://wiki.ros.org/laser_filters -->
-  <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain" ns="$(arg model_name)">
+  <!-- <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain" ns="$(arg model_name)">
     <rosparam command="load" file="$(find uml_3d_race)/resources/config/laserfilter_config.yaml" />
     <remap from="scan" to="frontscan" />
     <remap from="scan_filtered" to="frontscan_filtered" />
-  </node>
+  </node> -->
 
   <!-- Start Kinect to Laser Converter -->
-  <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch">
+  <!-- <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch">
     <arg name="robot" value="$(arg model_name)" />
-  </include>
+  </include> -->
 
   <!-- Start nav stack or mapping mode-->
   <group if="$(arg navigate)">
@@ -52,6 +62,7 @@
     <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
       <arg name="namespace" value="$(arg model_name)" />
       <arg name="robot_type" value="$(arg model_type)" />
+      <arg name="map" value="$(arg level)" />
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />

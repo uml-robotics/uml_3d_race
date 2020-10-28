@@ -4,23 +4,23 @@ DWAPlannerROS:
   max_vel_x: 0.8 #safe speed for fetch to travel at
   min_vel_x: 0
   max_trans_vel: 0.8
-  min_trans_vel: 0.15
+  min_trans_vel: 0.1
   max_vel_y: 0  #diff drive
   min_vel_y: 0
-  max_rot_vel: 2.5 #300 degrees
+  max_rot_vel: 2
   min_rot_vel: 0.4
 
   #accel params
   acc_lim_x: 0.7
   acc_lim_y: 0  #diff drive
   acc_limit_trans: 0.7
-  acc_lim_theta: 1.5
+  acc_lim_theta: 10
 
   #forward sim params
   sim_time: 1.0
   vx_samples: 15
   vy_samples: 1 #diff drive
-  vth_samples: 50
+  vth_samples: 30
 
   #scoring params
   path_distance_bias: 75

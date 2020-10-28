@@ -9,7 +9,7 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" if="$(eval not namespace)">
     <!-- Remap topic to recieve movement commands -->
     <remap from="cmd_vel" to="cmd_vel"/>
-    <remap from="odom" to="odom_combined" />
+    <remap from="odom" to="odom" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/costmap_height.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/global_costmap_params.yaml" command="load" />
@@ -29,7 +29,7 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" ns="$(arg namespace)" unless="$(eval not namespace)">
     <!-- Remap topic to recieve movement commands -->
     <remap from="cmd_vel" to="cmd_vel"/>
-    <remap from="odom" to="odom_combined" />
+    <remap from="odom" to="odom" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/costmap_height.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/global_costmap_params.yaml" command="load" />

@@ -3,6 +3,9 @@
     <arg name="namespace" default="" />
 
     <!-- Activate Estop-->
-    <node type="estop" name="robot_estop" pkg="uml_3d_race" output="screen" />
+    <node type="estop" name="robot_estop" pkg="uml_3d_race" output="screen" if="$(eval not namespace)"/>
+
+    <!-- Activate Estop with namespace-->
+    <node type="estop" name="robot_estop" pkg="uml_3d_race" output="screen" ns="$(arg namespace)" unless="$(eval not namespace)"/>
 
 </launch>
