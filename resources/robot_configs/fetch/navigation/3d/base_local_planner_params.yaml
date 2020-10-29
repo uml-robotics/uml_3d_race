@@ -14,12 +14,12 @@ DWAPlannerROS:
   acc_lim_x: 0.7
   acc_lim_y: 0  #diff drive
   acc_limit_trans: 0.7
-  acc_lim_theta: 10
+  acc_lim_theta: 5
 
   #forward sim params
   sim_time: 1.0
   vx_samples: 15
-  vy_samples: 1 #diff drive
+  vy_samples: 0 #diff drive
   vth_samples: 30
 
   #scoring params

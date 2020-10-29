@@ -1,7 +1,7 @@
 <launch>
   <!-- Doc: http://wiki.ros.org/octomap_server?distro=kinetic -->
     <arg name="robot" default="" />
-    <arg name="pointcloud_topic" default="head_camera/depth_registered/points" />
+    <arg name="pointcloud_topic" default="head_camera/depth_downsample/points" />
 
     <!-- you can load an exisiting tree with <node ... args="tree.bt"> !-->
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_mapper" >
@@ -11,7 +11,7 @@
       <param name="resolution" value="0.05" />
       <param name="frame_id" type="string" value="/map" />
       <param name="sensor_model/max_range" value="3.0" />
-      <param name="filter_ground" value="true" />
+      <param name="filter_ground" value="false" />
       
     </node>
 </launch>

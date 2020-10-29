@@ -20,6 +20,7 @@
 
   <arg name="goal_x" value="0.0" />
   <arg name="goal_y" value="12.0" />
+  <arg name="goal_yaw" value="0.0" />
 
   <!-- Define map settings-->
   <arg name="world_name" value="level4" />
@@ -29,8 +30,10 @@
   <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
     <param name="goal_x" value="$(arg goal_x)" />
     <param name="goal_y" value="$(arg goal_y)" />
+    <param name="goal_theta" value="$(arg goal_yaw)" />
     <param name="spawn_x" value="$(arg spawn_x)" />
     <param name="spawn_y" value="$(arg spawn_y)" />
+    <param name="spawn_theta" value="$(arg spawn_yaw)" />
   </node>
 
   <!-- Include spawn_world.launch and set it's arguments if simulation is needed-->

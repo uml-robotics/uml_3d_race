@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <math.h>
 #include <geometry_msgs/Twist.h>
+#include <geometry_msgs/Pose2D.h>
 #include <nav_msgs/Odometry.h>
 #include <actionlib/client/simple_action_client.h>
 #include <move_base_msgs/MoveBaseAction.h>
@@ -10,9 +11,6 @@
 #include <sstream>
 #include <list>
 #include <cmath>
-
-//Goal is a custom message type defined in uml_3d_race/msg/Goal.msg
-#include <uml_3d_race/Goal.h>
 
 //SimLog is a custom message type defined in uml_3d_race/msg/SimLog.msg
 #include <uml_3d_race/SimLog.h>
@@ -140,7 +138,7 @@ public:
         }
     }
 
-    void add_goal(uml_3d_race::Goal goal)
+    void add_goal(geometry_msgs::Pose2D goal)
     {
         if (!navigating)
         {
@@ -206,7 +204,7 @@ void collision_callback(const gazebo_msgs::ContactsState::ConstPtr &collision)
     logger->add_collision(*collision);
 }
 
-void goal_callback(const uml_3d_race::Goal::ConstPtr &goal)
+void goal_callback(const geometry_msgs::Pose2D::ConstPtr &goal)
 {
     logger->add_goal(*goal);
 }
