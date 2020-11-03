@@ -13,9 +13,13 @@
   </node>
 
   <!-- Start logging the movement-->
-  <node name="logger" type="logger" pkg="uml_3d_race" output="screen" if="$(eval not namespace)"/>
+  <node name="logger" type="logger" pkg="uml_3d_race" output="screen" if="$(eval not namespace)">
+    <remap from="odom" to="odom_combined" />
+  </node>
 
   <!-- Start logging the movement with namespace-->
-  <node name="logger" type="logger" pkg="uml_3d_race" ns="$(arg namespace)" output="screen" unless="$(eval not namespace)"/>
+  <node name="logger" type="logger" pkg="uml_3d_race" ns="$(arg namespace)" output="screen" unless="$(eval not namespace)">
+    <remap from="odom" to="odom_combined" />
+  </node>
 
 </launch>
