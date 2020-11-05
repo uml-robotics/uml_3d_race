@@ -20,7 +20,7 @@
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/global_planner_params.yaml" command="load" />
 
     <param name="conservative_reset_dist" type="double" value="3.0" />
-    <param name="controller_frequency" type="double" value="10.0" /> <!-- 20 -->
+    <param name="controller_frequency" type="double" value="7.0" /> <!-- 20 -->
     <param name="planner_patience" value="10.0" />
     <param name="max_planning_retries" value="20" />
   </node>
@@ -29,7 +29,7 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" ns="$(arg namespace)" unless="$(eval not namespace)">
     <!-- Remap topic to recieve movement commands -->
     <remap from="cmd_vel" to="cmd_vel"/>
-    <remap from="odom" to="odom_combined" />
+    <remap from="odom" to="odom" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/costmap_height.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/global_costmap_params.yaml" command="load" />
@@ -40,7 +40,7 @@
     <rosparam file="$(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/navigation/$(arg config)/global_planner_params.yaml" command="load" />
 
     <param name="conservative_reset_dist" type="double" value="3.0" />
-    <param name="controller_frequency" type="double" value="10.0" /> <!-- 20 -->
+    <param name="controller_frequency" type="double" value="7.0" /> <!-- 20 -->
     <param name="planner_patience" value="10.0" />
     <param name="max_planning_retries" value="20" />
   </node>
