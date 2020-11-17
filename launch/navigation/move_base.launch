@@ -6,7 +6,7 @@
   <arg name="config" default="3d" />
 
   <!-- Use global costmap-->
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" if="$(eval not namespace)">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" if="$(eval not namespace)" output="screen">
     <!-- Remap topic to recieve movement commands -->
     <remap from="cmd_vel" to="cmd_vel"/>
     <remap from="odom" to="odom" />
