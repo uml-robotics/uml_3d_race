@@ -1,4 +1,6 @@
 *.ply
 *.ot
+*.tif
+*.tfw
 .vscode/c_cpp_properties.json
 .vscode/settings.json
