@@ -1,2 +1,3 @@
 3d_obstacles:
-  max_obstacle_height: 1 #meters
+  positive_obstacle:
+    max_obsacle_height: 1.5
