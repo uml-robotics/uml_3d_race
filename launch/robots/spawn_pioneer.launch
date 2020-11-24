@@ -63,6 +63,13 @@
     <arg name="robot" value="$(arg model_name)" />
   </include>
 
+  <!-- Start pointcloud filter-->
+  <include file="$(find uml_3d_race)/launch/navigation/pointcloud_filter.launch">
+      <arg name="namespace" value="$(arg model_name)" />
+      <arg name="input_cloud" value="$(arg pointcloud_topic)" />
+      <arg name="output_cloud" value="$(arg pointcloud_topic)_filtered" />
+  </include>
+
   <!-- Start nav stack or mapping mode-->
   <group if="$(arg navigate)">
     <!-- Start Nav Stack -->
@@ -76,7 +83,7 @@
         <arg name="init_yaw" value="$(arg yaw)" />
         <arg name="has_laser" value="true" />
         <arg name="laser_topic" value="$(arg laser_topic)" />
-        <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
+        <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
       </include>
     </group>
     
@@ -105,7 +112,7 @@
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
-      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
+      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
     </include>
   </group>
 
