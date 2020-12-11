@@ -58,7 +58,7 @@
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
-      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)" />
+      <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
     </include>
   </group>
 

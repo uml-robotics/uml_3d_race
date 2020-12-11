@@ -6,8 +6,6 @@
   <arg name="output_cloud" default="/head_camera/depth_downsample/points_filtered" />
   
   <group if="$(eval not namespace)">
-    <!-- Start a nodelet manager-->
-
     <!-- Run a passthrough filter to clean the input pointcloud -->
     <node pkg="nodelet" type="nodelet" name="outlier_removal" args="standalone pcl/StatisticalOutlierRemoval">
       <remap from="~input" to="$(arg input_cloud)" />
@@ -20,11 +18,8 @@
   </group>
 
   <group unless="$(eval not namespace)" ns="$(arg namespace)">
-    <!-- Start a nodelet manager-->
-    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager"/>
-
     <!-- Run a passthrough filter to clean the input pointcloud -->
-    <node pkg="nodelet" type="nodelet" name="outlier_removal" args="load pcl/StatisticalOutlierRemoval pcl_manager">
+    <node pkg="nodelet" type="nodelet" name="outlier_removal" args="standalone pcl/StatisticalOutlierRemoval">
       <remap from="~input" to="$(arg input_cloud)" />
       <remap from="~output" to="$(arg output_cloud)" />
       <rosparam>
