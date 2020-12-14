@@ -96,8 +96,15 @@ int main(int argc, char **argv)
     costmap_service.waitForExistence();
     goal_service.waitForExistence();
 
-    //Call the goal service to recieve the first goal
     std_srvs::Empty service_msg;
+
+    //clear the costmaps
+    if (!costmap_service.call(service_msg))
+    {
+        ROS_WARN("Failed to clear costmaps");
+    }
+
+    //Call the goal service to recieve the first goal
     if (!goal_service.call(service_msg))
     {
         ROS_ERROR("Failed to request for a goal");
