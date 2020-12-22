@@ -1,4 +1,4 @@
-image: /home/csrobot/catkin_ws/src/uml_3d_race/resources/static_maps/2d/nerve1_base_world/nerve1_base_world.pgm
+image: nerve1_base_world.pgm
 resolution: 0.100000
 origin: [-20.000000, -20.000000, 0.000000]
 negate: 0

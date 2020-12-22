@@ -4,17 +4,6 @@
     <arg name="3d" default="true" />
 
     <!-- Create directories for the maps-->
-    <node pkg="uml_3d_race" type="make_map_dir.sh" name="map_directory_creator" args="$(arg map_name)"/>
-
-    <!-- Save the maps -->
-    <group if="$(arg 2d)">
-        <node name="map_saver" pkg="map_server" type="map_saver" output="screen" 
-        args="-f $(find uml_3d_race)/resources/static_maps/2d/$(arg map_name)/$(arg map_name)" />
-    </group>
-
-    <group if="$(arg 3d)">
-        <node name="octomap_saver" pkg="octomap_server" type="octomap_saver" output="screen" 
-        args="$(find uml_3d_race)/resources/static_maps/3d/$(arg map_name)/$(arg map_name).bt" />
-    </group>
-
+    <node pkg="uml_3d_race" type="save_maps.sh" name="map_saver_script" args="$(arg map_name) $(arg 2d) $(arg 3d)"/>
+    
 </launch>

@@ -11,8 +11,8 @@
       <remap from="~input" to="$(arg input_cloud)" />
       <remap from="~output" to="$(arg output_cloud)" />
       <rosparam>
-        mean_k: 8
-        stddev: 1
+        mean_k: 50
+        stddev: 3.5
       </rosparam>
     </node>
   </group>
@@ -23,8 +23,8 @@
       <remap from="~input" to="$(arg input_cloud)" />
       <remap from="~output" to="$(arg output_cloud)" />
       <rosparam>
-        mean_k: 8
-        stddev: 1
+        mean_k: 50
+        stddev: 3.5
       </rosparam>
     </node>
   </group>
