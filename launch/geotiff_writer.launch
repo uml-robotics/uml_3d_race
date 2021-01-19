@@ -1,6 +1,7 @@
 <launch>
 
   <arg name="map_name" default="traj_map" />
+  <arg name="map_dir" default="$(find uml_3d_race)/resources/geotiff_maps" />
 
   <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="hector_trajectory_server" output="screen">
     <param name="target_frame_name" type="string" value="/map" />
@@ -12,7 +13,7 @@
 
   <node pkg="hector_geotiff" type="geotiff_node" name="hector_geotiff_node" output="screen" launch-prefix="nice -n 15">
     <remap from="map" to="/static_map" />
-    <param name="map_file_path" type="string" value="$(find uml_3d_race)/resources/geotiff_maps" />
+    <param name="map_file_path" type="string" value="$(arg map_dir)" />
     <param name="map_file_base_name" type="string" value="$(arg map_name)" />
     <param name="draw_background_checkerboard" type="bool" value="true" />
     <param name="draw_free_space_grid" type="bool" value="false" />

@@ -8,6 +8,6 @@
     <remap from="cloud_in" to="$(arg cloud_topic)"/>
     <remap from="scan" to="pointcloud_scan"/>
     <param name="target_frame" value="$(arg robot)/kinect_stand_link"/>
-    <rosparam file="$(find uml_3d_race)/resources/config/kinect_config.yaml" command="load"/>
+    <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot)/kinect_config.yaml" command="load"/>
   </node>
 </launch>

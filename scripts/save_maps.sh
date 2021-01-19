@@ -1,5 +1,5 @@
 #!/bin/bash
-#This script is used to save 2d and 3d maps and orgainize the maps using folders
+#This script is used to save 2d and 3d maps and organize the maps using folders
 
 #arg 1 is the map name, arg 2 is the boolean for saving a 2d map, and arg 3 is the boolean for saving a 3d map
 
@@ -30,5 +30,3 @@ if $3 ; then
     cd $1
     rosrun octomap_server octomap_saver $1.bt
 fi
-
-exit 0

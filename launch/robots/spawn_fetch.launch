@@ -9,9 +9,8 @@
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" />
 
-<!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
-  <arg name="model_name" default="" />
-  <arg name="model_type" default="fetch" />
+<!-- model_type determines the topics to be published, and serves as a identifier for Gazebo -->
+  <arg name="model_type" value="fetch" />
 
   <!-- Robot sensor topics -->
   <arg name="laser_topic" value="/base_scan" />
@@ -26,15 +25,7 @@
   </include>
 
   <!-- Publish robot spawn for resetting to -->
-  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" if="$(eval not model_name)">
-    <param name="topic" value="spawn" />
-    <param name="x_position" value="$(arg x)" />
-    <param name="y_position" value="$(arg y)" />
-    <param name="z_rotation" value="$(arg yaw)" />
-  </node>
-
-  <!-- Publish robot spawn for resetting to with namespace-->
-  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" ns="$(arg model_name)" unless="$(eval not model_name)">
+  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen">
     <param name="topic" value="spawn" />
     <param name="x_position" value="$(arg x)" />
     <param name="y_position" value="$(arg y)" />
@@ -45,20 +36,20 @@
 
   <!-- Laser filter to remove infinite values from the front facing laser -->
   <!-- http://wiki.ros.org/laser_filters -->
-  <!-- <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain" ns="$(arg model_name)">
-    <rosparam command="load" file="$(find uml_3d_race)/resources/config/laserfilter_config.yaml" />
+  <!-- <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain" >
+    <rosparam command="load" file="$(find uml_3d_race)/resources/config/$(arg model_type)/laserfilter_config.yaml" />
     <remap from="scan" to="frontscan" />
     <remap from="scan_filtered" to="frontscan_filtered" />
   </node> -->
 
   <!-- Start Kinect to Laser Converter -->
   <!-- <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch">
-    <arg name="robot" value="$(arg model_name)" />
+    <arg name="robot" value="" />
   </include> -->
 
   <!-- Start pointcloud filter-->
   <include file="$(find uml_3d_race)/launch/navigation/pointcloud_filter.launch">
-    <arg name="namespace" value="$(arg model_name)" />
+    <arg name="namespace" value="" />
     <arg name="input_cloud" value="$(arg pointcloud_topic)" />
     <arg name="output_cloud" value="$(arg pointcloud_topic)_filtered" />
   </include>
@@ -67,7 +58,7 @@
   <group if="$(arg navigate)">
     <!-- Start Nav Stack -->
     <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
-      <arg name="namespace" value="$(arg model_name)" />
+      <arg name="namespace" value="" />
       <arg name="robot_type" value="$(arg model_type)" />
       <arg name="map" value="$(arg level)" />
       <arg name="init_x" value="$(arg x)" />
@@ -82,7 +73,7 @@
   <group unless="$(arg navigate)">
     <!-- Start Mapping -->
     <include file="$(find uml_3d_race)/launch/navigation/map_teleop.launch">
-      <arg name="namespace" value="$(arg model_name)" />
+      <arg name="namespace" value="" />
       <arg name="map" value="$(arg level)" />
       <arg name="static_2d_map" value="false" />
       <arg name="3d" value="true" />

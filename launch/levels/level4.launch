@@ -9,8 +9,7 @@
   <arg name="navigate" default="true" />
 
   <!-- Name and type of robot being spawned in -->
-  <arg name="robot_type" default="pioneer" />
-  <arg name="robot_name" default="pioneer" />
+  <arg name="robot" default="fetch" />
 
   <!-- Define the two goal points on the map-->
   <arg name="spawn_x" value="0.0" />
@@ -26,34 +25,24 @@
   <arg name="world_name" value="level4" />
   <arg name="world_path" value="$(arg world_name).world" />
   
-  <!-- Set up global goal publisher -->
-  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
-    <param name="goal_x" value="$(arg goal_x)" />
-    <param name="goal_y" value="$(arg goal_y)" />
-    <param name="goal_theta" value="$(arg goal_yaw)" />
-    <param name="spawn_x" value="$(arg spawn_x)" />
-    <param name="spawn_y" value="$(arg spawn_y)" />
-    <param name="spawn_theta" value="$(arg spawn_yaw)" />
-  </node>
+  <!-- Determine whether an obstacle robot should be spawned in -->
+  <arg name="obstacle_bot" default="false" />
 
-  <!-- Include spawn_world.launch and set it's arguments if simulation is needed-->
-  <include file="$(find uml_3d_race)/launch/spawn_world.launch" if="$(arg sim)">
-    <!-- World file -->
-    <arg name="world_path" value="$(arg world_path)" />
-    <arg name="gui" value="$(arg gui)" />
-  </include>
-
-  <!-- Setup robot -->
-  <include file="$(find uml_3d_race)/launch/setup_robot.launch">
-    <arg name="robot_type" value="$(arg robot_type)" />
-    <arg name="robot_name" value="$(arg robot_name)" />
-    <arg name="x" value="$(arg spawn_x)" />
-    <arg name="y" value="$(arg spawn_y)" />
-    <arg name="z" value="$(arg spawn_z)" />
-    <arg name="yaw" value="$(arg spawn_yaw)" />
-    <arg name="level" value="$(arg world_name)" />
-    <arg name="navigate" value="$(arg navigate)" />
+  <!-- Set up the test -->
+  <include file="$(find uml_3d_race)/launch/setup_test.launch">
     <arg name="sim" value="$(arg sim)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="navigate" value="$(arg navigate)" />
+    <arg name="robot" value="$(arg robot)" />
+    <arg name="spawn_x" value="$(arg spawn_x)" />
+    <arg name="spawn_y" value="$(arg spawn_y)" />
+    <arg name="spawn_z" value="$(arg spawn_z)" />
+    <arg name="spawn_yaw" value="$(arg spawn_yaw)" />
+    <arg name="goal_x" value="$(arg goal_x)" />
+    <arg name="goal_y" value="$(arg goal_y)" />
+    <arg name="world_name" value="$(arg world_name)" />
+    <arg name="world_path" value="$(arg world_path)" />
+    <arg name="obstacle_bot" value="$(arg obstacle_bot)" />
   </include>
 
 </launch>

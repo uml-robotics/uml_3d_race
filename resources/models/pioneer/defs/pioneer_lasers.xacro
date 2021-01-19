@@ -55,8 +55,8 @@
         </ray>
         <plugin name='${descriptor}laser' filename='libgazebo_ros_laser.so'>
           <!-- model_name is an argument sent to the top level xml file (when setting robot_description) -->
-          <topicName>$(arg model_name)/${descriptor}scan</topicName>
-          <frameName>$(arg model_name)/hokuyo_${descriptor}_link</frameName>
+          <topicName>${descriptor}scan</topicName>
+          <frameName>hokuyo_${descriptor}_link</frameName>
         </plugin>
         <always_on>1</always_on>
         <update_rate>20</update_rate> <!-- 30 -->

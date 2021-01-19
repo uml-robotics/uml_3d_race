@@ -11,12 +11,11 @@
   <arg name="3d" default="true" />
 
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
-  <arg name="model_name" default="pioneer" />
-  <arg name="model_type" default="pioneer" />
+  <arg name="model_type" value="pioneer" />
   <!-- The location of the mesh files for our robot -->
-  <arg name="model_dir" default="$(find uml_3d_race)/resources/models/pioneer/meshes" />
+  <arg name="model_dir" value="$(find uml_3d_race)/resources/models/pioneer/meshes" />
   <!-- The location of the top-level xacro file that defines the robot  -->
-  <arg name="model_file" default="$(find uml_3d_race)/resources/models/pioneer/defs/pioneer.xacro" />
+  <arg name="model_file" value="$(find uml_3d_race)/resources/models/pioneer/defs/pioneer.xacro" />
 
   <!-- Robot sensor topics -->
   <arg name="laser_topic" value="frontscan_filtered" />
@@ -24,25 +23,27 @@
 
 
   <!-- Load robot_description parameter from top-level pioneer3dx.xacro file -->
-  <!-- Also send the model_dir and model_name as arguments to help us generate the model -->
-  <param name="$(arg model_name)/robot_description" command="$(find xacro)/xacro --inorder $(arg model_file) model_dir:=$(arg model_dir) model_name:=$(arg model_name)" />
+  <!-- Also send the model_dir and model_type as arguments to help us generate the model -->
+  <param name="$(arg model_type)/robot_description" command="$(find xacro)/xacro --inorder $(arg model_file) model_dir:=$(arg model_dir) model_name:=$(arg model_type)" />
 
   <!-- publish TFs for static/fixed links (based on the robot_description parameter) -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="state_publisher" output="screen" ns="$(arg model_name)">
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="state_publisher" output="screen">
     <param name="publish_frequency" type="double" value="30.0"/>
-    <param name="tf_prefix" type="string" value="$(arg model_name)"/>
+    <remap from="robot_description" to="$(arg model_type)/robot_description"/>
   </node>
+
   <!-- Without the joint_state_publisher, non-fixed joints that are not published by a plugin
        (i.e. - the swivel_link joint) will not have it's transform published.
        joint_state_publisher also uses the robot_description parameter. -->
-  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_publisher" output="screen" ns="$(arg model_name)">
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_publisher" output="screen">
+    <remap from="robot_description" to="$(arg model_type)/robot_description"/>
   </node>
 
   <!-- Spawn robot into Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="
     -urdf
     -model $(arg model_type)
-    -param $(arg model_name)/robot_description
+    -param $(arg model_type)/robot_description
     -x $(arg x)
     -y $(arg y)
     -z $(arg z)
@@ -52,20 +53,20 @@
 
   <!-- Laser filter to remove infinite values from the front facing laser -->
   <!-- http://wiki.ros.org/laser_filters -->
-  <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain" ns="$(arg model_name)">
-    <rosparam command="load" file="$(find uml_3d_race)/resources/robot_configs/pioneer/laserfilter_config.yaml" />
+  <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain">
+    <rosparam command="load" file="$(find uml_3d_race)/resources/configs/pioneer/laserfilter_config.yaml" />
     <remap from="scan" to="frontscan" />
     <remap from="scan_filtered" to="frontscan_filtered" />
   </node>
 
   <!-- Start Kinect to Laser Converter -->
   <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch">
-    <arg name="robot" value="$(arg model_name)" />
+    <arg name="robot" value="" />
   </include>
 
   <!-- Start pointcloud filter-->
   <include file="$(find uml_3d_race)/launch/navigation/pointcloud_filter.launch">
-      <arg name="namespace" value="$(arg model_name)" />
+      <arg name="namespace" value="" />
       <arg name="input_cloud" value="$(arg pointcloud_topic)" />
       <arg name="output_cloud" value="$(arg pointcloud_topic)_filtered" />
   </include>
@@ -75,7 +76,7 @@
     <!-- Start Nav Stack -->
     <group if="$(arg 3d)">
       <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
-        <arg name="namespace" value="$(arg model_name)" />
+        <arg name="namespace" value="" />
         <arg name="robot_type" value="$(arg model_type)" />
         <arg name="map" value="$(arg level)" />
         <arg name="init_x" value="$(arg x)" />
@@ -89,7 +90,7 @@
     
     <group unless="$(arg 3d)">
       <include file="$(find uml_3d_race)/launch/navigation/navigation.launch">
-        <arg name="namespace" value="$(arg model_name)" />
+        <arg name="namespace" value="" />
         <arg name="robot_type" value="$(arg model_type)" />
         <arg name="map" value="$(arg level)" />
         <arg name="init_x" value="$(arg x)" />
@@ -104,7 +105,7 @@
   <group unless="$(arg navigate)">
     <!-- Start Mapping -->
     <include file="$(find uml_3d_race)/launch/navigation/map_teleop.launch">
-      <arg name="namespace" value="$(arg model_name)" />
+      <arg name="namespace" value="" />
       <arg name="map" value="$(arg level)" />
       <arg name="static_2d_map" value="false" />
       <arg name="3d" value="true" />

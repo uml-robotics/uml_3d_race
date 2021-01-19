@@ -1,0 +1,72 @@
+<!-- This launch file is responsible for launching all of the necessesary nodes and launch files needed to setup a test -->
+
+<launch>
+  <!-- Determine whether the robot is physical or simulated-->
+  <arg name="sim" default="true" />
+
+  <!-- If in sim, enable gazebo gui or not -->
+  <arg name="gui" default="true" />
+
+  <!-- Launch in either navigate mode or mapping mode -->
+  <arg name="navigate" default="true" />
+
+  <!-- Type of robot being spawned in -->
+  <arg name="robot" default="pioneer" />
+
+  <!-- Define the two goal points on the map, values are set in the level launch files-->
+  <arg name="spawn_x" />
+  <arg name="spawn_y" />
+  <arg name="spawn_z" />
+  <arg name="spawn_yaw" />
+
+  <arg name="goal_x" />
+  <arg name="goal_y" />
+
+  <!-- Define map settings, values are set in the level launch files-->
+  <arg name="world_name" />
+  <arg name="world_path" />
+
+  <!-- Determine whether an obstacle robot should be spawned in -->
+  <arg name="obstacle_bot" default="false" />
+  
+  <!-- Set up global goal publisher -->
+  <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
+    <param name="goal_x" value="$(arg goal_x)" />
+    <param name="goal_y" value="$(arg goal_y)" />
+    <param name="spawn_x" value="$(arg spawn_x)" />
+    <param name="spawn_y" value="$(arg spawn_y)" />
+  </node>  <!-- all vars that included.launch requires must be set -->
+
+
+  <!-- Include spawn_world.launch and set it's arguments if simulation is needed-->
+  <include file="$(find uml_3d_race)/launch/spawn_world.launch" if="$(arg sim)">
+    <!-- World file -->
+    <arg name="world_path" value="$(arg world_path)" />
+    <arg name="gui" value="$(arg gui)" />
+  </include>
+
+  <!-- Setup robot -->
+  <include file="$(find uml_3d_race)/launch/setup_robot.launch">
+    <arg name="robot" value="$(arg robot)" />
+    <arg name="x" value="$(arg spawn_x)" />
+    <arg name="y" value="$(arg spawn_y)" />
+    <arg name="z" value="$(arg spawn_z)" />
+    <arg name="yaw" value="$(arg spawn_yaw)" />
+    <arg name="level" value="$(arg world_name)" />
+    <arg name="navigate" value="$(arg navigate)" />
+    <arg name="sim" value="$(arg sim)" />
+  </include>
+
+  <!-- Setup obstacle bot if wanted -->
+  <include file="$(find uml_3d_race)/launch/setup_robot.launch" if="$(arg obstacle_bot)">
+    <arg name="robot" value="obstacle_bot" />
+    <arg name="x" value="$(arg spawn_x)" />
+    <arg name="y" value="$(arg spawn_y)" />
+    <arg name="z" value="$(arg spawn_z)" />
+    <arg name="yaw" value="$(arg spawn_yaw)" />
+    <arg name="level" value="$(arg world_name)" />
+    <arg name="navigate" value="$(arg navigate)" />
+    <arg name="sim" value="$(arg sim)" />
+  </include>
+
+</launch>

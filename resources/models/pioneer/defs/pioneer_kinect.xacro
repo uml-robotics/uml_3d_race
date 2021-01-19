@@ -58,7 +58,7 @@
           <depthImageTopicName>/${descriptor}/depth/image_raw</depthImageTopicName>
           <depthImageInfoTopicName>/${descriptor}/depth/camera_info</depthImageInfoTopicName>
           <pointCloudTopicName>/${descriptor}/depth/points</pointCloudTopicName>
-          <frameName>$(arg model_name)/${descriptor}_sensor_link</frameName>
+          <frameName>${descriptor}_sensor_link</frameName>
           <pointCloudCutoff>0.05</pointCloudCutoff>
           <distortionK1>0</distortionK1>
           <distortionK2>0</distortionK2>

@@ -73,7 +73,7 @@
 			<plugin name="robot_bumper_controller" filename="libgazebo_ros_bumper.so">
 				<alwaysOn>true</alwaysOn>
 				<updateRate>20.0</updateRate>
-				<bumperTopicName>/pioneer/bumper_contact</bumperTopicName>
+				<bumperTopicName>/bumper_contact</bumperTopicName>
 				<frameName>base_link</frameName>
 			</plugin>
 		</sensor>
@@ -284,7 +284,6 @@
 			<wheelDiameter>0.18</wheelDiameter>
 			<wheelTorque>5</wheelTorque>
 			<wheelAcceleration>0</wheelAcceleration>
-			<robotNamespace>$(arg model_name)</robotNamespace>
 			<commandTopic>cmd_vel</commandTopic>
 			<odometryTopic>odom</odometryTopic>
 			<odometryFrame>odom</odometryFrame>

@@ -1,5 +1,5 @@
 <launch>
-    <!-- First get the namespace of the robor if there is one-->
+    <!-- First get the namespace of the robot if there is one-->
     <arg name="namespace" default="" />
 
     <!-- Activate Estop-->
