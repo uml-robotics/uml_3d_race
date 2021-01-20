@@ -10,11 +10,10 @@ project(uml_3d_race)
 find_package(catkin REQUIRED COMPONENTS
   gazebo_ros
   roscpp
-  rospy
   std_msgs
   std_srvs
   geometry_msgs
-  #tf2
+  tf2
   message_generation
   move_base_msgs
   actionlib
@@ -113,7 +112,17 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES uml_3Drace
-   CATKIN_DEPENDS gazebo_ros roscpp rospy std_msgs std_srvs geometry_msgs message_runtime move_base_msgs actionlib gazebo_msgs
+   CATKIN_DEPENDS 
+    gazebo_ros 
+    roscpp 
+    rospy 
+    std_msgs 
+    std_srvs 
+    geometry_msgs 
+    message_runtime 
+    move_base_msgs 
+    actionlib 
+    gazebo_msgs
 #  DEPENDS system_lib
 )
 
@@ -199,7 +208,6 @@ add_dependencies(estop ${estop_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 # install(PROGRAMS
-#   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 

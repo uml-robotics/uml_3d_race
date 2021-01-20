@@ -60,6 +60,20 @@
   <build_depend>actionlib</build_depend>
   <build_depend>gazebo_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
+  <build_depend>navigation</build_depend>
+  <build_depend>fetch_ros</build_depend>
+  <build_depend>fetch_gazebo</build_depend>
+  <build_depend>gmapping</build_depend>
+  <build_depend>hector_slam</build_depend>
+  <build_depend>octomap</build_depend>
+  <build_depend>octomap_msgs</build_depend>
+  <build_depend>octomap_ros</build_depend>
+  <build_depend>octomap_rviz_plugins</build_depend>
+  <build_depend>octomap_server</build_depend>
+  <build_depend>pcl_ros</build_depend>
+  <build_depend>pointcloud_to_laserscan</build_depend>
+  <build_depend>spatio_temporal_voxel_layer</build_depend>
+  <build_depend>teleop_twist_keyboard</build_depend>
   <build_export_depend>laser_filters</build_export_depend>
   <build_export_depend>gazebo_ros</build_export_depend>
   <build_export_depend>roscpp</build_export_depend>
@@ -70,6 +84,20 @@
   <build_export_depend>actionlib</build_export_depend>
   <build_export_depend>gazebo_msgs</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>navigation</build_export_depend>
+  <build_export_depend>fetch_ros</build_export_depend>
+  <build_export_depend>fetch_gazebo</build_export_depend>
+  <build_export_depend>gmapping</build_export_depend>
+  <build_export_depend>hector_slam</build_export_depend>
+  <build_export_depend>octomap</build_export_depend>
+  <build_export_depend>octomap_msgs</build_export_depend>
+  <build_export_depend>octomap_ros</build_export_depend>
+  <build_export_depend>octomap_rviz_plugins</build_export_depend>
+  <build_export_depend>octomap_server</build_export_depend>
+  <build_export_depend>pcl_ros</build_export_depend>
+  <build_export_depend>pointcloud_to_laserscan</build_export_depend>
+  <build_export_depend>spatio_temporal_voxel_layer</build_export_depend>
+  <build_export_depend>teleop_twist_keyboard</build_export_depend>
   <exec_depend>laser_filters</exec_depend>
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>roscpp</exec_depend>
@@ -81,6 +109,20 @@
   <exec_depend>actionlib</exec_depend>
   <exec_depend>gazebo_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>navigation</exec_depend>
+  <exec_depend>fetch_ros</exec_depend>
+  <exec_depend>fetch_gazebo</exec_depend>
+  <exec_depend>gmapping</exec_depend>
+  <exec_depend>hector_slam</exec_depend>
+  <exec_depend>octomap</exec_depend>
+  <exec_depend>octomap_msgs</exec_depend>
+  <exec_depend>octomap_ros</exec_depend>
+  <exec_depend>octomap_rviz_plugins</exec_depend>
+  <exec_depend>octomap_server</exec_depend>
+  <exec_depend>pcl_ros</exec_depend>
+  <exec_depend>pointcloud_to_laserscan</exec_depend>
+  <exec_depend>spatio_temporal_voxel_layer</exec_depend>
+  <exec_depend>teleop_twist_keyboard</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

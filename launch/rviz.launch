@@ -3,5 +3,5 @@
     <arg name="robot" default="pioneer" />
 
     <!-- Launch rviz using a specific config file -->
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find uml_3d_race)/resources/robot_configs/$(arg robot_type)/$(arg config_file).rviz" />
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find uml_3d_race)/resources/robot_configs/$(arg robot)/$(arg config_file).rviz" />
 </launch>
