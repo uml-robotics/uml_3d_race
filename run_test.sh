@@ -39,16 +39,33 @@ echo
 echo -----------------------------------------------------------
 roslaunch uml_3d_race "$level".launch sim:="$sim" gui:="$gui" navigate:=true robot:="$robot" obstacle_bot:="$obstacle_bot" &
 pid1=$!
-sleep 15s
+
+sleep 12s
 
 echo -----------------------------------------------------------
 echo
 echo "Starting loggers"
 echo
 echo -----------------------------------------------------------
-. "$ROS_WORKSPACE"/src/uml_3d_race/scripts/log_sim_data.sh $level &
+#cd to the logs folder inside of resources in the uml_3d_race package
+roscd uml_3d_race
+cd resources/logs
+
+#create a folder to put the logs into and name the folder using the name of the map being used and the current time
+name=$1_$(date +'%F_%T')
+mkdir $name
+cd $name
+
+#create a folder for the geotiff maps to live in
+mkdir geotiff_maps
+
+#start the logging scripts
+roslaunch uml_3d_race geotiff_writer.launch map_dir:=$ROS_WORKSPACE/src/uml_3d_race/resources/logs/$name/geotiff_maps &
 pid2=$!
-sleep 10s
+rostopic echo -p sim_log > sim_log.csv &
+pid3=$!
+
+sleep 5s
 
 echo -----------------------------------------------------------
 echo
@@ -56,6 +73,10 @@ echo "Starting test"
 echo
 echo -----------------------------------------------------------
 roslaunch uml_3d_race race.launch iterations:="$iterations"
+pid4=$!
+
+#this will kill the script if any errors occur during the test
+trap "kill -2 $pid4; kill -2 $pid3; kill -2 $pid2; kill -2 $pid1; wait; trap - INT TERM ERR; cd $original_cd" INT TERM ERR
 
 #once the script raches this point, the race launch file has finished running
 
@@ -65,13 +86,14 @@ echo "The test has finished, killing all of the test processes"
 echo
 echo -----------------------------------------------------------
 
-#first kill the loggers
+#kill all of the background processes
+kill -2 $pid3
 kill -2 $pid2
-wait $pid2
-
-#now kill the test setup launch file
 kill -2 $pid1
-wait $pid1
+wait
+
+#Reset trap
+trap - INT TERM ERR
 
 #finally cd to the original directory the script was run in
 cd $original_cd

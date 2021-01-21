@@ -24,9 +24,9 @@ mkdir geotiff_maps
 
 #start the logging scripts
 roslaunch uml_3d_race geotiff_writer.launch map_dir:=$ROS_WORKSPACE/src/uml_3d_race/resources/logs/$name/geotiff_maps &
-pid1=$!
+pidlog1=$!
 rostopic echo -p sim_log > sim_log.csv &
-pid2=$!
+pidlog2=$!
 
 #kill the background programs when exiting the script
-trap "kill -2 $pid2; kill -2 $pid1; wait; cd $original_cd" INT TERM ERR
+trap "kill -2 $pidlog2; kill -2 $pidlog1; wait; cd $original_cd" INT TERM ERR

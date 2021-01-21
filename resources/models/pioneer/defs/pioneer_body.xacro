@@ -4,21 +4,21 @@
 
 	<!-- CONFIGURATION SETUP - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- Load configuration settings for a frontal laser -->
-	<xacro:property name="front_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer/config/frontlaser_config.yaml" />
+	<xacro:property name="front_yaml_file" value="$(find uml_3d_race)/resources/config/pioneer/frontlaser_config.yaml" />
 	<!-- Read all the yaml properties into a list named front_config -->
 	<xacro:property name="front_config" value="${load_yaml(front_yaml_file)}"/>
 	<!-- An example of how to access properties within the list -->
 	<xacro:property name="front_laser" value="${front_config['enabled']}" />
 
 	<!-- Load configuration settings for a rear laser -->
-	<xacro:property name="rear_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer/config/rearlaser_config.yaml" />
+	<xacro:property name="rear_yaml_file" value="$(find uml_3d_race)/resources/config/pioneer/rearlaser_config.yaml" />
 	<!-- Read all the yaml properties into a list named rear_config -->
 	<xacro:property name="rear_config" value="${load_yaml(rear_yaml_file)}"/>
 	<!-- An example of how to access properties within the list -->
 	<xacro:property name="rear_laser" value="${rear_config['enabled']}" />
 
 	<!-- Load configuration settings for a kinect -->
-	<xacro:property name="kinect_yaml_file" value="$(find uml_3d_race)/resources/models/pioneer/config/kinect_config.yaml" />
+	<xacro:property name="kinect_yaml_file" value="$(find uml_3d_race)/resources/config/pioneer/kinect_config.yaml" />
 	<!-- Read all the yaml properties into a list named rear_config -->
 	<xacro:property name="kinect_config" value="${load_yaml(kinect_yaml_file)}"/>
 	<!-- An example of how to access properties within the list -->
