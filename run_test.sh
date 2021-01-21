@@ -32,22 +32,38 @@ elif [[ $# -eq 6 ]]; then
 fi
 
 # Launch a world in Gazebo
+echo -----------------------------------------------------------
+echo
 echo "Setting up the $robot robot in the $level environment"
+echo
+echo -----------------------------------------------------------
 roslaunch uml_3d_race "$level".launch sim:="$sim" gui:="$gui" navigate:=true robot:="$robot" obstacle_bot:="$obstacle_bot" &
 pid1=$!
 sleep 15s
 
+echo -----------------------------------------------------------
+echo
 echo "Starting loggers"
+echo
+echo -----------------------------------------------------------
 . "$ROS_WORKSPACE"/src/uml_3d_race/scripts/log_sim_data.sh $level &
 pid2=$!
 sleep 10s
 
-
+echo -----------------------------------------------------------
+echo
 echo "Starting test"
+echo
+echo -----------------------------------------------------------
 roslaunch uml_3d_race race.launch iterations:="$iterations"
 
 #once the script raches this point, the race launch file has finished running
+
+echo -----------------------------------------------------------
+echo
 echo "The test has finished, killing all of the test processes"
+echo
+echo -----------------------------------------------------------
 
 #first kill the loggers
 kill -2 $pid2
