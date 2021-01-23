@@ -1,6 +1,6 @@
 <launch>
   <!-- Settings -->
-  <arg name="namespace" default="pioneer" />
+  <arg name="namespace" default="" />
   <arg name="robot_type" default="pioneer" />
   <!-- Map name -->
   <arg name="map" default="level1" />
@@ -10,7 +10,7 @@
   <arg name="init_yaw" default="0.0" />
   <!-- Radians -->
   <!-- Move_base configuration folder. -->
-  <arg name="move_base_config" default="default" />
+  <arg name="move_base_config" default="2d" />
   <!-- NOTE: move_base_config specifies the folder to find the .yaml config files for
        move_base. If you would like to safely play around with navigation settings,
        you can copy the default folder, rename it, then change move_base_config. -->

@@ -13,7 +13,7 @@
 
   <!-- Robot sensor topics -->
   <arg name="laser_topic" value="/base_scan" />
-  <arg name="pointcloud_topic" value="/head_camera/depth_downsample/points" />
+  <arg name="pointcloud_topic" value="/head_camera/depth_registered/points" />
 
   <!-- Publish robot spawn for resetting to -->
   <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" >

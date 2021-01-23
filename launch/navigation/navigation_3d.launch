@@ -54,7 +54,7 @@
         <arg name="init_x" default="$(arg init_x)" />
         <arg name="init_y" default="$(arg init_y)" />
         <arg name="init_yaw" default="$(arg init_yaw)" />
-        <arg name="scan_topic" value="kinect_scan" />
+        <arg name="scan_topic" value="pointcloud_scan" />
       </include>
     </group>
   </group>

@@ -2,11 +2,13 @@
 #include <math.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose2D.h>
-#include <nav_msgs/Odometry.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <actionlib/client/simple_action_client.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib_msgs/GoalStatusArray.h>
 #include <gazebo_msgs/ContactsState.h>
+#include <tf2/LinearMath/Matrix3x3.h>
+#include <tf2/LinearMath/Quaternion.h>
 #include <string>
 #include <sstream>
 #include <list>
@@ -67,15 +69,24 @@ public:
         log.iteration = 0;
     };
 
-    void add_position(nav_msgs::Odometry odom)
+    void add_position(geometry_msgs::PoseWithCovarianceStamped pose)
     {
         if (navigating)
         {
             //save the position and distance
-            log.robot_pos.x = odom.pose.pose.position.x;
-            log.robot_pos.y = odom.pose.pose.position.y;
-            log.robot_pos.theta = odom.pose.pose.orientation.z;
-            log.dist_from_goal = distance(log.goal.x, log.goal.y, odom.pose.pose.position.x, odom.pose.pose.position.y);
+            log.robot_pos.x = pose.pose.pose.position.x;
+            log.robot_pos.y = pose.pose.pose.position.y;
+            tf2::Quaternion quaternion;
+            quaternion.setX(pose.pose.pose.orientation.x);
+            quaternion.setY(pose.pose.pose.orientation.y);
+            quaternion.setZ(pose.pose.pose.orientation.z);
+            quaternion.setW(pose.pose.pose.orientation.w);
+            tf2::Matrix3x3 matrix;
+            matrix.setRotation(quaternion);
+            double roll, pitch, yaw;
+            matrix.getEulerYPR(roll, pitch, yaw);
+            log.robot_pos.theta = yaw;
+            log.dist_from_goal = distance(log.goal.x, log.goal.y, pose.pose.pose.position.x, pose.pose.pose.position.y);
         }
     }
 
@@ -194,9 +205,9 @@ public:
 
 Referee *logger;
 
-void odom_callback(const nav_msgs::Odometry::ConstPtr &odom)
+void odom_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &pose)
 {
-    logger->add_position(*odom);
+    logger->add_position(*pose);
 }
 
 void collision_callback(const gazebo_msgs::ContactsState::ConstPtr &collision)
@@ -235,7 +246,7 @@ int main(int argc, char **argv)
     ros::AsyncSpinner spinner(5);
 
     // Setup subscribers
-    ros::Subscriber odom_sub = n.subscribe("odom", 1, odom_callback);
+    ros::Subscriber odom_sub = n.subscribe("amcl/amcl_pose", 1, odom_callback);
     ros::Subscriber collision_sub = n.subscribe("bumper_contact", 10, collision_callback);
     ros::Subscriber goal_sub = n.subscribe("/goal", 10, goal_callback);
     ros::Subscriber result = n.subscribe("move_base/status", 10, state_callback);

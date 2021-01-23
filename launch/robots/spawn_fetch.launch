@@ -14,7 +14,7 @@
 
   <!-- Robot sensor topics -->
   <arg name="laser_topic" value="/base_scan" />
-  <arg name="pointcloud_topic" value="/head_camera/depth_downsample/points" />
+  <arg name="pointcloud_topic" value="/head_camera/depth_registered/points" />
 
    <!-- Spawn Fetch  -->
   <include file="$(find fetch_gazebo)/launch/include/fetch.launch.xml">
