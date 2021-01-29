@@ -8,6 +8,7 @@
   <!-- Rotation in radians. -->
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" />
+  <arg name="3d" default="true" />
 
   <arg name="robot" default="pioneer" />
 
@@ -19,9 +20,9 @@
     <arg name="y" value="$(arg y)" />
     <arg name="z" value="$(arg z)" />
     <arg name="yaw" value="$(arg yaw)" />
-    <!-- Rotation in radians. -->
     <arg name="level" value="$(arg level)" />
     <arg name="navigate" value="$(arg navigate)" />
+    <arg name="3d" value="$(arg 3d)" />
   </include>
 
   <!-- Launch respective physical robot -->
@@ -30,8 +31,8 @@
     <arg name="y" value="$(arg y)" />
     <arg name="z" value="$(arg z)" />
     <arg name="yaw" value="$(arg yaw)" />
-    <!-- Rotation in radians. -->
     <arg name="level" value="$(arg level)" />
     <arg name="navigate" value="$(arg navigate)" />
+    <arg name="3d" value="$(arg 3d)" />
   </include>
 </launch>

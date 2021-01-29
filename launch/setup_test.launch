@@ -10,6 +10,9 @@
   <!-- Launch in either navigate mode or mapping mode -->
   <arg name="navigate" default="true" />
 
+  <!-- Use 3d or 2d navigation -->
+  <arg name="3d" default="true" />
+
   <!-- Type of robot being spawned in -->
   <arg name="robot" default="pioneer" />
 
@@ -28,6 +31,7 @@
 
   <!-- Determine whether an obstacle robot should be spawned in -->
   <arg name="obstacle_bot" default="false" />
+
   
   <!-- Set up global goal publisher -->
   <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
@@ -54,6 +58,7 @@
     <arg name="yaw" value="$(arg spawn_yaw)" />
     <arg name="level" value="$(arg world_name)" />
     <arg name="navigate" value="$(arg navigate)" />
+    <arg name="3d" value="$(arg 3d)" />
     <arg name="sim" value="$(arg sim)" />
   </include>
 

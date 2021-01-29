@@ -8,8 +8,9 @@
   <!-- Rotation in radians. -->
   <arg name="level" default="level1" />
   <arg name="navigate" default="true" />
+  <arg name="3d" default="true" />
 
-<!-- model_type determines the topics to be published, and serves as a identifier for Gazebo -->
+  <!-- model_type determines the topics to be published, and serves as a identifier for Gazebo -->
   <arg name="model_type" value="fetch" />
 
   <!-- Robot sensor topics -->
@@ -56,8 +57,8 @@
 
   <!-- Start nav stack or mapping mode-->
   <group if="$(arg navigate)">
-    <!-- Start Nav Stack -->
-    <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch">
+    <!-- Start 3d Nav Stack -->
+    <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch" if="$(arg 3d)">
       <arg name="namespace" value="" />
       <arg name="robot_type" value="$(arg model_type)" />
       <arg name="map" value="$(arg level)" />
@@ -67,6 +68,18 @@
       <arg name="has_laser" value="true" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
       <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
+    </include>
+
+    <!-- Start 2d Nav Stack -->
+    <include file="$(find uml_3d_race)/launch/navigation/navigation_2d.launch" unless="$(arg 3d)">
+      <arg name="namespace" value="" />
+      <arg name="robot_type" value="$(arg model_type)" />
+      <arg name="map" value="$(arg level)" />
+      <arg name="init_x" value="$(arg x)" />
+      <arg name="init_y" value="$(arg y)" />
+      <arg name="init_yaw" value="$(arg yaw)" />
+      <arg name="has_laser" value="true" />
+      <arg name="laser_topic" value="$(arg laser_topic)" />
     </include>
   </group>
 

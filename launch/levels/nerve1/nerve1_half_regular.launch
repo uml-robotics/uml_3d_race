@@ -8,6 +8,9 @@
   <!-- Launch in either navigate mode or mapping mode -->
   <arg name="navigate" default="true" />
 
+  <!-- Use 3d or 2d navigation -->
+  <arg name="3d" default="true" />
+  
   <!-- Name and type of robot being spawned in -->
   <arg name="robot" default="fetch" />
 
@@ -32,6 +35,7 @@
     <arg name="sim" value="$(arg sim)" />
     <arg name="gui" value="$(arg gui)" />
     <arg name="navigate" value="$(arg navigate)" />
+    <arg name="3d" value="$(arg 3d)" />
     <arg name="robot" value="$(arg robot)" />
     <arg name="spawn_x" value="$(arg spawn_x)" />
     <arg name="spawn_y" value="$(arg spawn_y)" />

@@ -84,8 +84,8 @@ public:
             tf2::Matrix3x3 matrix;
             matrix.setRotation(quaternion);
             double roll, pitch, yaw;
-            matrix.getEulerYPR(roll, pitch, yaw);
-            log.robot_pos.theta = yaw;
+            matrix.getEulerYPR(yaw, pitch, roll);
+            log.robot_pos.theta = yaw * 180.0 / M_PI;
             log.dist_from_goal = distance(log.goal.x, log.goal.y, pose.pose.pose.position.x, pose.pose.pose.position.y);
         }
     }
