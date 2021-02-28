@@ -48,4 +48,8 @@
     <arg name="obstacle_bot" value="$(arg obstacle_bot)" />
   </include>
 
+  <node name="dynamic_obstacles" pkg="uml_3d_race" type="dynamic_obstacles" >
+    <rosparam command="load" file="FILENAME" />
+  </node>
+
 </launch>

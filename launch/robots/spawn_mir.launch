@@ -1,0 +1,112 @@
+<!-- Assumes Gazebo is already running -->
+<launch>
+    <!-- Settings (Robot position args are overidden by spawn_world.launch)-->
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.1" />
+    <arg name="yaw" default="0.0" />
+    <!-- Rotation in radians. -->
+    <arg name="level" default="level1" />
+    <arg name="navigate" default="true" />
+    <arg name="3d" default="false" />
+  
+    <!-- model_type determines the topics to be published, and serves as a identifier for Gazebo -->
+    <arg name="model_type" value="mir" />
+  
+    <!-- Robot sensor topics -->
+    <arg name="laser_topic" value="/scan_filtered" />
+    <arg name="pointcloud_topic" value="" />
+    <arg name="cmd_vel_topic" value="mobile_base_controller/cmd_vel" />
+    <arg name="odom_topic" value="mobile_base_controller/odom" />
+    <arg name="odom_link" value="odom"/>
+    <arg name="base_link" value="base_link" />
+  
+     <!-- Spawn MiR  -->
+    <include file="$(find uml_3d_race)/resources/models/$(arg model_type)/defs/mir.launch">
+      <arg name="robot_x" default="$(arg x)" />
+      <arg name="robot_y" default="$(arg y)" />
+      <arg name="robot_yaw" default="$(arg yaw)" />
+    </include>
+  
+    <!-- Publish robot spawn for resetting to -->
+    <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen">
+      <param name="topic" value="spawn" />
+      <param name="x_position" value="$(arg x)" />
+      <param name="y_position" value="$(arg y)" />
+      <param name="z_rotation" value="$(arg yaw)" />
+    </node>
+  
+    <!-- Laser filter to remove infinite values from the front facing laser -->
+    <!-- http://wiki.ros.org/laser_filters -->
+    <!-- <node name="laser_filter" pkg="laser_filters" type="scan_to_scan_filter_chain" >
+      <rosparam command="load" file="$(find uml_3d_race)/resources/config/$(arg model_type)/laserfilter_config.yaml" />
+      <remap from="scan" to="frontscan" />
+      <remap from="scan_filtered" to="frontscan_filtered" />
+    </node> -->
+  
+    <!-- Start Kinect to Laser Converter -->
+    <!-- <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch">
+      <arg name="robot" value="" />
+    </include> -->
+  
+    <!-- Start pointcloud filter-->
+    <!-- <include file="$(find uml_3d_race)/launch/navigation/pointcloud_filter.launch">
+      <arg name="namespace" value="" />
+      <arg name="input_cloud" value="$(arg pointcloud_topic)" />
+      <arg name="output_cloud" value="$(arg pointcloud_topic)_filtered" />
+    </include> -->
+  
+    <!-- Start nav stack or mapping mode-->
+    <group if="$(arg navigate)">
+      <!-- Start 3d Nav Stack -->
+      <include file="$(find uml_3d_race)/launch/navigation/navigation_3d.launch" if="$(arg 3d)">
+        <arg name="namespace" value="" />
+        <arg name="robot_type" value="$(arg model_type)" />
+        <arg name="map" value="$(arg level)" />
+        <arg name="init_x" value="$(arg x)" />
+        <arg name="init_y" value="$(arg y)" />
+        <arg name="init_yaw" value="$(arg yaw)" />
+        <arg name="has_laser" value="true" />
+        <arg name="laser_topic" value="$(arg laser_topic)" />
+        <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
+        <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+        <arg name="odom_topic" value="$(arg odom_topic)" />
+        <arg name="odom_link" value="$(arg odom_link)"/>
+        <arg name="base_link" value="$(arg base_link)" />
+      </include>
+  
+      <!-- Start 2d Nav Stack -->
+      <include file="$(find uml_3d_race)/launch/navigation/navigation_2d.launch" unless="$(arg 3d)">
+        <arg name="namespace" value="" />
+        <arg name="robot_type" value="$(arg model_type)" />
+        <arg name="map" value="$(arg level)" />
+        <arg name="init_x" value="$(arg x)" />
+        <arg name="init_y" value="$(arg y)" />
+        <arg name="init_yaw" value="$(arg yaw)" />
+        <arg name="laser_topic" value="$(arg laser_topic)" />
+        <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+        <arg name="odom_topic" value="$(arg odom_topic)" />
+        <arg name="odom_link" value="$(arg odom_link)"/>
+        <arg name="base_link" value="$(arg base_link)" />
+      </include>
+    </group>
+  
+    <group unless="$(arg navigate)">
+      <!-- Start Mapping -->
+      <include file="$(find uml_3d_race)/launch/navigation/map_teleop.launch">
+        <arg name="namespace" value="" />
+        <arg name="map" value="$(arg level)" />
+        <arg name="static_2d_map" value="false" />
+        <arg name="3d" value="true" />
+        <arg name="init_x" value="$(arg x)" />
+        <arg name="init_y" value="$(arg y)" />
+        <arg name="init_yaw" value="$(arg yaw)" />
+        <arg name="laser_topic" value="$(arg laser_topic)" />
+        <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
+        <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+        <arg name="odom_link" value="$(arg odom_link)"/>
+        <arg name="base_link" value="$(arg base_link)" />
+      </include>
+    </group>
+  
+  </launch>

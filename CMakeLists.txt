@@ -157,6 +157,7 @@ include_directories(
  add_executable(obstacle_bot_node src/obstacle_bot.cpp)
  add_executable(logger src/referee.cpp)
  add_executable(estop src/estop.cpp)
+ add_executable(dynamic_obstacles src/dynamic_obstacle_spawner.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -174,6 +175,7 @@ add_dependencies(reset_robot ${reset_robot_EXPORTED_TARGETS} ${catkin_EXPORTED_T
 add_dependencies(obstacle_bot_node ${obstacle_bot_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(logger ${logger_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(estop ${estop_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(dynamic_obstacles ${dynamic_obstacles_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(mover_node
@@ -195,6 +197,9 @@ add_dependencies(estop ${estop_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
  ${catkin_LIBRARIES}
  )
  target_link_libraries(estop
+ ${catkin_LIBRARIES}
+ )
+ target_link_libraries(dynamic_obstacles
  ${catkin_LIBRARIES}
  )
  

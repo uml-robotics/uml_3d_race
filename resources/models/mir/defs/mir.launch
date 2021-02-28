@@ -1,0 +1,42 @@
+<launch>
+    <arg name="robot_x" default="0.0"/>
+    <arg name="robot_y" default="0.0"/>
+    <arg name="robot_yaw" default="0.0"/>
+    <!-- for xacro -->
+    <arg name="prefix" value=""/>
+    <arg name="model" value="mir"/>
+    <arg name="prepend_prefix_to_laser_frame" default="false" doc="Set this to 'true' if you don't start the spawn_model node inside a namespace."/>
+
+    <!--
+     this has to be "value", not "default", otherwise subst_value doesn't work 
+    -->
+    <!-- Load URDF -->
+    <param name="$(arg model)/robot_description" command="$(find xacro)/xacro --inorder $(find uml_3d_race)/resources/models/mir/defs/mir.urdf.xacro 
+                    tf_prefix:=$(arg prefix) prepend_prefix_to_laser_frame:=$(arg prepend_prefix_to_laser_frame)"/>
+    <!-- Spawn the robot into Gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param $(arg model)/robot_description -urdf -model mir -x $(arg robot_x) -y $(arg robot_y) -Y $(arg robot_yaw) "/>
+    <!-- Load ros_control controller configurations -->
+    <rosparam file="$(find uml_3d_race)/resources/config/mir/joint_state_controller.yaml" command="load"/>
+    <rosparam file="$(find uml_3d_race)/resources/config/mir/diffdrive_controller.yaml" command="load" subst_value="true"/>
+    <!-- Start the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen" args="joint_state_controller mobile_base_controller"/>
+    <!-- joint state publisher -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <remap from="robot_description" to="$(arg model)/robot_description"/>
+        <rosparam param="source_list">[joint_states]</rosparam>
+        <param name="rate" value="200.0"/>
+    </node>
+    <!-- Robot state publisher -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+        <remap from="robot_description" to="$(arg model)/robot_description"/>
+    </node>
+    <!-- create combined scan topic (like on real MiR) -->
+    <node pkg="topic_tools" type="relay" name="b_scan_relay" args="b_scan scan"/>
+    <node pkg="topic_tools" type="relay" name="f_scan_relay" args="f_scan scan"/>
+    <node name="b_rep117_laser_filter" pkg="mir_driver" type="rep117_filter.py" output="screen">
+        <remap from="scan" to="b_scan"/>
+        <remap from="scan_filtered" to="base_scan_filtered"/>
+    </node>
+    <node name="f_rep117_laser_filter" pkg="mir_driver" type="rep117_filter.py" output="screen">
+    </node>
+</launch>

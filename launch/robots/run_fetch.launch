@@ -12,9 +12,13 @@
   <!-- model_name determines the topics to be published, and serves as a unique identifier for Gazebo -->
   <arg name="model_type" value="fetch" />
 
-  <!-- Robot sensor topics -->
+  <!-- Robot topics and links -->
   <arg name="laser_topic" value="/base_scan" />
   <arg name="pointcloud_topic" value="/head_camera/depth_registered/points" />
+  <arg name="cmd_vel_topic" value="cmd_vel" />
+  <arg name="odom_topic" value="odom" />
+  <arg name="odom_link" value="odom"/>
+  <arg name="base_link" value="base_link" />
 
   <!-- Publish robot spawn for resetting to -->
   <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" >
@@ -26,9 +30,9 @@
 
   <!-- Start pointcloud filter-->
   <include file="$(find uml_3d_race)/launch/navigation/pointcloud_filter.launch">
-      <arg name="namespace" value="" />
-      <arg name="input_cloud" value="$(arg pointcloud_topic)" />
-      <arg name="output_cloud" value="$(arg pointcloud_topic)_filtered" />
+    <arg name="namespace" value="" />
+    <arg name="input_cloud" value="$(arg pointcloud_topic)" />
+    <arg name="output_cloud" value="$(arg pointcloud_topic)_filtered" />
   </include>
 
   <!-- Start nav stack or mapping mode-->
@@ -44,6 +48,10 @@
       <arg name="has_laser" value="true" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
       <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
+      <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+      <arg name="odom_topic" value="$(arg odom_topic)" />
+      <arg name="odom_link" value="$(arg odom_link)"/>
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
 
     <!-- Start 2d Nav Stack -->
@@ -54,8 +62,11 @@
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
-      <arg name="has_laser" value="true" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
+      <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+      <arg name="odom_topic" value="$(arg odom_topic)" />
+      <arg name="odom_link" value="$(arg odom_link)"/>
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
   </group>
 
@@ -71,6 +82,9 @@
       <arg name="init_yaw" value="$(arg yaw)" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
       <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
+      <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+      <arg name="odom_link" value="$(arg odom_link)"/>
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
   </group>
 

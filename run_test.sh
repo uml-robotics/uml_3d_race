@@ -12,23 +12,34 @@ if [[ $# -eq 4 ]]; then
     level=$1
     sim=$2
     gui="true"
-    robot=$3  
+    robot=$3 
+    threeD="true" 
     iterations=$4
     obstacle_bot="false"
 elif [[ $# -eq 5 ]]; then
     level=$1
     sim=$2
     gui=$3
-    robot=$4   
+    robot=$4
+    threeD="true" 
     iterations=$5
     obstacle_bot="false"
 elif [[ $# -eq 6 ]]; then
     level=$1
     sim=$2
     gui=$3
-    robot=$4   
-    iterations=$5
-    obstacle_bot=$6 
+    robot=$4
+    threeD=$5    
+    iterations=$6
+    obstacle_bot="false"
+elif [[ $# -eq 7 ]]; then
+    level=$1
+    sim=$2
+    gui=$3
+    robot=$4
+    threeD=$5
+    iterations=$6
+    obstacle_bot=$7 
 fi
 
 # Launch a world in Gazebo
@@ -37,7 +48,7 @@ echo
 echo "Setting up the $robot robot in the $level environment"
 echo
 echo -----------------------------------------------------------
-roslaunch uml_3d_race "$level".launch sim:="$sim" gui:="$gui" navigate:=true robot:="$robot" obstacle_bot:="$obstacle_bot" &
+roslaunch uml_3d_race "$level".launch sim:="$sim" gui:="$gui" navigate:=true robot:="$robot" 3d:="$threeD" obstacle_bot:="$obstacle_bot" &
 pid1=$!
 
 sleep 12s
@@ -52,7 +63,7 @@ roscd uml_3d_race
 cd resources/logs
 
 #create a folder to put the logs into and name the folder using the name of the map being used and the current time
-name=$1_$(date +'%F_%T')
+name="$level"_"$robot"_$(date +'%F_%T')
 mkdir $name
 cd $name
 

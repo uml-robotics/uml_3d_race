@@ -7,7 +7,6 @@
   <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="cloud_to_scan">
     <remap from="cloud_in" to="$(arg cloud_topic)"/>
     <remap from="scan" to="pointcloud_scan"/>
-    <param name="target_frame" value="kinect_stand_link"/>
     <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot)/pc_to_laser_config.yaml" command="load"/>
   </node>
 </launch>

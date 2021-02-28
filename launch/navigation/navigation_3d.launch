@@ -23,6 +23,10 @@
   <!-- Robot sensor topic mapping-->
   <arg name="laser_topic" />
   <arg name="pointcloud_topic" />
+  <arg name="cmd_vel_topic" />
+  <arg name="odom_topic" />
+  <arg name="odom_link" />
+  <arg name="base_link" />
 
   <!-- use static map -->
   <group if="$(arg use_static_map)">
@@ -35,6 +39,7 @@
     <include file="$(find uml_3d_race)/launch/navigation/octomap_server.launch">
       <arg name="robot_type" value="$(arg robot_type)" />
       <arg name="map" value="$(arg map)" />
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
 
     <!--- Launch AMCL (Laser Localization) -->
@@ -45,6 +50,8 @@
         <arg name="init_y" value="$(arg init_y)" />
         <arg name="init_yaw" value="$(arg init_yaw)" />
         <arg name="scan_topic" value="$(arg laser_topic)" />
+        <arg name="odom_link" value="$(arg odom_link)" />
+        <arg name="base_link" value="$(arg base_link)" />
       </include>
     </group>
 
@@ -55,6 +62,8 @@
         <arg name="init_y" default="$(arg init_y)" />
         <arg name="init_yaw" default="$(arg init_yaw)" />
         <arg name="scan_topic" value="pointcloud_scan" />
+        <arg name="odom_link" value="$(arg odom_link)" />
+        <arg name="base_link" value="$(arg base_link)" />
       </include>
     </group>
   </group>
@@ -66,6 +75,8 @@
     <include file="$(find uml_3d_race)/launch/navigation/gmapper.launch">
       <arg name="namespace" value="$(arg namespace)" />
       <arg name="scan_topic" value="$(arg laser_topic)" />
+      <arg name="odom_link" value="$(arg odom_link)" />
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
 
   </group>
@@ -77,12 +88,16 @@
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)" />
     <arg name="robot_type" value="$(arg robot_type)" />
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+    <arg name="odom_topic" value="$(arg odom_topic)" />
   </include>
 
   <include file="$(find uml_3d_race)/launch/navigation/move_base.launch" unless="$(arg use_static_map)">
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)_unknown" />
     <arg name="robot_type" value="$(arg robot_type)" />
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+    <arg name="odom_topic" value="$(arg odom_topic)" />
   </include>
 
 </launch>

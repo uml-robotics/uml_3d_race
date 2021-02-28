@@ -17,9 +17,13 @@
   <!-- The location of the top-level xacro file that defines the robot  -->
   <arg name="model_file" value="$(find uml_3d_race)/resources/models/pioneer/defs/pioneer.xacro" />
 
-  <!-- Robot sensor topics -->
+  <!-- Robot topics and links-->
   <arg name="laser_topic" value="frontscan_filtered" />
-  <arg name="pointcloud_topic" value="/kinect/depth/points" />
+  <arg name="pointcloud_topic" value="kinect/depth/points" />
+  <arg name="cmd_vel_topic" value="cmd_vel" />
+  <arg name="odom_topic" value="odom" />
+  <arg name="odom_link" value="odom"/>
+  <arg name="base_link" value="base_link" />
 
 
   <!-- Load robot_description parameter from top-level pioneer3dx.xacro file -->
@@ -84,6 +88,10 @@
       <arg name="has_laser" value="true" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
       <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
+      <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+      <arg name="odom_topic" value="$(arg odom_topic)" />
+      <arg name="odom_link" value="$(arg odom_link)"/>
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
 
     <!-- Start 2d Nav Stack -->
@@ -96,6 +104,10 @@
       <arg name="init_yaw" value="$(arg yaw)" />
       <arg name="move_base_config" value="default" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
+      <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+      <arg name="odom_topic" value="$(arg odom_topic)" />
+      <arg name="odom_link" value="$(arg odom_link)"/>
+      <arg name="base_link" value="$(arg base_link)" />
      </include>
   </group>
 
@@ -111,6 +123,9 @@
       <arg name="init_yaw" value="$(arg yaw)" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
       <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
+      <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+      <arg name="odom_link" value="$(arg odom_link)"/>
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
   </group>
 

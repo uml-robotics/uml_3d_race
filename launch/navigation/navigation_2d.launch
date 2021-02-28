@@ -16,8 +16,12 @@
        you can copy the default folder, rename it, then change move_base_config. -->
   <arg name="use_static_map" default="true" />
 
-  <!-- Robot sensor topic mapping-->
+  <!-- Robot topic and frame mappings-->
   <arg name="laser_topic" />
+  <arg name="cmd_vel_topic" />
+  <arg name="odom_topic" />
+  <arg name="odom_link" />
+  <arg name="base_link" />
 
   <!-- use static map -->
   <group if="$(arg use_static_map)">
@@ -33,7 +37,9 @@
       <arg name="init_x" value="$(arg init_x)" />
       <arg name="init_y" value="$(arg init_y)" />
       <arg name="init_yaw" value="$(arg init_yaw)" />
-      <arg name="laser_topic" value="$(arg laser_topic)"/>
+      <arg name="scan_topic" value="$(arg laser_topic)"/>
+      <arg name="odom_link" value="$(arg odom_link)" />
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
 
   </group>
@@ -44,7 +50,9 @@
     <!-- Include gmapper -->
     <include file="$(find uml_3d_race)/launch/navigation/gmapper.launch">
       <arg name="namespace" value="$(arg namespace)" />
-      <arg name="laser_topic" value="$(arg laser_topic)"/>
+      <arg name="scan_topic" value="$(arg laser_topic)"/>
+      <arg name="odom_link" value="$(arg odom_link)" />
+      <arg name="base_link" value="$(arg base_link)" />
     </include>
 
   </group>
@@ -57,12 +65,16 @@
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)" />
     <arg name="robot_type" value="$(arg robot_type)" />
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+    <arg name="odom_topic" value="$(arg odom_topic)" />
   </include>
 
   <include file="$(find uml_3d_race)/launch/navigation/move_base.launch" unless="$(arg use_static_map)">
     <arg name="namespace" value="$(arg namespace)" />
     <arg name="config" value="$(arg move_base_config)_unknown" />
     <arg name="robot_type" value="$(arg robot_type)" />
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+    <arg name="odom_topic" value="$(arg odom_topic)" />
   </include>
 
 </launch>
