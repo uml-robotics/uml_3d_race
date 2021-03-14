@@ -3,9 +3,7 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
-#include <actionlib/client/simple_action_client.h>
-#include <move_base_msgs/MoveBaseAction.h>
-#include <actionlib_msgs/GoalStatusArray.h>
+#include <move_base_msgs/MoveBaseActionResult.h>
 #include <gazebo_msgs/ContactsState.h>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2/LinearMath/Quaternion.h>
@@ -16,8 +14,6 @@
 
 //SimLog is a custom message type defined in uml_3d_race/msg/SimLog.msg
 #include <uml_3d_race/SimLog.h>
-
-typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 // Simple distance function
 float distance(float x1, float y1, float x2, float y2)
@@ -220,20 +216,18 @@ void goal_callback(const geometry_msgs::Pose2D::ConstPtr &goal)
     logger->add_goal(*goal);
 }
 
-void state_callback(const actionlib_msgs::GoalStatusArray::ConstPtr &state)
+void state_callback(const move_base_msgs::MoveBaseActionResult::ConstPtr &state)
 {
-    if (!state->status_list.empty())
+    if (state->status.status == state->status.ABORTED || state->status.status == state->status.REJECTED)
     {
-        if (state->status_list.back().status == state->status_list.back().ABORTED || state->status_list.back().status == state->status_list.back().REJECTED)
-        {
-            logger->add_nav_result(false);
-        }
-
-        if (state->status_list.back().status == state->status_list.back().SUCCEEDED)
-        {
-            logger->add_nav_result(true);
-        }
+        logger->add_nav_result(false);
     }
+
+    if (state->status.status == state->status.SUCCEEDED)
+    {
+        logger->add_nav_result(true);
+    }
+    
 }
 
 int main(int argc, char **argv)
@@ -249,7 +243,7 @@ int main(int argc, char **argv)
     ros::Subscriber odom_sub = n.subscribe("amcl/amcl_pose", 1, odom_callback);
     ros::Subscriber collision_sub = n.subscribe("bumper_contact", 10, collision_callback);
     ros::Subscriber goal_sub = n.subscribe("/goal", 10, goal_callback);
-    ros::Subscriber result = n.subscribe("move_base/status", 10, state_callback);
+    ros::Subscriber result = n.subscribe("move_base/result", 10, state_callback);
 
     logger = new Referee(n);
 

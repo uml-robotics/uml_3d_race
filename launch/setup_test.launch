@@ -16,14 +16,23 @@
   <!-- Type of robot being spawned in -->
   <arg name="robot" default="pioneer" />
 
-  <!-- Define the two goal points on the map, values are set in the level launch files-->
-  <arg name="spawn_x" />
-  <arg name="spawn_y" />
-  <arg name="spawn_z" />
-  <arg name="spawn_yaw" />
+  <!-- Define the two goal points and two obstacle spawn points on the map, values are set in the level launch files-->
+  <arg name="spawn_x" default="0"/>
+  <arg name="spawn_y" default="0"/>
+  <arg name="spawn_z" default="0"/>
+  <arg name="spawn_yaw" default="0"/>
 
-  <arg name="goal_x" />
-  <arg name="goal_y" />
+  <arg name="goal_x" default="0"/>
+  <arg name="goal_y" default="0"/>
+
+  <arg name="obstacle_x_1" default="0"/>
+  <arg name="obstacle_y_1" default="0"/>
+  <arg name="obstacle_z_1" default="0"/>
+  <arg name="obstacle_theta_1" default="0"/>
+  <arg name="obstacle_x_2" default="0"/>
+  <arg name="obstacle_y_2" default="0"/>
+  <arg name="obstacle_z_2" default="0"/>
+  <arg name="obstacle_theta_2" default="0"/>
 
   <!-- Define map settings, values are set in the level launch files-->
   <arg name="world_name" />
@@ -32,6 +41,14 @@
   <!-- Determine whether an obstacle robot should be spawned in -->
   <arg name="obstacle_bot" default="false" />
 
+  <!-- Determine whether a dynamic obstacle should be spawned in -->
+  <arg name="dynamic_obstacle" default="false" />
+
+  <!-- Name of dynamic obstacle that will be spawned in if needed -->
+  <arg name="obstacle_name" default="caution_100cm_block" />
+
+  <!-- Flip obstacle spawner -->
+  <arg name="flip_obstacle" default="true" />
   
   <!-- Set up global goal publisher -->
   <node name="goal_publisher" pkg="uml_3d_race" type="goal_publisher" output="screen">
@@ -39,8 +56,7 @@
     <param name="goal_y" value="$(arg goal_y)" />
     <param name="spawn_x" value="$(arg spawn_x)" />
     <param name="spawn_y" value="$(arg spawn_y)" />
-  </node>  <!-- all vars that included.launch requires must be set -->
-
+  </node>  
 
   <!-- Include spawn_world.launch and set it's arguments if simulation is needed-->
   <include file="$(find uml_3d_race)/launch/spawn_world.launch" if="$(arg sim)">
@@ -73,5 +89,19 @@
     <arg name="navigate" value="$(arg navigate)" />
     <arg name="sim" value="$(arg sim)" />
   </include>
+
+  <!-- Setup dynamic obstacle spawner if wanted -->
+  <node name="dynamic_obstacle_manager" pkg="uml_3d_race" type="dynamic_obstacles" if="$(arg dynamic_obstacle)">
+    <param name="model_description" textfile="$(find uml_3d_race)/resources/models/obstacles/$(arg obstacle_name)/model.sdf"/>
+    <param name="invert_spawn_positions" value="$(arg flip_obstacle)" />
+    <param name="x_pos_1" value="$(arg obstacle_x_1)" />
+    <param name="y_pos_1" value="$(arg obstacle_y_1)" />
+    <param name="z_pos_1" value="$(arg obstacle_z_1)" />
+    <param name="theta_1" value="$(arg obstacle_theta_1)" />
+    <param name="x_pos_2" value="$(arg obstacle_x_2)" />
+    <param name="y_pos_2" value="$(arg obstacle_y_2)" />
+    <param name="z_pos_2" value="$(arg obstacle_z_2)" />
+    <param name="theta_2" value="$(arg obstacle_theta_2)" />
+  </node>
 
 </launch>

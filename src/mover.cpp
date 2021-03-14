@@ -15,6 +15,7 @@ ros::ServiceClient goal_service;
 
 int goals_reached;
 int iterations;
+bool clear_costmaps;
 
 void goalCallback(geometry_msgs::Pose2D goal_msg)
 {
@@ -36,11 +37,15 @@ void goalCallback(geometry_msgs::Pose2D goal_msg)
     //Wait for the robot to finish moving
     ac->waitForResult();
 
-    //Clear costmaps once finished navigating
     std_srvs::Empty service_msg;
-    if (!costmap_service.call(service_msg))
+
+    //Clear costmaps once finished navigating if clear_costmaps is true
+    if(clear_costmaps)
     {
-        ROS_WARN("Failed to clear costmaps");
+        if (!costmap_service.call(service_msg))
+        {
+            ROS_WARN("Failed to clear costmaps");
+        }
     }
 
     //Increase goals_reached counter
@@ -82,9 +87,11 @@ int main(int argc, char **argv)
     //Set defaults
     goals_reached = 0;
     iterations = 0;
+    clear_costmaps = false;
 
     //Get number of iterations
     n.getParam(ros::this_node::getName() + "/iterations", iterations);
+    n.getParam(ros::this_node::getName() + "/clear_costmaps", clear_costmaps);
 
     //wait for the action server to come up
     while (!ac->waitForServer(ros::Duration(5.0)))
@@ -99,11 +106,12 @@ int main(int argc, char **argv)
     std_srvs::Empty service_msg;
 
     //clear the costmaps
-    if (!costmap_service.call(service_msg))
-    {
-        ROS_WARN("Failed to clear costmaps");
+    if(clear_costmaps){
+        if (!costmap_service.call(service_msg))
+        {
+            ROS_WARN("Failed to clear costmaps");
+        }
     }
-
     //Call the goal service to recieve the first goal
     if (!goal_service.call(service_msg))
     {

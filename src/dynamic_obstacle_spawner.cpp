@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 #include <string>
 #include <geometry_msgs/Pose.h>
-#include <actionlib_msgs/GoalStatusArray.h>
+#include <move_base_msgs/MoveBaseActionResult.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <gazebo_msgs/SpawnModel.h>
 #include <gazebo_msgs/DeleteModel.h>
@@ -63,12 +63,10 @@ void delete_object(std::string object_name)
   }
 }
 
-void state_callback(const actionlib_msgs::GoalStatusArray::ConstPtr &state)
+void state_callback(const move_base_msgs::MoveBaseActionResult::ConstPtr &state)
 {
-    if (!state->status_list.empty())
-    {
-        if (state->status_list.back().status == state->status_list.back().ABORTED || state->status_list.back().status == state->status_list.back().REJECTED 
-            || state->status_list.back().status == state->status_list.back().SUCCEEDED)
+        if (state->status.status == state->status.SUCCEEDED || state->status.status == state->status.ABORTED || 
+            state->status.status == state->status.REJECTED)
         {
             //Switch the objects location
             if(side_toggle)
@@ -84,8 +82,11 @@ void state_callback(const actionlib_msgs::GoalStatusArray::ConstPtr &state)
 
           //Toggle the side to spawn the next object
           side_toggle = !side_toggle;
+
+          //Add a delay to avoid toggle chaos
+          ros::Duration(1).sleep();
         }
-    }
+    
 }
 
 int main(int argc, char **argv){
@@ -103,15 +104,18 @@ int main(int argc, char **argv){
   n.getParam(ros::this_node::getName()+"/z_pos_1", z_pos_1);
   n.getParam(ros::this_node::getName()+"/theta_1", theta_1);
 
-  n.getParam(ros::this_node::getName()+"/x_pos_2", x_pos_1);
-  n.getParam(ros::this_node::getName()+"/y_pos_2", y_pos_1);
-  n.getParam(ros::this_node::getName()+"/z_pos_2", z_pos_1);
-  n.getParam(ros::this_node::getName()+"/theta_2", theta_1);
+  n.getParam(ros::this_node::getName()+"/x_pos_2", x_pos_2);
+  n.getParam(ros::this_node::getName()+"/y_pos_2", y_pos_2);
+  n.getParam(ros::this_node::getName()+"/z_pos_2", z_pos_2);
+  n.getParam(ros::this_node::getName()+"/theta_2", theta_2);
 
   //Create all of the topic and service objects
-  spawner_service = n.serviceClient<gazebo_msgs::SpawnModel>("/gazebo/spawn_model");
+  spawner_service = n.serviceClient<gazebo_msgs::SpawnModel>("/gazebo/spawn_sdf_model");
   delete_service = n.serviceClient<gazebo_msgs::DeleteModel>("/gazebo/delete_model");
-  ros::Subscriber move_base_results = n.subscribe("move_base/status", 10, state_callback);
+  ros::Subscriber move_base_results = n.subscribe("move_base/result", 10, state_callback);
+
+  //Wait for the spawner service to be available
+  spawner_service.waitForExistence();
 
   //Spawn in first object
   if(side_toggle)
@@ -122,6 +126,9 @@ int main(int argc, char **argv){
   {
     spawn_object("dynamic_obstacle_2", x_pos_2, y_pos_2, z_pos_2, theta_2);
   }
+
+  //Toggle the side to spawn the next object
+  side_toggle = !side_toggle;
 
   //Maintain node and checks for susbcriber callback trigger
   ros::spin();

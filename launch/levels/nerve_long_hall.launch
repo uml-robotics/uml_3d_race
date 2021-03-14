@@ -23,12 +23,30 @@
   <arg name="goal_x" value="0.0" />
   <arg name="goal_y" value="14.0" />
 
+  <arg name="obstacle_x_1" value="0"/>
+  <arg name="obstacle_y_1" value="0"/>
+  <arg name="obstacle_z_1" value="0"/>
+  <arg name="obstacle_theta_1" value="0"/>
+  <arg name="obstacle_x_2" value="0"/>
+  <arg name="obstacle_y_2" value="0"/>
+  <arg name="obstacle_z_2" value="0"/>
+  <arg name="obstacle_theta_2" value="0"/>
+
   <!-- Define map settings-->
   <arg name="world_name" value="nerve_long_hall" />
   <arg name="world_path" value="$(arg world_name).world" />
   
   <!-- Determine whether an obstacle robot should be spawned in -->
   <arg name="obstacle_bot" default="false" />
+
+  <!-- Determine whether a dynamic obstacle should be spawned in -->
+  <arg name="dynamic_obstacle" default="false" />
+
+  <!-- Name of dynamic obstacle that will be spawned in if needed -->
+  <arg name="obstacle_name" default="caution_100cm_block" />
+
+  <!-- Flip obstacle spawner -->
+  <arg name="flip_obstacle" default="true" />
 
   <!-- Set up the test -->
   <include file="$(find uml_3d_race)/launch/setup_test.launch">
@@ -46,6 +64,17 @@
     <arg name="world_name" value="$(arg world_name)" />
     <arg name="world_path" value="$(arg world_path)" />
     <arg name="obstacle_bot" value="$(arg obstacle_bot)" />
+    <arg name="dynamic_obstacle" value="$(arg dynamic_obstacle)" />
+    <arg name="obstacle_name" value="$(arg obstacle_name)" />
+    <arg name="flip_obstacle" value="$(arg flip_obstacle)" />
+    <arg name="obstacle_x_1" value="$(arg obstacle_x_1)"/>
+    <arg name="obstacle_y_1" value="$(arg obstacle_y_1)"/>
+    <arg name="obstacle_z_1" value="$(arg obstacle_z_1)"/>
+    <arg name="obstacle_theta_1" value="$(arg obstacle_theta_1)"/>
+    <arg name="obstacle_x_2" value="$(arg obstacle_x_2)"/>
+    <arg name="obstacle_y_2" value="$(arg obstacle_y_2)"/>
+    <arg name="obstacle_z_2" value="$(arg obstacle_z_2)"/>
+    <arg name="obstacle_theta_2" value="$(arg obstacle_theta_2)"/>
   </include>
 
 </launch>

@@ -14,6 +14,7 @@ if [[ $# -eq 4 ]]; then
     gui="true"
     robot=$3 
     threeD="true" 
+    clear_costmaps="true"
     iterations=$4
     obstacle_bot="false"
 elif [[ $# -eq 5 ]]; then
@@ -21,7 +22,8 @@ elif [[ $# -eq 5 ]]; then
     sim=$2
     gui=$3
     robot=$4
-    threeD="true" 
+    threeD="true"
+    clear_costmaps="true"
     iterations=$5
     obstacle_bot="false"
 elif [[ $# -eq 6 ]]; then
@@ -29,7 +31,8 @@ elif [[ $# -eq 6 ]]; then
     sim=$2
     gui=$3
     robot=$4
-    threeD=$5    
+    threeD=$5
+    clear_costmaps="true"
     iterations=$6
     obstacle_bot="false"
 elif [[ $# -eq 7 ]]; then
@@ -38,8 +41,18 @@ elif [[ $# -eq 7 ]]; then
     gui=$3
     robot=$4
     threeD=$5
-    iterations=$6
-    obstacle_bot=$7 
+    clear_costmaps=$6
+    iterations=$7
+    obstacle_bot="false"
+elif [[ $# -eq 8 ]]; then
+    level=$1
+    sim=$2
+    gui=$3
+    robot=$4
+    threeD=$5
+    clear_costmaps=$6
+    iterations=$7
+    obstacle_bot=$8
 fi
 
 # Launch a world in Gazebo
@@ -83,7 +96,7 @@ echo
 echo "Starting test"
 echo
 echo -----------------------------------------------------------
-roslaunch uml_3d_race race.launch iterations:="$iterations"
+roslaunch uml_3d_race race.launch iterations:="$iterations" clear_costmaps:="$clear_costmaps"
 pid4=$!
 
 #this will kill the script if any errors occur during the test

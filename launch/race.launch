@@ -1,10 +1,12 @@
 <launch>
   <arg name="namespace" default="" />
   <arg name="iterations" default="1" />
+  <arg name="clear_costmaps" default="true" />
 
   <!-- Start moving-->
   <node name="mover_node" pkg="uml_3d_race" type="mover_node" output="screen" required="true" if="$(eval not namespace)">
     <param name="iterations" value="$(arg iterations)" />
+    <param name="clear_costmaps" value="$(arg clear_costmaps)" />
   </node>
 
   <!-- Start moving with namespace-->
