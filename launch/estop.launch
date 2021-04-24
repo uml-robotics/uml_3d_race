@@ -1,4 +1,6 @@
 <launch>
+    <!-- This launch file launches the custom estop node found at src/estop.cpp -->
+
     <!-- First get the namespace of the robot if there is one-->
     <arg name="namespace" default="" />
 

@@ -1,3 +1,11 @@
+/*  
+    The mover node manages the navigation status of a robot.  First, if the robot needs to navigate towards a goal, the mover node
+    gets the current navigation goal from goal_pub and commands the move_base to move toward that goal.  Once the robot reaches a goal,
+    the mover node will call the goal_pub service to get a new goal if another iteration is desired.  Next, the mover node keeps track
+    of the the number of iterations the robot has completed and limits the robot to a specified number of iterations.  Finally, if desired,
+    the costmaps on the robot are cleared in between each iteration.
+*/
+
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <std_srvs/Empty.h>

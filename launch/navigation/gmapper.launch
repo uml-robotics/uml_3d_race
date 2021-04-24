@@ -6,6 +6,7 @@
   <arg name="odom_link" default="odom" />
   <arg name="base_link" default="base_link" />
 
+  <!-- Launch Gmapper without a namespace if no namespace is given -->
   <node name="slam_mapping" pkg="gmapping" type="slam_gmapping" if="$(eval not namespace)">
       <remap from="scan" to="$(arg scan_topic)"/>
       <remap from="map" to="/map" />
@@ -21,6 +22,7 @@
       <param name="odom_frame" value="$(arg odom_link)" />
   </node>
 
+  <!-- Launch Gmapper with a namespace if a namespace is given -->
   <node name="slam_mapping" pkg="gmapping" type="slam_gmapping" ns="$(arg namespace)" unless="$(eval not namespace)">
       <remap from="scan" to="$(arg scan_topic)"/>
       <remap from="map" to="/map" />

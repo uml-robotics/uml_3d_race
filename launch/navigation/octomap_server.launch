@@ -1,5 +1,6 @@
 <launch>
   <!-- Doc: http://wiki.ros.org/octomap_server?distro=kinetic -->
+  
   <arg name="robot_type" default="" />
   <arg name="map" default="level1" />
   <arg name="base_link" default="base_link" />

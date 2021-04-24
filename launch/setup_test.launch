@@ -1,6 +1,6 @@
-<!-- This launch file is responsible for launching all of the necessesary nodes and launch files needed to setup a test -->
-
 <launch>
+  <!-- This launch file is responsible for launching all of the necessesary nodes and launch files needed to setup a test. -->
+
   <!-- Determine whether the robot is physical or simulated-->
   <arg name="sim" default="true" />
 
@@ -57,6 +57,13 @@
     <param name="spawn_x" value="$(arg spawn_x)" />
     <param name="spawn_y" value="$(arg spawn_y)" />
   </node>  
+
+  <!-- Publish robot spawn if robot resetting is needed -->
+  <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen" >
+    <param name="x_position" value="$(arg spawn_x)" />
+    <param name="y_position" value="$(arg spawn_y)" />
+    <param name="z_rotation" value="$(arg spawn_yaw)" />
+  </node>
 
   <!-- Include spawn_world.launch and set it's arguments if simulation is needed-->
   <include file="$(find uml_3d_race)/launch/spawn_world.launch" if="$(arg sim)">

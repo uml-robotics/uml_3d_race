@@ -2,7 +2,7 @@
   <!-- Doc: http://wiki.ros.org/pointcloud_to_laserscan?distro=kinetic -->
 
   <arg name="robot" default="pioneer"/>
-  <arg name="cloud_topic" default="/kinect/depth/points" />
+  <arg name="cloud_topic" />
 
   <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="cloud_to_scan">
     <remap from="cloud_in" to="$(arg cloud_topic)"/>

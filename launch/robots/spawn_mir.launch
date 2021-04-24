@@ -1,5 +1,7 @@
 <!-- Assumes Gazebo is already running -->
 <launch>
+    <!-- This launch file includes all the nodes needed to setup a simulated MiR100 for navigation -->
+
     <!-- Settings (Robot position args are overidden by spawn_world.launch)-->
     <arg name="x" default="0.0" />
     <arg name="y" default="0.0" />
@@ -27,14 +29,6 @@
       <arg name="robot_y" default="$(arg y)" />
       <arg name="robot_yaw" default="$(arg yaw)" />
     </include>
-  
-    <!-- Publish robot spawn for resetting to -->
-    <node name="spawn_publisher" pkg="uml_3d_race" type="spawn_publisher" output="screen">
-      <param name="topic" value="spawn" />
-      <param name="x_position" value="$(arg x)" />
-      <param name="y_position" value="$(arg y)" />
-      <param name="z_rotation" value="$(arg yaw)" />
-    </node>
   
     <!-- Laser filter to remove infinite values from the front facing laser -->
     <!-- http://wiki.ros.org/laser_filters -->

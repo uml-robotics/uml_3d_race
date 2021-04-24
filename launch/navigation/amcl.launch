@@ -25,9 +25,11 @@
 		<remap from="map" to="/map"/>
 		<!-- Remap map service call -->
 		<remap from="static_map" to="/static_map" />
+
 		<!-- If not using map_server to provide map, uncomment line below-->
 		<!-- <param name="use_map_topic" value="true" /> -->
-		<!-- Remap the following topics and services to include a amcl prefix-->
+
+		<!-- Remap the following topics and services to include an amcl prefix-->
 		<remap from="global_localization" to="amcl/global_localization" />
 		<remap from="request_nomotion_update" to="amcl/request_nomotion_update" />
 		<remap from="set_map" to="amcl/set_map" />
@@ -84,9 +86,11 @@
 		<remap from="map" to="/map"/>
 		<!-- Remap map service call -->
 		<remap from="static_map" to="/static_map" />
+
 		<!-- If not using map_server to provide map, uncomment line below-->
 		<!-- <param name="use_map_topic" value="true" /> -->
-		<!-- Remap the following topics and services to include a amcl prefix-->
+
+		<!-- Remap the following topics and services to include an amcl prefix-->
 		<remap from="global_localization" to="amcl/global_localization" />
 		<remap from="request_nomotion_update" to="amcl/request_nomotion_update" />
 		<remap from="set_map" to="amcl/set_map" />

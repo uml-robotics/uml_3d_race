@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#This script launches, executes, and terminates all programs needed to run a navigation test
+
 #save the directory that the script was run in
 original_cd=$PWD
 

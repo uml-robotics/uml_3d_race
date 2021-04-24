@@ -1,4 +1,5 @@
 <launch>
+  <!-- Docs: https://wiki.ros.org/hector_geotiff -->
 
   <arg name="map_name" default="traj_map" />
   <arg name="map_dir" default="$(find uml_3d_race)/resources/geotiff_maps" />

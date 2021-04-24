@@ -1,4 +1,7 @@
 <launch>
+  <!-- This launch file includes the setup_test launch file and sets the parameters needed to launch
+  the level2 world. -->
+
   <!-- Determine whether the robot is physical or simulated-->
   <arg name="sim" default="true" />
 

@@ -1,4 +1,8 @@
 <launch>
+    <!-- The map_teleop launch file includes all of the launch files needed for a robot to map an environment.  
+    The nodes needed for both 2D and 3D mapping are gmapping and octomap_server.  Also this launch file launches 
+    the teleop_twist_keyboard which allows a user to drive the robot around with a keyboard.-->
+
     <!-- Settings -->
     <arg name="namespace" default="" />
     <!-- Map Name-->

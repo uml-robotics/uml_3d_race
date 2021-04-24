@@ -1,4 +1,6 @@
 <launch>
+  <!-- This launch file launches either a specified Gazebo world or an empty Gazebo world.-->
+
   <!-- World file to launch (excluding the .world extension) -->
   <arg name="load_world" default="true" />
   <arg name="world_path" default="level1.world" />

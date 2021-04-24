@@ -1,3 +1,11 @@
+/*  
+    The dynamic_obstacle_spawner node spawns in a specificed Gazebo model at a specified pose.  Then the node listens
+    to the move_base result topic waiting for the robot to complete an iteration.  Then once the robot reaches a goal,
+    the model is deleted and spawned in at the second specified pose. Then for every goal completion afterwards, the
+    model is toggled between the two specified poses.
+*/
+
+
 #include "ros/ros.h"
 #include <string>
 #include <geometry_msgs/Pose.h>
@@ -65,27 +73,27 @@ void delete_object(std::string object_name)
 
 void state_callback(const move_base_msgs::MoveBaseActionResult::ConstPtr &state)
 {
-        if (state->status.status == state->status.SUCCEEDED || state->status.status == state->status.ABORTED || 
-            state->status.status == state->status.REJECTED)
-        {
-            //Switch the objects location
-            if(side_toggle)
-            {
-              spawn_object("dynamic_obstacle_1", x_pos_1, y_pos_1, z_pos_1, theta_1);
-              delete_object("dynamic_obstacle_2");
-            }
-            else
-            {
-              spawn_object("dynamic_obstacle_2", x_pos_2, y_pos_2, z_pos_2, theta_2);
-              delete_object("dynamic_obstacle_1");
-            }
+  if (state->status.status == state->status.SUCCEEDED || state->status.status == state->status.ABORTED || 
+      state->status.status == state->status.REJECTED)
+  {
+    //Switch the objects location
+    if(side_toggle)
+    {
+      spawn_object("dynamic_obstacle_1", x_pos_1, y_pos_1, z_pos_1, theta_1);
+      delete_object("dynamic_obstacle_2");
+    }
+    else
+    {
+      spawn_object("dynamic_obstacle_2", x_pos_2, y_pos_2, z_pos_2, theta_2);
+      delete_object("dynamic_obstacle_1");
+    }
 
-          //Toggle the side to spawn the next object
-          side_toggle = !side_toggle;
+    //Toggle the side to spawn the next object
+    side_toggle = !side_toggle;
 
-          //Add a delay to avoid toggle chaos
-          ros::Duration(1).sleep();
-        }
+    //Add a delay to avoid toggle chaos
+    ros::Duration(1).sleep();
+  }
     
 }
 

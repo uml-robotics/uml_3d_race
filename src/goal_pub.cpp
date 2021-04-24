@@ -1,3 +1,9 @@
+/*  
+    The goal_pub node publishes the current navigation goal to the goal topic.  In a navigation test, two goals are specified and the
+    robot travels between the two goals for a specifed number of iterations.  The goal_pub keeps track which goal is the current goal
+    and current goal is swapped if the goal_pub service is called.
+*/
+
 #include "ros/ros.h"
 #include <string>
 #include <std_srvs/Empty.h>

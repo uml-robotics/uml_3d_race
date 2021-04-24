@@ -10,6 +10,7 @@
 
   <!-- Use global costmap-->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" if="$(eval not namespace)" output="screen">
+    <!-- Include robot specific parameters from the robot config folder -->
     <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot_type)/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot_type)/costmap_height.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot_type)/navigation/$(arg config)/global_costmap_params.yaml" command="load" />
@@ -30,6 +31,7 @@
 
   <!-- move base with namespace -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" ns="$(arg namespace)" unless="$(eval not namespace)">
+    <!-- Include robot specific parameters from the robot config folder -->
     <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot_type)/navigation/$(arg config)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot_type)/costmap_height.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find uml_3d_race)/resources/config/$(arg robot_type)/navigation/$(arg config)/global_costmap_params.yaml" command="load" />

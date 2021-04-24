@@ -17,7 +17,7 @@
   </node>
 
   <!-- Put a robot in gazebo, make it look pretty -->
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="
     -urdf
     -model $(arg model_type)
     -param $(arg model_type)/robot_description
@@ -25,7 +25,6 @@
     -y $(arg y)
     -z $(arg z)
     -Y $(arg yaw)">
-    <param name="z_rotation" value="$(arg yaw)" />
   </node>
         
   <node name="prepare_robot" pkg="fetch_gazebo" type="prepare_simulated_robot.py"/>

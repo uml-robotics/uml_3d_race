@@ -12,19 +12,17 @@ int main(int argc, char **argv){
   float x_position = 0.0;
   float y_position = 0.0;
   float z_rotation = 0.0;
-  std::string topic = "spawn";
 
   //Retrieve node parameters
   n.getParam(ros::this_node::getName()+"/x_position",x_position);
   n.getParam(ros::this_node::getName()+"/y_position",y_position);
   n.getParam(ros::this_node::getName()+"/z_rotation",z_rotation);
-  n.getParam(ros::this_node::getName()+"/topic",topic);
 
   //Display node information on startup
-  ROS_INFO("SPAWN_PUB | Point: (%.2f,%.2f)\tRotation: %.2f\tTopic: %s",x_position,y_position,z_rotation,topic.c_str());
+  ROS_INFO("SPAWN_PUB | Point: (%.2f,%.2f)\tRotation: %.2f",x_position,y_position,z_rotation);
 
   //Create the publisher object
-  ros::Publisher spawn_pub = n.advertise<geometry_msgs::PoseWithCovarianceStamped>(topic, 1, true);
+  ros::Publisher spawn_pub = n.advertise<geometry_msgs::PoseWithCovarianceStamped>("spawn", 1, true);
 
   //Construct Spawn message
   geometry_msgs::PoseWithCovarianceStamped spawn;

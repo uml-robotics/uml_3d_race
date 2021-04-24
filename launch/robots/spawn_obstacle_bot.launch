@@ -1,5 +1,7 @@
 <!-- Assumes Gazebo is already running -->
 <launch>
+  <!-- This launch file includes all the nodes needed to setup a simulated obstacle_bot for navigation -->
+
   <!-- Settings (Robot position args are overidden by spawn_world.launch)-->
   <arg name="x" default="0.0" />
   <arg name="y" default="0.0" />

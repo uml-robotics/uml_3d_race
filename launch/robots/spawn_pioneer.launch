@@ -1,5 +1,7 @@
 <!-- Assumes Gazebo is already running -->
 <launch>
+  <!-- This launch file includes all the nodes needed to setup a simulated pioneer for navigation -->
+
   <!-- Settings (Robot position args are overidden by spawn_world.launch)-->
   <arg name="x" default="0.0" />
   <arg name="y" default="0.0" />
@@ -44,7 +46,7 @@
   </node>
 
   <!-- Spawn robot into Gazebo -->
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="
     -urdf
     -model $(arg model_type)
     -param $(arg model_type)/robot_description
@@ -52,7 +54,6 @@
     -y $(arg y)
     -z $(arg z)
     -Y $(arg yaw)">
-    <param name="z_rotation" value="$(arg yaw)" />
   </node>
 
   <!-- Laser filter to remove infinite values from the front facing laser -->

@@ -1,7 +1,10 @@
 <launch>
     <arg name="config_file" default="config" />
-    <arg name="robot" default="pioneer" />
+    <arg name="robot" default="" />
 
-    <!-- Launch rviz using a specific config file -->
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find uml_3d_race)/resources/config/$(arg robot)/$(arg config_file).rviz" />
+    <!-- Launch rviz using the default config file -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find uml_3d_race)/resources/config/rviz_default/$(arg config_file).rviz" if="$(eval not robot)"/>
+
+    <!-- Launch rviz using a robot specific config file -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find uml_3d_race)/resources/config/$(arg robot)/$(arg config_file).rviz" unless="$(eval not robot)"/>
 </launch>

@@ -1,5 +1,8 @@
 <!-- Assumes Gazebo is already running -->
 <launch>
+  <!-- This launch file launches a robot launch file found at launch/robots/...  The launch file that is launched is dependent
+  on the name of the robot being used and whether the robot is being simulated or used in the real world. -->
+
   <!-- Settings (Robot position args are overidden by spawn_world.launch)-->
   <arg name="x" default="0.0" />
   <arg name="y" default="0.0" />
