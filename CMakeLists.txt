@@ -155,7 +155,7 @@ include_directories(
  add_executable(spawn_publisher src/spawn_pub.cpp)
  add_executable(reset_robot src/reset_robot.cpp)
  add_executable(obstacle_bot_node src/obstacle_bot.cpp)
- add_executable(logger src/referee.cpp)
+ add_executable(logger src/logger.cpp)
  add_executable(estop src/estop.cpp)
  add_executable(dynamic_obstacles src/dynamic_obstacle_spawner.cpp)
 

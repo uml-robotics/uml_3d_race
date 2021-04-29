@@ -3,18 +3,18 @@
   <model name='caution_100cm_block'>
     <static>1</static>
     <pose frame=''>0 0 0 0 0 0</pose>
-    <static>1</static>
     <link name='Block'>
+      <pose frame=''>0 0 0.25 0 -0 0</pose>
       <collision name='Block_Collision'>
         <geometry>
           <box>
             <size>1.0 0.95 0.5</size>
           </box>
         </geometry>
-        <pose frame=''>0 0 0.25 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
       </collision>
       <visual name='Block_Visual'>
-        <pose frame=''>0 0 0.25 0 -0 0</pose>
+        <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <box>
             <size>1.0 0.95 0.5</size>
@@ -28,7 +28,6 @@
            <ambient>1 1 1 1</ambient>
         </material>
       </visual>
-      <pose frame=''>0 0 0 0 -0 0</pose>
     </link>
   </model>
 </sdf>

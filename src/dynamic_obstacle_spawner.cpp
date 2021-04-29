@@ -14,7 +14,7 @@
 #include <gazebo_msgs/SpawnModel.h>
 #include <gazebo_msgs/DeleteModel.h>
 
-std::string model_urdf;
+std::string model_sdf;
 
 float x_pos_1 = 0.0;
 float y_pos_1 = 0.0;
@@ -36,7 +36,7 @@ void spawn_object(std::string object_name, float x, float y, float z, float thet
   //Set object parameters
   gazebo_msgs::SpawnModel spawner_msg;
   spawner_msg.request.model_name = object_name;
-  spawner_msg.request.model_xml = model_urdf;
+  spawner_msg.request.model_xml = model_sdf;
   spawner_msg.request.robot_namespace = "";
 
   geometry_msgs::Pose pose;
@@ -80,12 +80,16 @@ void state_callback(const move_base_msgs::MoveBaseActionResult::ConstPtr &state)
     if(side_toggle)
     {
       spawn_object("dynamic_obstacle_1", x_pos_1, y_pos_1, z_pos_1, theta_1);
+      ros::Duration(0.5).sleep();
       delete_object("dynamic_obstacle_2");
+      
     }
     else
     {
       spawn_object("dynamic_obstacle_2", x_pos_2, y_pos_2, z_pos_2, theta_2);
+      ros::Duration(0.5).sleep();
       delete_object("dynamic_obstacle_1");
+      
     }
 
     //Toggle the side to spawn the next object
@@ -103,7 +107,7 @@ int main(int argc, char **argv){
   ros::NodeHandle n;
 
   //Retrieve node parameters
-  n.getParam(ros::this_node::getName()+"/model_description", model_urdf);
+  n.getParam(ros::this_node::getName()+"/model_description", model_sdf);
 
   n.getParam(ros::this_node::getName()+"/invert_spawn_positions", side_toggle);
 
@@ -124,6 +128,7 @@ int main(int argc, char **argv){
 
   //Wait for the spawner service to be available
   spawner_service.waitForExistence();
+  delete_service.waitForExistence();
 
   //Spawn in first object
   if(side_toggle)

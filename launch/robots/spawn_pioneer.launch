@@ -67,6 +67,7 @@
   <!-- Start Kinect to Laser Converter -->
   <include file="$(find uml_3d_race)/launch/navigation/pcl_to_laser.launch">
     <arg name="robot" value="$(arg model_type)" />
+    <arg name="pointcloud_topic" value="$(arg pointcloud_topic)_filtered" />
   </include>
 
   <!-- Start pointcloud filter-->
