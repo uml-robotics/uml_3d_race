@@ -88,8 +88,8 @@
   <!-- Setup obstacle bot if wanted -->
   <include file="$(find uml_3d_race)/launch/setup_robot.launch" if="$(arg obstacle_bot)">
     <arg name="robot" value="obstacle_bot" />
-    <arg name="x" value="$(arg spawn_x)" />
-    <arg name="y" value="$(arg spawn_y)" />
+    <arg name="x" value="$(arg goal_x)" />
+    <arg name="y" value="$(arg goal_y)" />
     <arg name="z" value="$(arg spawn_z)" />
     <arg name="yaw" value="$(arg spawn_yaw)" />
     <arg name="level" value="$(arg world_name)" />

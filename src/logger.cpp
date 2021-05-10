@@ -5,12 +5,14 @@
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <move_base_msgs/MoveBaseActionResult.h>
 #include <gazebo_msgs/ContactsState.h>
+#include <std_msgs/String.h>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <string>
 #include <sstream>
 #include <list>
 #include <cmath>
+#include <boost/algorithm/string.hpp>
 
 //SimLog is a custom message type defined in uml_3d_race/msg/SimLog.msg
 #include <uml_3d_race/SimLog.h>
@@ -23,14 +25,19 @@ float distance(float x1, float y1, float x2, float y2)
     return sqrt(dx * dx + dy * dy);
 }
 
-class Referee
+class Logger
 {
 private:
     //Publisher
-    ros::Publisher pub;
+    ros::Publisher pubLog;
+    ros::Publisher pubConfig;
 
-    //Msg
+    //Node Handle
+    ros::NodeHandle nh;
+
+    //Msgs
     uml_3d_race::SimLog log;
+    std_msgs::String config;
 
     //Other variables
     uint collision_num;
@@ -44,11 +51,13 @@ private:
     bool publishing;
 
 public:
-    Referee(ros::NodeHandle n)
+    Logger(ros::NodeHandle n)
     {
         // Setup publisher
-        pub = n.advertise<uml_3d_race::SimLog>("sim_log", 1000, false);
+        pubLog = n.advertise<uml_3d_race::SimLog>("sim_log", 1000, false);
+        pubConfig = n.advertise<std_msgs::String>("robot_config", 1000, true);
 
+        nh = n;
         collision_num = 0;
         iteration_collision = 0;
         collision_x = 0;
@@ -177,7 +186,7 @@ public:
         if (publishing)
         {
             log.header.stamp = ros::Time::now();
-            pub.publish(log);
+            pubLog.publish(log);
 
             //Reset collision coords if a collision was published
             if (log.collision.x != -100000 || log.collision.y != -100000)
@@ -197,9 +206,37 @@ public:
             publishing = false;
         }
     }
+
+    void log_config()
+    {
+        //Create string to start build the config log
+        std::string config;
+        
+        //Save the type of local planner being used
+        std::string local_planner;
+        ros::param::get("/move_base/base_local_planner", local_planner);
+        int slashIndex = local_planner.find('/');
+        local_planner = local_planner.substr(slashIndex + 1);
+        
+        //String to save parameters into
+        double parameter;
+
+        //Log the max speed the robot is set to travel
+        ros::param::get("/move_base/" + local_planner + "/max_vel_x", parameter);
+        config = "Max Speed: " + std::to_string(parameter) + "\n";
+
+        //log the set distance obstacles start to be recognized
+        ros::param::get("/move_base/local_costmap/obstacle_range", parameter);
+        config += "Obstacle Marking Distance: " + std::to_string(parameter) + "\n";
+
+        //Publish the config
+        std_msgs::String configMsg;
+        configMsg.data = config;
+        pubConfig.publish(configMsg);
+    }
 };
 
-Referee *logger;
+Logger *logger;
 
 void odom_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &pose)
 {
@@ -233,7 +270,7 @@ void state_callback(const move_base_msgs::MoveBaseActionResult::ConstPtr &state)
 int main(int argc, char **argv)
 {
     // Setup ros node and NodeHandle
-    ros::init(argc, argv, "referee");
+    ros::init(argc, argv, "logger");
     ros::NodeHandle n;
 
     ros::Rate rate(10);
@@ -245,7 +282,10 @@ int main(int argc, char **argv)
     ros::Subscriber goal_sub = n.subscribe("/goal", 10, goal_callback);
     ros::Subscriber result = n.subscribe("move_base/result", 10, state_callback);
 
-    logger = new Referee(n);
+    logger = new Logger(n);
+
+    //log the config
+    logger->log_config();
 
     spinner.start();
 
