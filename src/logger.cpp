@@ -211,6 +211,9 @@ public:
     {
         //Create string to start build the config log
         std::string config;
+
+        //Start config with a quote for multiline formatting in csv
+        config = "\"";
         
         //Save the type of local planner being used
         std::string local_planner;
@@ -223,11 +226,14 @@ public:
 
         //Log the max speed the robot is set to travel
         ros::param::get("/move_base/" + local_planner + "/max_vel_x", parameter);
-        config = "Max Speed: " + std::to_string(parameter) + "\n";
+        config += "Max Speed: " + std::to_string(parameter) + "\n";
 
         //log the set distance obstacles start to be recognized
         ros::param::get("/move_base/local_costmap/obstacle_range", parameter);
-        config += "Obstacle Marking Distance: " + std::to_string(parameter) + "\n";
+        config += "Obstacle Marking Distance: " + std::to_string(parameter);
+
+        //Close config with a quote for multiline formatting in csv
+        config += "\"";
 
         //Publish the config
         std_msgs::String configMsg;

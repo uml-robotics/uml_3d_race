@@ -90,6 +90,8 @@ roslaunch uml_3d_race geotiff_writer.launch map_dir:=$ROS_WORKSPACE/src/uml_3d_r
 pid2=$!
 rostopic echo -p sim_log > sim_log.csv &
 pid3=$!
+rostopic echo -p robot_config > robot_config.csv &
+pid4=$!
 
 sleep 5s
 
@@ -99,10 +101,10 @@ echo "Starting test"
 echo
 echo -----------------------------------------------------------
 roslaunch uml_3d_race race.launch iterations:="$iterations" clear_costmaps:="$clear_costmaps"
-pid4=$!
+pid5=$!
 
 #this will kill the script if any errors occur during the test
-trap "kill -2 $pid4; kill -2 $pid3; kill -2 $pid2; kill -2 $pid1; wait; trap - INT TERM ERR; cd $original_cd" INT TERM ERR
+trap "kill -2 $pid5; kill -2 $pid4; kill -2 $pid3; kill -2 $pid2; kill -2 $pid1; wait; trap - INT TERM ERR; cd $original_cd" INT TERM ERR
 
 #once the script raches this point, the race launch file has finished running
 
@@ -113,6 +115,7 @@ echo
 echo -----------------------------------------------------------
 
 #kill all of the background processes
+kill -2 $pid4
 kill -2 $pid3
 kill -2 $pid2
 kill -2 $pid1
