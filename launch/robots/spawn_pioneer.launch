@@ -104,7 +104,7 @@
       <arg name="init_x" value="$(arg x)" />
       <arg name="init_y" value="$(arg y)" />
       <arg name="init_yaw" value="$(arg yaw)" />
-      <arg name="move_base_config" value="default" />
+      <arg name="move_base_config" value="2d" />
       <arg name="laser_topic" value="$(arg laser_topic)" />
       <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
       <arg name="odom_topic" value="$(arg odom_topic)" />

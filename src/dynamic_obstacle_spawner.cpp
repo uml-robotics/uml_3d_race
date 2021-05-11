@@ -89,7 +89,6 @@ void state_callback(const move_base_msgs::MoveBaseActionResult::ConstPtr &state)
       spawn_object("dynamic_obstacle_2", x_pos_2, y_pos_2, z_pos_2, theta_2);
       ros::Duration(0.5).sleep();
       delete_object("dynamic_obstacle_1");
-      
     }
 
     //Toggle the side to spawn the next object
