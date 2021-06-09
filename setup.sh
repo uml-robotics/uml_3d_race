@@ -2,13 +2,13 @@
 # Should be run from your ROS workspace directory
 pwd
 destination="$HOME/.gazebo/models/"
-destination2="/usr/share/gazebo-7/media/materials/"
+destination2="/usr/share/gazebo-9/media/materials/"
 echo
 echo "Model Destination: $destination"
 echo "Texture Destination: $destination2"
 echo
 echo "Grant permissions for Gazebo Textures folder:"
-sudo chmod 777 /usr/share/gazebo-7/media/materials/*
+sudo chmod 777 /usr/share/gazebo-9/media/materials/*
 echo
 echo "Copying Models..."
 echo "- SDF Pioneer 2 Wheel"; cp -r ./src/uml_3d_race/resources/models/sdf_robots/pioneer_2wd $destination
